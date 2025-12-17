@@ -1,0 +1,275 @@
+const LeadOrProspect = require('../../models/sales/lead_or_prospect_model');
+const express = require('express');
+
+exports.create = (req,res)=>{
+
+    if(!req.body.name){
+        res.status(400).json({message:'Name cannot be empty'})
+    }else if(!req.body.address){
+        res.status(400).json({message:'Address cannot be empty'})
+    }else if(!req.body.pin){
+        res.status(400).json({message:'PIN cannot be empty'})
+    }else if(!req.body.source){
+        res.status(400).json({message:'Source cannot be empty'})
+    }else if(!req.body.referredBy){
+        res.status(400).json({message:'Referred By cannot be empty'})
+    }else if(!req.body.category){
+        res.status(400).json({message:'Category cannot be empty'})
+    }else{     
+        const leadOrProspect = new LeadOrProspect({
+            name:req.body.name,
+            address:req.body.address,
+            pin:req.body.pin,
+            city:req.body.city,
+            state:req.body.state,
+            country:req.body.country,
+            source:req.body.source,
+            referredBy:req.body.referredBy,
+            category:req.body.category,
+            industry:req.body.industry,
+            headquarters:req.body.headquarters,
+            otherDetails:req.body.otherDetails,
+            stage:req.body.stage,
+            status:'ACTIVE',
+            contactPersons:req.body.contactPersons,
+            CasePerMonth:req.body.CasePerMonth,
+            AverageValue:req.body.AverageValue,
+            universalRevenue:req.body.universalRevenue,
+            Months:req.body.Months,
+            PerShare:req.body.PerShare,
+            verifactsShare:req.body.verifactsShare,
+            tier:req.body.tier,
+            owner:req.body.owner,
+            financial:req.body.financial,
+            quarter:req.body.quarter,
+            bde:req.user.user_id,
+            
+        })
+        leadOrProspect
+        .save(leadOrProspect)
+        .then(data=>{
+            res.json(data)
+        })
+        .catch(err=>{
+            res.status(500).json({
+                message:err.message | 'Some error occurred while saving Lead or Prospect'
+            })
+        })
+    }
+
+};
+
+exports.search = (req,res)=>{
+    let searchString = req.params.searchString;
+    LeadOrProspect
+    .find({$or:[{name:{"$regex":searchString,"$options":"i"}},{address:{"$regex":searchString,"$options":"i"}},{pin:{"$regex":searchString,"$options":"i"}},{city:{"$regex":searchString,"$options":"i"}},{state:{"$regex":searchString,"$options":"i"}},{country:{"$regex":searchString,"$options":"i"}},{stage:{"$regex":searchString,"$options":"i"}},{status:{"$regex":searchString,"$options":"i"}},{source:{"$regex":searchString,"$options":"i"}},{referredBy:{"$regex":searchString,"$options":"i"}},{universalRevenue:{"$regex":searchString,"$options":"i"}}]})
+    .then(data=>{
+        res.json(data)
+    })
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while searching for Lead or Prospect'
+        })
+    })
+};
+exports.read = (req,res)=>{
+    LeadOrProspect
+    .findOne({_id:req.params._id})
+    .then(data=>{
+        res.json(data)
+    })
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while reading Lead or Prospect'
+        })
+    })
+};
+exports.update = (req,res)=>{
+    if(!req.body.name){
+        res.status(400).json({message:'Name cannot be empty'})
+    }else if(!req.body.address){
+        res.status(400).json({message:'Address cannot be empty'})
+    }else if(!req.body.pin){
+        res.status(400).json({message:'PIN cannot be empty'})
+    }else if(!req.body.source){
+        res.status(400).json({message:'Source cannot be empty'})
+    }else if(!req.body.referredBy){
+        res.status(400).json({message:'Referred By cannot be empty'})
+    }else if(!req.body.category){
+        res.status(400).json({message:'Category cannot be empty'})
+    }else{
+
+        LeadOrProspect
+        .findOneAndUpdate({_id:req.params._id},{
+            name:req.body.name,
+            address:req.body.address,
+            pin:req.body.pin,
+            city:req.body.city,
+            state:req.body.state,
+            country:req.body.country,
+            source:req.body.source,
+            referredBy:req.body.referredBy,
+            category:req.body.category,
+            industry:req.body.industry,
+            headquarters:req.body.headquarters,
+            CasePerMonth:req.body.CasePerMonth,
+            AverageValue:req.body.AverageValue,
+            Months:req.body.Months,
+            PerShare:req.body.PerShare,
+            otherDetails:req.body.otherDetails,
+            tier:req.body.tier,
+            owner:req.body.owner,
+            financial:req.body.financial,
+            quarter:req.body.quarter,
+            contactPersons:req.body.contactPersons,
+            bde:req.user.user_id        
+        })
+        .then(data=>{
+            res.json(data);
+        })
+        .catch(err=>{
+            res.status(500).json({
+                message:err.message | 'Some error occurred while updating the Lead / Prospect'
+            })
+        })
+    }
+};
+
+exports.dropRequest=(req,res)=>{
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{
+        status:'DROP-REQUEST-PENDING',
+        dropRequestComments:req.body.dropRequestComments
+    })
+    .then(data=>{
+        res.json(data);
+    })    
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while updating the drop status for the Lead / Prospect'
+        })
+    })
+};
+exports.rejectDropRequest=(req,res)=>{
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{
+        status:'ACTIVE',
+        dropRejectionComments:req.body.dropRejectionComments
+    })
+    .then(data=>{
+        res.json(data);
+    })    
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while updating the drop status for the Lead / Prospect'
+        })
+    })
+};
+
+exports.acceptDropRequest=(req,res)=>{
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{
+        status:'DROPPED',
+        dropRejectionComments:req.body.dropRejectionComments,
+        contactdate:req.body.contactdate,
+    })
+    .then(data=>{
+        res.json(data);
+    })    
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while updating the drop status for the Lead / Prospect'
+        })
+    })
+};
+exports.convertRequest=(req,res)=>{
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{
+        status:'CONVERT-REQUEST-PENDING',
+        convertRequestComments:req.body.convertRequestComments,
+        universalRevenue:req.body.universalRevenue,
+        valuePerCase:req.body.valuePerCase,
+        verifactsShare:req.body.verifactsShare,
+        currentVendors:req.body.currentVendors,
+        expectedBillingMonth:req.body.expectedBillingMonth	    
+    })
+    .then(data=>{
+        res.json(data);
+    })    
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while updating the conversion status for the Lead / Prospect'
+        })
+    })
+};
+exports.rejectConvertRequest=(req,res)=>{
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{
+        status:'ACTIVE',
+        convertRejectionComments:req.body.convertRejectionComments
+    })
+    .then(data=>{
+        res.json(data);
+    })    
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while updating the convet status for the Lead / Prospect'
+        })
+    })
+};
+exports.acceptConvertRequest=(req,res)=>{
+    let stageToSet = ""
+    if(req.body.stage=='COLD'){
+        stageToSet='WARM'
+        console.log("Stage to set is ",stageToSet)        
+    }else if(req.body.stage=='WARM'){
+        stageToSet='HOT'
+        console.log("Stage to set is ",stageToSet)
+    }else if(req.body.stage=='HOT'){
+        stageToSet='CLIENT'
+        console.log("Stage to set is ",stageToSet)        
+    }	
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{
+        stage:stageToSet,
+        status:'ACTIVE',
+        convertAcceptanceComments:req.body.convertAcceptanceComments,
+    })
+    .then(data=>{
+        res.json(data);
+    })    
+    .catch(err=>{
+        res.status(500).json({
+            message:err.message | 'Some error occurred while updating the convert status for the Lead / Prospect'
+        })
+    })
+};
+exports.readAllForMe = (req,res)=>{
+    LeadOrProspect
+    // .find({bde:req.user.user_id})
+    .find()
+    .populate({path: "bde"})
+    .then(data=>{
+        res.json(data)
+    })
+    .catch(err=>{
+        res.status(500).json({
+        message:"Some Error Occurred While reading the List"
+        })
+    })
+}
+
+exports.changeBde = (req,res)=>{
+    LeadOrProspect
+    .findOneAndUpdate({_id:req.params._id},{bde:req.body.bde})
+    .then(data=>{
+       res.json(data)	   
+    })	
+    .catch(err=>{
+        res.status(500).json({
+             message:err.message | 'Some error occurred while updating the drop status for the Lead / Prospect'
+         })
+   })
+     
+     
+ }
