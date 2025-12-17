@@ -1,0 +1,19 @@
+const mongoose = require('mongoose');
+const EducationMasterSchema = mongoose.Schema({
+    name:{type:String},
+    address:{type:String},
+    city:{type:String},
+    source:{type:String},
+    url:{type:String}, 
+    verificationFee:{type:String},
+    branch:{type:mongoose.Schema.Types.ObjectId,ref:'Branch'},
+    modifiedBy:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
+    modifiedOn:{type:Date},
+    concernperson:{type:String}, 
+    designation:{type:String},
+    modeofverification:{type:String}, 
+    daysforverification:{type:String}, 
+    email:{type:String},
+    phone:{type:String}, 
+})
+module.exports = mongoose.model('EducationMaster',EducationMasterSchema)
