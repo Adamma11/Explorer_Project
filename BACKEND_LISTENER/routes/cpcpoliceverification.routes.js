@@ -1,0 +1,50 @@
+const cpcpoliceverification = require('../controllers/data_entry/cpcpoliceverification.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",cpcpoliceverification.create);
+router.get("/:case",cpcpoliceverification.findAllForACase);
+router.get("/findone/:caseId/:componentId",cpcpoliceverification.findOne);
+router.post("/uploadfile",cpcpoliceverification.uploadFile);
+router.post("/uploadproofofwork",cpcpoliceverification.uploadProofOfWork);
+router.post("/uploadpvproofofwork",cpcpoliceverification.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",cpcpoliceverification.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",cpcpoliceverification.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",cpcpoliceverification.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",cpcpoliceverification.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",cpcpoliceverification.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",cpcpoliceverification.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",cpcpoliceverification.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",cpcpoliceverification.readPaymentProofs);
+router.put("/:caseId/:componentId",cpcpoliceverification.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",cpcpoliceverification.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",cpcpoliceverification.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",cpcpoliceverification.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",cpcpoliceverification.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",cpcpoliceverification.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",cpcpoliceverification.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",cpcpoliceverification.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",cpcpoliceverification.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",cpcpoliceverification.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",cpcpoliceverification.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",cpcpoliceverification.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",cpcpoliceverification.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",cpcpoliceverification.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",cpcpoliceverification.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",cpcpoliceverification.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",cpcpoliceverification.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",cpcpoliceverification.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",cpcpoliceverification.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",cpcpoliceverification.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",cpcpoliceverification.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",cpcpoliceverification.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",cpcpoliceverification.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",cpcpoliceverification.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",cpcpoliceverification.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",cpcpoliceverification.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",cpcpoliceverification.addNote);
+router.get("/findcomponentsfor/:for",cpcpoliceverification.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",cpcpoliceverification.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",cpcpoliceverification.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",cpcpoliceverification.reinitiateCheck);
+module.exports = router;

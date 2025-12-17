@@ -1,0 +1,50 @@
+const directorproprietorresidencecheck = require('../controllers/data_entry/directorproprietorresidencecheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",directorproprietorresidencecheck.create);
+router.get("/:case",directorproprietorresidencecheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",directorproprietorresidencecheck.findOne);
+router.post("/uploadfile",directorproprietorresidencecheck.uploadFile);
+router.post("/uploadproofofwork",directorproprietorresidencecheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",directorproprietorresidencecheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",directorproprietorresidencecheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",directorproprietorresidencecheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",directorproprietorresidencecheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",directorproprietorresidencecheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",directorproprietorresidencecheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",directorproprietorresidencecheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",directorproprietorresidencecheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",directorproprietorresidencecheck.readPaymentProofs);
+router.put("/:caseId/:componentId",directorproprietorresidencecheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",directorproprietorresidencecheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",directorproprietorresidencecheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",directorproprietorresidencecheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",directorproprietorresidencecheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",directorproprietorresidencecheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",directorproprietorresidencecheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",directorproprietorresidencecheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",directorproprietorresidencecheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",directorproprietorresidencecheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",directorproprietorresidencecheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",directorproprietorresidencecheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",directorproprietorresidencecheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",directorproprietorresidencecheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",directorproprietorresidencecheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",directorproprietorresidencecheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",directorproprietorresidencecheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",directorproprietorresidencecheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",directorproprietorresidencecheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",directorproprietorresidencecheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",directorproprietorresidencecheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",directorproprietorresidencecheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",directorproprietorresidencecheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",directorproprietorresidencecheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",directorproprietorresidencecheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",directorproprietorresidencecheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",directorproprietorresidencecheck.addNote);
+router.get("/findcomponentsfor/:for",directorproprietorresidencecheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",directorproprietorresidencecheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",directorproprietorresidencecheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",directorproprietorresidencecheck.reinitiateCheck);
+module.exports = router;

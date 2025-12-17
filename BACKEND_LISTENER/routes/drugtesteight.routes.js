@@ -1,0 +1,52 @@
+const drugtesteight = require('../controllers/data_entry/drugtesteight.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",drugtesteight.create);
+router.get("/:case",drugtesteight.findAllForACase);
+router.get("/findone/:caseId/:componentId",drugtesteight.findOne);
+router.post("/uploadfile",drugtesteight.uploadFile);
+router.post("/uploadproofofwork",drugtesteight.uploadProofOfWork);
+router.post("/uploadpvproofofwork",drugtesteight.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",drugtesteight.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",drugtesteight.deleteFile);
+router.delete("/deleteproofofwork/:caseId/:componentName/:componentId",drugtesteight.deleteProofOfWork);
+router.get("/downloadfile/:caseId/:componentName/:componentId",drugtesteight.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",drugtesteight.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",drugtesteight.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",drugtesteight.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",drugtesteight.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",drugtesteight.readPaymentProofs);
+router.put("/:caseId/:componentId",drugtesteight.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",drugtesteight.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",drugtesteight.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",drugtesteight.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",drugtesteight.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",drugtesteight.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",drugtesteight.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",drugtesteight.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",drugtesteight.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",drugtesteight.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",drugtesteight.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",drugtesteight.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",drugtesteight.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",drugtesteight.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",drugtesteight.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",drugtesteight.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",drugtesteight.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",drugtesteight.getInsuffForClient);
+router.get("/insuff/searchacaseininsuffforclient",drugtesteight.searchACaseForInsuffForClient);
+router.get("/insuff/insuffforscrutiny",drugtesteight.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",drugtesteight.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",drugtesteight.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",drugtesteight.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",drugtesteight.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",drugtesteight.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",drugtesteight.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",drugtesteight.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",drugtesteight.addNote);
+router.get("/findcomponentsfor/:for",drugtesteight.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",drugtesteight.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",drugtesteight.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",drugtesteight.reinitiateCheck);
+module.exports = router;

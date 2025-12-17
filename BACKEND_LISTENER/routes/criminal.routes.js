@@ -1,0 +1,45 @@
+const criminal = require('../controllers/data_entry/criminal.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",criminal.create);
+router.get("/:case",criminal.findAllForACase);
+router.get("/findone/:caseId/:componentId",criminal.findOne);
+router.post("/uploadfile",criminal.uploadFile);
+router.post("/uploadproofofwork",criminal.uploadProofOfWork);
+router.post("/uploadpvproofofwork",criminal.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",criminal.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",criminal.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId/:fileName",criminal.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId/:fileName",criminal.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId/:fileName",criminal.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",criminal.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",criminal.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",criminal.readPaymentProofs);
+router.put("/:caseId/:componentId",criminal.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",criminal.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",criminal.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",criminal.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",criminal.updateFeVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",criminal.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",criminal.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",criminal.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",criminal.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",criminal.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",criminal.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",criminal.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",criminal.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",criminal.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",criminal.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",criminal.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",criminal.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",criminal.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",criminal.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",criminal.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",criminal.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",criminal.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",criminal.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",criminal.allocateCheckToVendor);
+router.get("/findcomponentsfor/:for",criminal.findComponentsFor)
+router.get("/find/unallocated/verification/",criminal.findUnallocatedComponentsForVerification)
+module.exports = router;

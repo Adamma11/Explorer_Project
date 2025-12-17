@@ -1,0 +1,50 @@
+const directorshipcheck = require('../controllers/data_entry/directorshipcheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",directorshipcheck.create);
+router.get("/:case",directorshipcheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",directorshipcheck.findOne);
+router.post("/uploadfile",directorshipcheck.uploadFile);
+router.post("/uploadproofofwork",directorshipcheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",directorshipcheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",directorshipcheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",directorshipcheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",directorshipcheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",directorshipcheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",directorshipcheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",directorshipcheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",directorshipcheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",directorshipcheck.readPaymentProofs);
+router.put("/:caseId/:componentId",directorshipcheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",directorshipcheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",directorshipcheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",directorshipcheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",directorshipcheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",directorshipcheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",directorshipcheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",directorshipcheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",directorshipcheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",directorshipcheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",directorshipcheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",directorshipcheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",directorshipcheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",directorshipcheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",directorshipcheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",directorshipcheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",directorshipcheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",directorshipcheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",directorshipcheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",directorshipcheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",directorshipcheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",directorshipcheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",directorshipcheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",directorshipcheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",directorshipcheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",directorshipcheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",directorshipcheck.addNote);
+router.get("/findcomponentsfor/:for",directorshipcheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",directorshipcheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",directorshipcheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",directorshipcheck.reinitiateCheck);
+module.exports = router;
