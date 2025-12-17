@@ -1,0 +1,510 @@
+const Component = require('../../models/administration/component.model');
+const fs = require('fs')
+const ExcelJS = require('exceljs');
+const UserRole = require('../../models/administration/user_role.model');
+const ComponentAccess = require('../../models/administration/component_access.model')
+const ColorMaster = require('../../models/administration/color_master.model')
+const User = require('../../models/administration/user.model')
+const address = require('../../models/data_entry/address.model');
+const ClientContractProfile = require('../../models/administration/client_contract_profile.model')
+const ClientContractPackage = require('../../models/administration/client_contract_package.model')
+const DefaultCalendar = require('../../models/administration/default_calendar.model')
+const moment = require('moment');
+const { resolve } = require('path');
+const { ImportedXmlComponent } = require('docx');
+const Case = require('../../models/uploads/case.model');
+exports.getTLTrackerReport = async (req, res) => {
+    //console.log("In TL Tracker Report....");
+    //console.log("Report type required is.....", req.query.reportType);
+
+    const workBook = new ExcelJS.Workbook();
+    console.log("Workbook Constructed");
+
+    const sheet = workBook.addWorksheet('TL Pending');
+    console.log("Sheet added");
+
+    const headerRow = sheet.addRow(["Case Id", "Candidate Name", "Client", "Subclient", "Branch", "Father's Name", "Date of Birth", "Mobile Number", "Component", "Check Id", "Status", "Initiation Date", "INSUFF Raised Date", "INSUFF Cleared Date", "INSUFF 1 Raised Date", "INSUFF 1 Cleared Date", "INSUFF 2 Raised Date", "INSUFF 2 Cleared Date", "INSUFF 3 Raised Date", "INSUFF 3 Cleared Date", "INSUFF 4 Raised Date", "INSUFF 4 Cleared Date", "INSUFF 5 Raised Date", "INSUFF 5 Cleared Date", "TAT End Date", "Verifier", "FE", "Vendor", "Vendor Allocation Date", "Vendor Completion Date", "DE Completion Date", "Input QC CompletionDate", "VerificationCompletionDate", "Verified By", "Mentor Review Completion Date", "Mentor Review Completed By", "Output QC Completion Date", "Output QC Completed By", "Grading Color", "Check Creation Date", "Check Created By", "Stop Check Date", "Stop Check By", "Reinitiation Date", "Reinitiated By", "Insuff Cleared By", "Next Follow-Up Date", "Expected Closure Date", "Efforts", "Nam Of The Employer", "Address", "Pincode"])
+
+
+     let query = "";
+     if (req.query.reportType == 'PENDING') {
+        query = { $and: [{ status: { $ne: "MENTOR-REVIEW-ACCEPTED" } }, { status: { $ne: "OUTPUTQC-ACCEPTED" } }, { status: { $ne: "Deleted-Case" } }, { status: { $ne: "DELETED-CHECK" } }] }
+     };
+
+    //const query = { $and: [{ status: { $ne: "MENTOR-REVIEW-ACCEPTED" } }, { status: { $ne: "OUTPUTQC-ACCEPTED" } }, { status: { $ne: "Deleted-Case" } }, { status: { $ne: "DELETED-CHECK" } }] }
+
+     if (req.query.reportType == 'COMPLETED') {
+         query = { $and: [{ $or: [{ status: 'MENTOR-REVIEW-ACCEPTED' }, { status: 'OUTPUTQC-ACCEPTED' }] }, { mentorReviewCompletionDate: { $gte: req.query.dateFrom, $lte: req.query.dateTo + "T23:59:59.999Z" } }] }
+     };
+    console.log("Query being applied is ", query);
+
+    let getRolesForTheUser = function () {
+        return new Promise((Resolve, reject) => {
+            UserRole
+                .find({ user: req.user.user_id }, { _id: 0, role: 1 })
+                .then(data => {
+                    //console.log("roles are ", data);
+                    resolve(data);
+                })
+                .catch(err => {
+                    resolve()
+                })
+        })
+    }
+
+    let getComponentsForRoles = function (roles) {
+        return new Promise((resolve, reject) => {
+            ComponentAccess
+                .find({ $or: roles })
+                .populate({ path: 'component' })
+                .then(data => {
+                    let uniqueComponents = new Array()
+                    data.forEach(item => {
+                        let found = false;
+                        for (let i = 0; i < uniqueComponents.length; i++) {
+                            if (item.component != null) {
+                                if (item.component.toString() == uniqueComponents[i].component.toString()) {
+                                    found = true
+                                    break
+                                }
+                            }
+                        }
+                        if (!found) {
+                            //console.log("Not found and hence adding")
+                            uniqueComponents.push(item)
+                        }
+                    })
+                    resolve(uniqueComponents);
+                })
+                .catch(err => {
+                    //console.log("Error in finding components for roles ", err)
+                    resolve()
+                })
+        })
+    }
+
+    let getGradingColor = function (color) {
+        return new Promise((resolve, reject) => {
+            if (color == null || color == "") {
+                resolve(null)
+            } else {
+                ColorMaster
+                    .findOne({ _id: color })
+                    .then(data => {
+                        resolve(data.name)
+                    })
+                    .catch(err => {
+                        //console.log("Grading color err", err)
+                        resolve(null)
+                    })
+            }
+        })
+    }
+
+    let getTatDaysFromProfile = function (profile_id) {
+        return new Promise((resolve, reject) => {
+            ClientContractProfile
+                .findOne({ _id: profile_id })
+                .then(data => {
+                    resolve(data.tat)
+                })
+                .catch(err => {
+                    resolve(0)
+                })
+        })
+    }
+
+    let getTatDaysFromPackage = function (package_id) {
+        return new Promise((resolve, reject) => {
+            ClientContractPackage
+                .findOne({ _id: package_id })
+                .then(data => {
+                    resolve(data.tat)
+                })
+                .catch(err => {
+                    resolve(0)
+                })
+        })
+    }
+
+    let getNumberOfHolidaysBetweenDates = function (date1, date2) {
+        return new Promise((resolve, reject) => {
+            let clonedDate1 = new Date(date1.toDate())
+            let clonedDate2 = new Date(date2.toDate())
+            DefaultCalendar
+                .count({ date: { $gte: clonedDate1, $lte: clonedDate2 } })
+                .then(data => {
+                    resolve(data)
+                })
+                .catch(err => {
+                    resolve(0)
+                })
+        })
+    }
+
+    let getNumberOfWeeklyOffDaysBetweenDates = function (date1, date2) {
+        return new Promise((resolve, reject) => {
+            let clonedDate1 = new Date(date1.toDate())
+            let clonedDate2 = new Date(date2.toDate())
+            let count = 0
+            while (clonedDate1 < clonedDate2) {
+                if (clonedDate1.getDay() == 6 || clonedDate1.getDay() == 0) {
+                    count = count + 1
+                }
+                clonedDate1.setDate(clonedDate1.getDate() + 1)
+            }
+            resolve(count)
+        })
+    }
+
+    let getFinalDateUsingHolidaysAndWeeklyOff = function (date) {
+        return new Promise((resolve, reject) => {
+            let count = 0
+            let clonedDate = new Date(date)
+            if (clonedDate.getDay() == 6 || clonedDate.getDay() == 0) {
+                clonedDate.setDate(clonedDate.getDate() + 1)
+                count = count + 1
+            } else {
+                DefaultCalendar
+                    .count({ date: clonedDate })
+                    .then(data => {
+                        clonedDate.setDate(clonedDate.getDate() + 1)
+                        count = count + 1
+                    })
+                    .catch(err => {
+                        clonedDate.setDate(clonedDate.getDate() + 0)
+                    })
+            }
+            resolve(moment(clonedDate))
+        })
+    }
+
+    let isHoliday = function (date) {
+        return new Promise((resolve, reject) => {
+            DefaultCalendar
+                .count({ date: date.toDate() })
+                .then(data => {
+                    if (data > 0) {
+                        resolve(true)
+                    } else {
+                        resolve(false)
+                    }
+                })
+                .catch(err => {
+                    resolve(false)
+                })
+        })
+    }
+
+    let isWeeklyOff = function (date) {
+        return new Promise((resolve, reject) => {
+            let clonedDate = new Date(date)
+            if (clonedDate.getDay() == 6 || clonedDate.getDay() == 0) {
+                resolve(true)
+            } else {
+                resolve(false)
+            }
+        })
+    }
+
+    const uniqueComponents = await Component.find({}, { 'name': 1 })
+    console.log('getallComponents', uniqueComponents);
+
+    for (let components of uniqueComponents) {
+        const model = require(`../../models/data_entry/${components.name}.model`);
+        console.log("MOdels:",model);
+        
+
+        const modelData = await model
+            .find(query)
+            .lean()
+            .populate({ path: 'case', populate: { path: 'subclient', populate: { path: 'client' } } })
+            .populate({ path: 'case', populate: { path: 'subclient', populate: { path: 'branch' } } })
+            .populate({ path: 'case', populate: { path: 'outputqcCompletedBy' } })
+            .populate({ path: 'verificationAllocatedTo' })
+            .populate({ path: 'mentorReviewCompletedBy' })
+            .populate({ path: 'allocatedToFE' })
+            .populate({ path: 'allocatedToVendor' })
+            .populate({ path: 'component' })
+            .populate({ path: 'personalDetailsData', select: 'fathername dateofbirth number' })
+            // .populate({ path: 'addresses', select: 'address pin'})
+
+            .then(async data => {
+                for (let i = 0; i < data.length; i++){
+                    let item = data[i]
+			if(!item.case){
+				continue
+			}
+                     console.log("datalength is : ", item,"component:", components.name)
+                    const caseId = item.case?.caseId
+	            //const CaseDoc = await Case.findOne({_id:item.case})
+ 
+                    console.log("Working on caseId : ", caseId);
+
+                    const candidateName = item.case?.candidateName
+                    //console.log("Candidate name is : ", candidateName);
+
+
+                    const clientName = item.case?.subclient.client.name
+                    //console.log("client is : ", clientName);
+
+                    const subclientName = item.case?.subclient.name
+                    //console.log("subclients is: ", subclientName);
+
+                    const branchName = item.case?.subclient.branch.name
+                    //console.log("branch name is : ", branchName);
+
+                    const fatherName = item.personalDetailsData?.fathername
+                    //console.log("fatherName is : ", fatherName);
+
+                    const dob = item.personalDetailsData?.dateofbirth
+                    //console.log("dob is : ", dob);
+
+                    const mobileNumber = item.personalDetailsData?.number
+                    //console.log("mobileNumber is : ", mobileNumber);
+
+                    const componentName = item.component?.displayName
+                    //console.log('component name is : ', componentName);
+
+                    
+                    const checkId = item.checkId ? item.checkId : "";
+                    //console.log("Candidate name is : ", checkId);
+
+                    const componentStatus = item.status
+                    //console.log("status is : ", status);
+
+                    const initiationDate = item.case?.initiationDate
+                    //console.log("initiation date is : ", initiationDate);
+
+                    const insufficiencyRaisedDate = item.insufficiencyRaisedDate > item.insufficiencyClearedDate ? moment(item.case.initiationDate).format("DD-MM-YYYY") : item.insufficiencyRaisedDate == null ? "" : moment(item.insufficiencyRaisedDate).format("DD-MM-YYYY")
+                    //console.log("insufficiencyRaisedDate is : ", insufficiencyRaisedDate);
+
+                    const insufficiencyClearedDate = item.insufficiencyClearedDate == null ? "" : moment(item.insufficiencyClearedDate).format("DD-MM-YYYY")
+                    //console.log("insufficiency cleared date is :", insufficiencyClearedDate);
+
+                    const firstInsufficiencyRaisedDate = item.firstInsufficiencyRaisedDate == null ? "" : moment(item.firstInsufficiencyRaisedDate).format("DD-MM-YYYY")
+                    //console.log("first insuff raised date is : ", firstInsufficiencyRaisedDate);
+
+                    const firstInsufficiencyClearedDate = item.firstInsufficiencyClearedDate == null ? "" : moment(item.firstInsufficiencyClearedDate).format("DD-MM-YYYY")
+                    //console.log("first insuff cleared date is: ", firstInsufficiencyClearedDate);
+
+                    const secondInsufficiencyRaisedDate = item.secondInsufficiencyRaisedDate == null ? "" : moment(item.secondInsufficiencyRaisedDate).format("DD-MM-YYYY")
+                    //console.log("second insuff raised date is: ", secondInsufficiencyRaisedDate);
+
+                    const secondInsufficiencyClearedDate = item.secondInsufficiencyClearedDate == null ? "" : moment(item.secondInsufficiencyClearedDate).format("DD-MM-YYYY")
+                    //console.log("second insuff cleared date is: ", secondInsufficiencyClearedDate);
+
+                    const thirdInsufficiencyRaisedDate = item.thirdInsufficiencyRaisedDate == null ? "" : moment(item.thirdInsufficiencyRaisedDate).format("DD-MM-YYYY")
+                    //console.log("third insuff raised date is : ", thirdInsufficiencyRaisedDate);
+
+                    const thirdInsufficiencyClearedDate = item.thirdInsufficiencyClearedDate == null ? "" : moment(item.thirdInsufficiencyClearedDate).format("DD-MM-YYYY")
+                    //console.log("third insuff cleared date is: ", thirdInsufficiencyClearedDate);
+
+                    const fourthInsufficiencyRaisedDate = item.fourthInsufficiencyRaisedDate == null ? "" : moment(item.fourthInsufficiencyRaisedDate).format("DD-MM-YYYY")
+                    //console.log("fourth insuff raised date is: ", fourthInsufficiencyRaisedDate);
+
+                    const fourthInsufficiencyClearedDate = item.fourthInsufficiencyClearedDate == null ? "" : moment(item.fourthInsufficiencyClearedDate).format("DD-MM-YYYY")
+                    //console.log("fourth insuff cleared date is: ", fourthInsufficiencyClearedDate);
+
+                    const fifthInsufficiencyRaisedDate = item.fifthInsufficiencyRaisedDate == null ? "" : moment(item.fifthInsufficiencyRaisedDate).format("DD-MM-YYYY")
+                    //console.log("fifth nsuff raised date is: ", fifthInsufficiencyRaisedDate);
+
+                    const fifthInsufficiencyClearedDate = item.fifthInsufficiencyClearedDate == null ? "" : moment(item.fifthInsufficiencyClearedDate).format("DD-MM-YYYY")
+                    //console.log("fifth insuff cleared date is : ", fifthInsufficiencyClearedDate);
+
+                    // getting TAT End Dates
+	            console.log("Item",item)
+                    let tatDays = 0
+                    if (item.case.profile != null) {
+                        tatDays = await getTatDaysFromProfile(item.case.profile)
+                    } else if (item.case.package != null) {
+                        tatDays = await getTatDaysFromPackage(item.case.package)
+                    } else {
+                        let initDateMoment = moment(item.case.initiationDate)
+                        let tatEndDateMoment = moment(item.case.tatEndDate)
+                        tatDays = tatEndDateMoment.diff(initDateMoment, 'days')
+                    }
+                    let insuffDays = 0
+                    if (item.insufficiencyRaisedDate != null && item.insufficiencyClearedDate != null) {
+                        if (item.insufficiencyRaisedDate > item.insufficiencyClearedDate) {
+                            insuffDays = moment(new Date(item.insufficiencyClearedDate)).diff(moment(new Date(item.case.initiationDate)), 'days')
+                        } else {
+                            insuffDays = moment(new Date(item.insufficiencyClearedDate)).diff(moment(new Date(item.insufficiencyRaisedDate)), 'days')
+                        }
+                    } else if (item.insufficiencyRaisedDate != null && item.insufficiencyClearedDate == null) {
+                        insuffDays = moment(new Date()).diff(moment(new Date(item.insufficiencyRaisedDate)), 'days')
+                    } else if (item.insufficiencyRaisedDate == null && item.insufficiencyClearedDate != null) {
+                        insuffDays = moment(new Date(item.insufficiencyClearedDate)).diff(moment(new Date(item.case.initiationDate)), 'days')
+                    }
+                    let tempInitDateMoment = moment(new Date(item.case.initiationDate)).add('days', insuffDays)
+                    let tempTatEndDateMoment1 = moment(new Date(tempInitDateMoment.toDate())).add('days', tatDays)
+                    let numberOfHolidaysBetweenDates = await getNumberOfHolidaysBetweenDates(moment(new Date(tempInitDateMoment.toDate())), tempTatEndDateMoment1)
+                    let tempTatEndDateMoment2 = tempTatEndDateMoment1.add('days', numberOfHolidaysBetweenDates)
+                    let numberOfWeeklyOffsBetweenDates = await getNumberOfWeeklyOffDaysBetweenDates(moment(new Date(tempInitDateMoment.toDate())), tempTatEndDateMoment2)
+                    const finalTatEndDate = moment(tempTatEndDateMoment2.add('days', numberOfWeeklyOffsBetweenDates)).format("DD-MM-YYYY")
+                    //console.log("tat end date is : ", finalTatEndDate);
+
+                    const verifier = item.verificationAllocatedTo?.name
+                    //console.log("verifier name is : ", verifier);
+
+                    const fe = item.allocatedToFE?.name
+                    //console.log("fe is: ", fe);
+
+                    const vendor = item.allocatedToVendor?.name
+                    //console.log("vendor name is : ", vendor);
+
+                    const vendorAllocationDate = item.vendorAllocationDate == null ? "" : moment(item.vendorAllocationDate).format("DD-MM-YYYY")
+                    //console.log(" vendor allocation date is : ", vendorAllocationDate);
+
+                    let  vendorCompletionDate = item.vendorVerificationCompletionDate == null ? "" : moment(item.vendorVerificationCompletionDate).format("DD-MM-YYYY")
+                    //console.log("vendor verification completion date is :", vendorCompletionDate);
+
+                    let dataEntryCompletionDate = item.case.dataEntryCompletionDate == null ? "" : moment(item.case.dataEntryCompletionDate).format("DD-MM-YYYY")
+                    //console.log("data entry completion date is: ", dataEntryCompletionDate);
+
+                    let inputQcCompletionDate = item.case.inputqcCompletionDate == null ? "" : moment(item.case.inputqcCompletionDate).format("DD-MM-YYYY")
+                    //console.log("inputQcCompletionDate is ", inputQcCompletionDate);
+
+                    let  verificationCompletionDate = null
+                    let vendorVerificationCompletionDate = null
+                    let mentorReviewCompletionDate = null
+                    let mentorReviewCompletedBy = null
+                    let outputqcCompletionDate = null
+                    let outputqcCompletedBy = null
+                    let gradingColor = null
+                    if (item.status == 'MENTOR-REVIEW-ACCEPTED' || item.status == 'OUTPUTQC-ACCEPTED') {
+                        verificationCompletionDate = item.verificationCompletionDate
+                        vendorVerificationCompletionDate = item.vendorVerificationCompletionDate
+                        mentorReviewCompletionDate = item.mentorReviewCompletionDate
+                        mentorReviewCompletedBy = item.mentorReviewCompletedBy
+                        outputqcCompletionDate = item.outputqcCompletionDate
+                        if (item.case.outputqcCompletedBy != null) {
+                            outputqcCompletedBy = item.case.outputqcCompletedBy.name
+                        }
+                        if (item.mentorReviewCompletedBy != null) {
+                            mentorReviewCompletedBy = item.mentorReviewCompletedBy.name
+                        }
+                        if (item.grade != null) {
+                            gradingColor = await getGradingColor(item.grade)
+                        }
+
+                    }
+
+                    const checkCreationDate = item.creationDate == null ? "" : moment(item.creationDate).format("DD-MM-YYYY")
+                    //console.log("check creation date: ", checkCreationDate);
+
+                    const created = await User.findOne({ _id: item.createdBy })
+                    const createdBy = created ? created.name : ""
+                    //console.log("created name is: ", created);
+
+                    const stopCheckDate = item.stopCheckDate == null ? "" : moment(item.stopCheckDate).format("DD-MMM-YYYY")
+                    //console.log("Stop check date is: ", stopCheckDate);
+
+                    const stopCheck = await User.findOne({ _id: item.stopCheckBy })
+                    const stopCheckBy = stopCheck ? stopCheck.name : ""
+
+                    const reinitiatedDate = item.reinitiationDate == null ? "" : moment(item.reinitiationDate).format("DD-MMM-YYYY")
+                    //console.log("Reinitiated date is : ", reinitiatedDate);
+
+                    const reinitiated = await User.findOne({ _id: item.reinitiatedBy })
+                    const reinitiatedBy = reinitiated ? reinitiated.name : ""
+                    //console.log("reinitiated by ", reinitiatedBy);
+
+
+                    const ClearedBy = await User.findOne({ _id: item.clientClearedBy })
+                    const clientClearedBy = ClearedBy ? ClearedBy?.name : ""
+                    //console.log("client cleared by: ", clientClearedBy)
+
+                    const NextFollowUpDate = item.nextfollowupdate
+                    //console.log("next follow up date: ", NextFollowUpDate);
+
+                    const ExpectedClosureDate = item.expectedclosuredate
+                    //console.log("expected clodure date is: ", ExpectedClosureDate);
+
+                    const Efforts = item?.efforts
+                    //console.log("efforts are: ", Efforts);
+
+                    const nameOfTheEmployer = item?.nameofemployer
+                    // console.log("name of the employer is: ", field1);
+
+                    // const addressDetail = item.addresses?.address
+                    // console.log("address: ", addressDetail);
+
+                    // const pincode = item.addresses?.pin
+                    // console.log("Pincode: ", pincode);
+
+                    const case_id = item.case._id
+                    // console.log("case_id is :", case_id);
+                    const addressDetails = await address.findOne({case:case_id}, {'address':1, 'pin':1})
+                    const addressData = addressDetails?.address
+                    // console.log("address detaisl: ", addressData);
+
+                    const pincode = addressDetails?.pin
+                    // console.log("pincode is : ", pincode);
+                    sheet.addRow([caseId, candidateName, clientName, subclientName, branchName, fatherName, dob, mobileNumber, componentName, checkId, componentStatus, initiationDate, insufficiencyRaisedDate, insufficiencyClearedDate, firstInsufficiencyRaisedDate, firstInsufficiencyClearedDate, secondInsufficiencyRaisedDate, secondInsufficiencyClearedDate, thirdInsufficiencyRaisedDate, thirdInsufficiencyClearedDate, fourthInsufficiencyRaisedDate, fourthInsufficiencyClearedDate, fifthInsufficiencyRaisedDate, fifthInsufficiencyClearedDate, finalTatEndDate, verifier, fe, vendor, vendorAllocationDate, vendorCompletionDate, dataEntryCompletionDate, inputQcCompletionDate, vendorVerificationCompletionDate, verifier, mentorReviewCompletionDate, mentorReviewCompletedBy, outputqcCompletionDate, outputqcCompletedBy, gradingColor, checkCreationDate, createdBy, stopCheckDate, stopCheckBy, reinitiatedDate, reinitiatedBy, clientClearedBy, NextFollowUpDate, ExpectedClosureDate, Efforts, nameOfTheEmployer, addressData, pincode]);
+                }
+
+                // //console.log("datas are: ", data[0])
+            })
+
+    }
+
+
+    headerRow.height = 100;
+    headerRow.eachCell({ includeEmpty: true }, (cell) => {
+
+        // Setting the fill color for the cell
+        cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "FFDDEBF7" }
+        };
+
+        // Setting the border for the cell
+        cell.border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" }
+        };
+
+        // Making the font bold for the cell
+        cell.font = {
+            bold: true
+        };
+
+        // Vertically aligning the text to the middle
+        cell.alignment = {
+            vertical: 'middle'
+        };
+
+    });
+
+
+    prepareReport()
+    async function prepareReport() {
+        //console.log("Setting Headers")
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=" + "TL_Pending_Tracker.xlsx"
+        );
+
+        console.log("About to return WorkBook")
+        const fileStream = fs.createWriteStream(`/REPO_STORAGE/tmp_tl_tracker/new_tl_tracker_${req.user.user_id}.xlsx`);
+        await workBook.xlsx.write(fileStream);
+        //	sheet.commit()
+        //	workBook.commit()    
+        await new Promise(resolve => setTimeout(resolve, 20000));
+        res.download(`/REPO_STORAGE/tmp_tl_tracker/new_tl_tracker_${req.user.user_id}.xlsx`, (err) => {
+            if (err) {
+                res.status(500).send({
+                    message: "Could not download the file"
+                })
+            }
+        })
+    }
+}
