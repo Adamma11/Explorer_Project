@@ -1,0 +1,50 @@
+const formsixteencheck = require('../controllers/data_entry/formsixteencheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",formsixteencheck.create);
+router.get("/:case",formsixteencheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",formsixteencheck.findOne);
+router.post("/uploadfile",formsixteencheck.uploadFile);
+router.post("/uploadproofofwork",formsixteencheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",formsixteencheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",formsixteencheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",formsixteencheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",formsixteencheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",formsixteencheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",formsixteencheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",formsixteencheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",formsixteencheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",formsixteencheck.readPaymentProofs);
+router.put("/:caseId/:componentId",formsixteencheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",formsixteencheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",formsixteencheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",formsixteencheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",formsixteencheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",formsixteencheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",formsixteencheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",formsixteencheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",formsixteencheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",formsixteencheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",formsixteencheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",formsixteencheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",formsixteencheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",formsixteencheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",formsixteencheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",formsixteencheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",formsixteencheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",formsixteencheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",formsixteencheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",formsixteencheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",formsixteencheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",formsixteencheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",formsixteencheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",formsixteencheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",formsixteencheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",formsixteencheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",formsixteencheck.addNote);
+router.get("/findcomponentsfor/:for",formsixteencheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",formsixteencheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",formsixteencheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",formsixteencheck.reinitiateCheck);
+module.exports = router;

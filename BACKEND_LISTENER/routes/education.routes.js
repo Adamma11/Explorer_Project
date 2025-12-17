@@ -1,0 +1,50 @@
+const  education = require('../controllers/data_entry/education.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/", education.create);
+router.get("/:case", education.findAllForACase);
+router.get("/findone/:caseId/:componentId", education.findOne);
+router.post("/uploadfile", education.uploadFile);
+router.post("/uploadproofofwork", education.uploadProofOfWork);
+router.post("/uploadpvproofofwork", education.uploadPvProofOfWork);
+router.post("/uploadpaymentproof", education.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName", education.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId", education.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId", education.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId", education.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId", education.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId", education.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId", education.readPaymentProofs);
+router.put("/:caseId/:componentId", education.update);
+router.put("/updatedataentrystatus/:caseId/:componentId", education.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId", education.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId", education.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId", education.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId", education.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId", education.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId", education.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId", education.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId", education.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId", education.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId", education.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId", education.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId", education.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId", education.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId", education.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification", education.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient", education.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny", education.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId", education.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId", education.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId", education.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId", education.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId", education.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId", education.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId", education.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId", education.addNote);
+router.get("/findcomponentsfor/:for", education.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status", education.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/", education.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId", education.reinitiateCheck);
+module.exports = router;

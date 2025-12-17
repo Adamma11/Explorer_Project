@@ -1,0 +1,50 @@
+const identityanddigitalfacerecognitioncheck = require('../controllers/data_entry/identityanddigitalfacerecognitioncheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",identityanddigitalfacerecognitioncheck.create);
+router.get("/:case",identityanddigitalfacerecognitioncheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",identityanddigitalfacerecognitioncheck.findOne);
+router.post("/uploadfile",identityanddigitalfacerecognitioncheck.uploadFile);
+router.post("/uploadproofofwork",identityanddigitalfacerecognitioncheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",identityanddigitalfacerecognitioncheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",identityanddigitalfacerecognitioncheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",identityanddigitalfacerecognitioncheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",identityanddigitalfacerecognitioncheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",identityanddigitalfacerecognitioncheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",identityanddigitalfacerecognitioncheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",identityanddigitalfacerecognitioncheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",identityanddigitalfacerecognitioncheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",identityanddigitalfacerecognitioncheck.readPaymentProofs);
+router.put("/:caseId/:componentId",identityanddigitalfacerecognitioncheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",identityanddigitalfacerecognitioncheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",identityanddigitalfacerecognitioncheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",identityanddigitalfacerecognitioncheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",identityanddigitalfacerecognitioncheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",identityanddigitalfacerecognitioncheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",identityanddigitalfacerecognitioncheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",identityanddigitalfacerecognitioncheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",identityanddigitalfacerecognitioncheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",identityanddigitalfacerecognitioncheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",identityanddigitalfacerecognitioncheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",identityanddigitalfacerecognitioncheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",identityanddigitalfacerecognitioncheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",identityanddigitalfacerecognitioncheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",identityanddigitalfacerecognitioncheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",identityanddigitalfacerecognitioncheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",identityanddigitalfacerecognitioncheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",identityanddigitalfacerecognitioncheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",identityanddigitalfacerecognitioncheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",identityanddigitalfacerecognitioncheck.addNote);
+router.get("/findcomponentsfor/:for",identityanddigitalfacerecognitioncheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",identityanddigitalfacerecognitioncheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",identityanddigitalfacerecognitioncheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",identityanddigitalfacerecognitioncheck.reinitiateCheck);
+module.exports = router;

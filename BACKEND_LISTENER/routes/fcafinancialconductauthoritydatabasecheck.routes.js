@@ -1,0 +1,50 @@
+const fcafinancialconductauthoritydatabasecheck = require('../controllers/data_entry/fcafinancialconductauthoritydatabasecheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",fcafinancialconductauthoritydatabasecheck.create);
+router.get("/:case",fcafinancialconductauthoritydatabasecheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.findOne);
+router.post("/uploadfile",fcafinancialconductauthoritydatabasecheck.uploadFile);
+router.post("/uploadproofofwork",fcafinancialconductauthoritydatabasecheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",fcafinancialconductauthoritydatabasecheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",fcafinancialconductauthoritydatabasecheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",fcafinancialconductauthoritydatabasecheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",fcafinancialconductauthoritydatabasecheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",fcafinancialconductauthoritydatabasecheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",fcafinancialconductauthoritydatabasecheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",fcafinancialconductauthoritydatabasecheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",fcafinancialconductauthoritydatabasecheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",fcafinancialconductauthoritydatabasecheck.readPaymentProofs);
+router.put("/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",fcafinancialconductauthoritydatabasecheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",fcafinancialconductauthoritydatabasecheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",fcafinancialconductauthoritydatabasecheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",fcafinancialconductauthoritydatabasecheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.addNote);
+router.get("/findcomponentsfor/:for",fcafinancialconductauthoritydatabasecheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",fcafinancialconductauthoritydatabasecheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",fcafinancialconductauthoritydatabasecheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",fcafinancialconductauthoritydatabasecheck.reinitiateCheck);
+module.exports = router;

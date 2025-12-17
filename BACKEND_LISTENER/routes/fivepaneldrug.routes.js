@@ -1,0 +1,50 @@
+const fivepaneldrug = require('../controllers/data_entry/fivepaneldrug.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",fivepaneldrug.create);
+router.get("/:case",fivepaneldrug.findAllForACase);
+router.get("/findone/:caseId/:componentId",fivepaneldrug.findOne);
+router.post("/uploadfile",fivepaneldrug.uploadFile);
+router.post("/uploadproofofwork",fivepaneldrug.uploadProofOfWork);
+router.post("/uploadpvproofofwork",fivepaneldrug.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",fivepaneldrug.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",fivepaneldrug.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",fivepaneldrug.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",fivepaneldrug.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",fivepaneldrug.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",fivepaneldrug.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",fivepaneldrug.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",fivepaneldrug.readPaymentProofs);
+router.put("/:caseId/:componentId",fivepaneldrug.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",fivepaneldrug.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",fivepaneldrug.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",fivepaneldrug.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",fivepaneldrug.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",fivepaneldrug.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",fivepaneldrug.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",fivepaneldrug.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",fivepaneldrug.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",fivepaneldrug.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",fivepaneldrug.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",fivepaneldrug.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",fivepaneldrug.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",fivepaneldrug.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",fivepaneldrug.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",fivepaneldrug.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",fivepaneldrug.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",fivepaneldrug.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",fivepaneldrug.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",fivepaneldrug.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",fivepaneldrug.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",fivepaneldrug.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",fivepaneldrug.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",fivepaneldrug.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",fivepaneldrug.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",fivepaneldrug.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",fivepaneldrug.addNote);
+router.get("/findcomponentsfor/:for",fivepaneldrug.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",fivepaneldrug.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",fivepaneldrug.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",fivepaneldrug.reinitiateCheck);
+module.exports = router;
