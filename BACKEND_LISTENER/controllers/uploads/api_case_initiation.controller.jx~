@@ -1,0 +1,100 @@
+const Case = require('../../models/uploads/case.model');
+const Client = require('../../models/administration/client.model')
+const Subclient = require('../../models/administration/subclient.model')
+const Component = require("../../models/administration/component.model")
+const caseHistory = require('../data_entry/case_history.controller')
+const moment = require('moment');
+const PersonalDetailsData = require('../../models/data_entry/personal_details_data.model')
+const user_subclient_access = require('../../models/administration/user_subclient_access.model');
+const path = require("path")
+const fs = require("fs")
+
+exports.create = async (req, res) => {
+	console.log(req.files)
+    try {
+        if (!req.body.clientName) {
+            return res.status(400).json({ error: "Please provide client name" })
+        }
+        if (!req.body.subclientName) {
+            return res.status(400).json({ error: "Please provide subclient name" })
+        }
+
+        const clientData = await Client.findOne({ name: req.body.clientName })
+        const subclientData = await Subclient.findOne({ name: req.body.subclientName, client: clientData._id })
+ 	const latestCaseId = await getLatestCaseId(clientData)
+        //const latestCaseId = await getLatestCaseId()
+	    console.log("latestCaseId:", latestCaseId)
+
+        const componentsToCheck = JSON.parse(req.body.componentsToCheck)
+	const actualComponents = componentsToCheck.map(c => c.componentName)
+	  // console.log("COM",componentsToCheck)
+
+        const caseData = new Case({
+            caseId: latestCaseId,
+            candidateName: req.body.candidateName,
+            employeeId: req.body.empid,
+            client: clientData._id,
+            subclient: subclientData._id,
+            initiationDate: new Date(),
+            status: "DE-COMPLETED",
+	   //actualComponents: actualComponents
+           componentsToCheck=JSON.parse(req.body.omponentsToCheck),
+        })
+
+
+        const personalDetailsData = new PersonalDetailsData({
+            case: caseData._id,
+            name: req.body.candidateName,
+	    fathername: req.body.fathername,
+            dateofbirth: new Date(req.body.dateofbirth),
+            aadhernumber: req.body.aadhernumber,
+	    pancard: req.body.pan,
+	    number: req.body.number,
+            employeeid: req.body.employeeid,
+            doj: req.body.doj,
+            process: req.body.process,
+	    location: req.body.location,	
+	    status: "DE-COMPLETED",
+            dataEntryCompletionDate: new Date(),
+            modifiedBy: req.user.user_id,
+        })
+
+        await caseData.save()
+        await personalDetailsData.save()
+
+        for (let i = 0; i < componentsToCheck.length; i++) {
+            const currcomponent = componentsToCheck[i]
+	     console.log("CURRE",currcomponent)	
+            const componentData = await Component.findOne({ name: currcomponent.componentName })
+            const model = require(`../../models/data_entry/${currcomponent.componentName}.model`)
+            delete currcomponent.componentName
+            const modelData = new model({
+                ...currcomponent,
+                case: caseData._id,
+                creationDate: new Date(),
+                createdBy: req.user.user_id,
+                creationDate: new Date(),
+                client: clientData._id,
+                subclient: subclientData._id,
+                component: componentData._id,
+                personalDetailsData: personalDetailsData._id,
+                status: "DE-COMPLETED",
+                dataEntryCompletionDate: new Date(),
+            })
+
+            await modelData.save()
+	   console.log("MODEL",modelData)	
+        }
+
+	    await moveUploadedFiles(req.files, `/REPO_STORAGE/case_uploads/${caseData.caseId}/`)
+
+        return res.status(201).json(caseData)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ error: err.message })
+    }
+}
+
+async function moveUploadedFiles(files, destinationDir) {
+    if (!fs.existsSync(destinationDir)) {
+ 
