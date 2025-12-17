@@ -1,0 +1,50 @@
+const 7paneldrugabusetest = require('../controllers/data_entry/7paneldrugabusetest.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",7paneldrugabusetest.create);
+router.get("/:case",7paneldrugabusetest.findAllForACase);
+router.get("/findone/:caseId/:componentId",7paneldrugabusetest.findOne);
+router.post("/uploadfile",7paneldrugabusetest.uploadFile);
+router.post("/uploadproofofwork",7paneldrugabusetest.uploadProofOfWork);
+router.post("/uploadpvproofofwork",7paneldrugabusetest.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",7paneldrugabusetest.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",7paneldrugabusetest.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",7paneldrugabusetest.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",7paneldrugabusetest.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",7paneldrugabusetest.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",7paneldrugabusetest.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",7paneldrugabusetest.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",7paneldrugabusetest.readPaymentProofs);
+router.put("/:caseId/:componentId",7paneldrugabusetest.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",7paneldrugabusetest.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",7paneldrugabusetest.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",7paneldrugabusetest.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",7paneldrugabusetest.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",7paneldrugabusetest.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",7paneldrugabusetest.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",7paneldrugabusetest.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",7paneldrugabusetest.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",7paneldrugabusetest.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",7paneldrugabusetest.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",7paneldrugabusetest.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",7paneldrugabusetest.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",7paneldrugabusetest.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",7paneldrugabusetest.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",7paneldrugabusetest.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",7paneldrugabusetest.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",7paneldrugabusetest.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",7paneldrugabusetest.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",7paneldrugabusetest.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",7paneldrugabusetest.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",7paneldrugabusetest.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",7paneldrugabusetest.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",7paneldrugabusetest.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",7paneldrugabusetest.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",7paneldrugabusetest.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",7paneldrugabusetest.addNote);
+router.get("/findcomponentsfor/:for",7paneldrugabusetest.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",7paneldrugabusetest.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",7paneldrugabusetest.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",7paneldrugabusetest.reinitiateCheck);
+module.exports = router;

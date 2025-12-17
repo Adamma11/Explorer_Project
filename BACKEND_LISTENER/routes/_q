@@ -1,0 +1,51 @@
+const reference = require('../controllers/data_entry/reference.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",reference.create);
+router.get("/:case",reference.findAllForACase);
+router.get("/findone/:caseId/:componentId",reference.findOne);
+router.post("/uploadfile",reference.uploadFile);
+router.post("/uploadproofofwork",reference.uploadProofOfWork);
+router.post("/uploadpvproofofwork",reference.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",reference.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",reference.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",reference.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",reference.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",reference.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",reference.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",reference.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",reference.readPaymentProofs);
+router.put("/:caseId/:componentId",reference.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",reference.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",reference.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",reference.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",reference.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",reference.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",reference.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",reference.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",reference.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",reference.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",reference.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",reference.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",reference.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",reference.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",reference.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",reference.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",reference.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",reference.getInsuffForClient);
+router.get("/insuff/searchacaseininsuffforclient",reference.searchACaseForInsuffForClient);
+router.get("/insuff/insuffforscrutiny",reference.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",reference.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",reference.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",reference.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",reference.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",reference.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",reference.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",reference.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",reference.addNote);
+router.get("/findcomponentsfor/:for",reference.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",reference.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",reference.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",reference.reinitiateCheck);
+module.exports = router;

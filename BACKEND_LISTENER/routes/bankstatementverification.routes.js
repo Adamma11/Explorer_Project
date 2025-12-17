@@ -1,0 +1,50 @@
+const bankstatementverification = require('../controllers/data_entry/bankstatementverification.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",bankstatementverification.create);
+router.get("/:case",bankstatementverification.findAllForACase);
+router.get("/findone/:caseId/:componentId",bankstatementverification.findOne);
+router.post("/uploadfile",bankstatementverification.uploadFile);
+router.post("/uploadproofofwork",bankstatementverification.uploadProofOfWork);
+router.post("/uploadpvproofofwork",bankstatementverification.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",bankstatementverification.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",bankstatementverification.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",bankstatementverification.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",bankstatementverification.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",bankstatementverification.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",bankstatementverification.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",bankstatementverification.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",bankstatementverification.readPaymentProofs);
+router.put("/:caseId/:componentId",bankstatementverification.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",bankstatementverification.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",bankstatementverification.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",bankstatementverification.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",bankstatementverification.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",bankstatementverification.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",bankstatementverification.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",bankstatementverification.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",bankstatementverification.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",bankstatementverification.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",bankstatementverification.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",bankstatementverification.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",bankstatementverification.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",bankstatementverification.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",bankstatementverification.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",bankstatementverification.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",bankstatementverification.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",bankstatementverification.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",bankstatementverification.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",bankstatementverification.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",bankstatementverification.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",bankstatementverification.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",bankstatementverification.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",bankstatementverification.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",bankstatementverification.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",bankstatementverification.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",bankstatementverification.addNote);
+router.get("/findcomponentsfor/:for",bankstatementverification.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",bankstatementverification.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",bankstatementverification.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",bankstatementverification.reinitiateCheck);
+module.exports = router;

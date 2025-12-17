@@ -1,0 +1,50 @@
+const 5paneldrug = require('../controllers/data_entry/5paneldrug.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",5paneldrug.create);
+router.get("/:case",5paneldrug.findAllForACase);
+router.get("/findone/:caseId/:componentId",5paneldrug.findOne);
+router.post("/uploadfile",5paneldrug.uploadFile);
+router.post("/uploadproofofwork",5paneldrug.uploadProofOfWork);
+router.post("/uploadpvproofofwork",5paneldrug.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",5paneldrug.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",5paneldrug.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",5paneldrug.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",5paneldrug.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",5paneldrug.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",5paneldrug.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",5paneldrug.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",5paneldrug.readPaymentProofs);
+router.put("/:caseId/:componentId",5paneldrug.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",5paneldrug.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",5paneldrug.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",5paneldrug.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",5paneldrug.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",5paneldrug.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",5paneldrug.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",5paneldrug.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",5paneldrug.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",5paneldrug.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",5paneldrug.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",5paneldrug.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",5paneldrug.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",5paneldrug.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",5paneldrug.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",5paneldrug.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",5paneldrug.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",5paneldrug.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",5paneldrug.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",5paneldrug.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",5paneldrug.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",5paneldrug.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",5paneldrug.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",5paneldrug.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",5paneldrug.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",5paneldrug.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",5paneldrug.addNote);
+router.get("/findcomponentsfor/:for",5paneldrug.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",5paneldrug.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",5paneldrug.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",5paneldrug.reinitiateCheck);
+module.exports = router;

@@ -1,0 +1,18 @@
+const tlTracker = require('../controllers/reports/tl_tracker.controller');
+const analystTracker = require('../controllers/reports/analyst_tracker.controller');
+const caseStatusReport = require('../controllers/reports/case_status.controller')
+const stdWordReport = require('../controllers/reports/std_word_report.controller')
+const cgWordReport = require('../controllers/reports/cg_word_report.controller')
+const updateCaseInsuffDates = require('../controllers/reports/update_case_insuff_dates.controller')
+//const caseFlowReport = require('../controllers/reports/case_flow_report.controller')
+const express = require('express');
+const router = express.Router();
+
+router.get("/tlreport",tlTracker.getTLTrackerReport);
+router.get("/analysttracker",analystTracker.getAnalystTrackerReport);
+router.get("/casestatusreport/:client_id",caseStatusReport.getCaseStatusReport);
+router.get("/standardwordreport/:caseId",stdWordReport.standardWordReport)
+router.get("/cgwordreport/:caseId",cgWordReport.capgeminiWordReport)
+router.get("/updatecaseinsuffdates",updateCaseInsuffDates.updateCaseStatus)
+//router.get("/caseflowreport",caseFlowReport.getCaseFlowReport)
+module.exports = router;
