@@ -1,0 +1,50 @@
+const webandmediacheck = require('../controllers/data_entry/webandmediacheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",webandmediacheck.create);
+router.get("/:case",webandmediacheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",webandmediacheck.findOne);
+router.post("/uploadfile",webandmediacheck.uploadFile);
+router.post("/uploadproofofwork",webandmediacheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",webandmediacheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",webandmediacheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",webandmediacheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",webandmediacheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",webandmediacheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",webandmediacheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",webandmediacheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",webandmediacheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",webandmediacheck.readPaymentProofs);
+router.put("/:caseId/:componentId",webandmediacheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",webandmediacheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",webandmediacheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",webandmediacheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",webandmediacheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",webandmediacheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",webandmediacheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",webandmediacheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",webandmediacheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",webandmediacheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",webandmediacheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",webandmediacheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",webandmediacheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",webandmediacheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",webandmediacheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",webandmediacheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",webandmediacheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",webandmediacheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",webandmediacheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",webandmediacheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",webandmediacheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",webandmediacheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",webandmediacheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",webandmediacheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",webandmediacheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",webandmediacheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",webandmediacheck.addNote);
+router.get("/findcomponentsfor/:for",webandmediacheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",webandmediacheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",webandmediacheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",webandmediacheck.reinitiateCheck);
+module.exports = router;

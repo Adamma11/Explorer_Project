@@ -1,0 +1,31 @@
+const tantantan = require('../controllers/data_entry/tantantan.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",tantantan.create);
+router.get("/:case",tantantan.findAllForACase);
+router.get("/findone/:caseId/:componentId",tantantan.findOne);
+router.post("/uploadfile",tantantan.uploadFile);
+router.post("/uploadproofofwork",tantantan.uploadProofOfWork);
+router.post("/uploadpvproofofwork",tantantan.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",tantantan.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",tantantan.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId/:fileName",tantantan.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId/:fileName",tantantan.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId/:fileName",tantantan.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",tantantan.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",tantantan.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",tantantan.readPaymentProofs);
+router.put("/:caseId/:componentId",tantantan.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",tantantan.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",tantantan.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",tantantan.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",tantantan.updateFeVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",tantantan.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",tantantan.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",tantantan.updateOutputqcStatus);
+router.put("/approveinsuff/:caseId/:componentId",tantantan.approveInsuff);
+router.put("/rejectinsuff/:caseId/:componentId",tantantan.rejectInsuff);
+router.put("/clearinsuff/:caseId/:componentId",tantantan.clearInsuff);
+router.get("/findcomponentsfor/:for",tantantan.findComponentsFor)
+module.exports = router;

@@ -1,0 +1,50 @@
+const tenpaneldrug = require('../controllers/data_entry/tenpaneldrug.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",tenpaneldrug.create);
+router.get("/:case",tenpaneldrug.findAllForACase);
+router.get("/findone/:caseId/:componentId",tenpaneldrug.findOne);
+router.post("/uploadfile",tenpaneldrug.uploadFile);
+router.post("/uploadproofofwork",tenpaneldrug.uploadProofOfWork);
+router.post("/uploadpvproofofwork",tenpaneldrug.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",tenpaneldrug.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",tenpaneldrug.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",tenpaneldrug.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",tenpaneldrug.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",tenpaneldrug.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",tenpaneldrug.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",tenpaneldrug.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",tenpaneldrug.readPaymentProofs);
+router.put("/:caseId/:componentId",tenpaneldrug.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",tenpaneldrug.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",tenpaneldrug.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",tenpaneldrug.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",tenpaneldrug.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",tenpaneldrug.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",tenpaneldrug.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",tenpaneldrug.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",tenpaneldrug.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",tenpaneldrug.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",tenpaneldrug.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",tenpaneldrug.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",tenpaneldrug.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",tenpaneldrug.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",tenpaneldrug.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",tenpaneldrug.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",tenpaneldrug.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",tenpaneldrug.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",tenpaneldrug.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",tenpaneldrug.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",tenpaneldrug.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",tenpaneldrug.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",tenpaneldrug.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",tenpaneldrug.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",tenpaneldrug.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",tenpaneldrug.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",tenpaneldrug.addNote);
+router.get("/findcomponentsfor/:for",tenpaneldrug.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",tenpaneldrug.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",tenpaneldrug.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",tenpaneldrug.reinitiateCheck);
+module.exports = router;

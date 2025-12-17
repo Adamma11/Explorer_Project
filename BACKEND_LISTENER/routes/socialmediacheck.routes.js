@@ -1,0 +1,50 @@
+const socialmediacheck = require('../controllers/data_entry/socialmediacheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",socialmediacheck.create);
+router.get("/:case",socialmediacheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",socialmediacheck.findOne);
+router.post("/uploadfile",socialmediacheck.uploadFile);
+router.post("/uploadproofofwork",socialmediacheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",socialmediacheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",socialmediacheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",socialmediacheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",socialmediacheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",socialmediacheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",socialmediacheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",socialmediacheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",socialmediacheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",socialmediacheck.readPaymentProofs);
+router.put("/:caseId/:componentId",socialmediacheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",socialmediacheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",socialmediacheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",socialmediacheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",socialmediacheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",socialmediacheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",socialmediacheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",socialmediacheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",socialmediacheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",socialmediacheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",socialmediacheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",socialmediacheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",socialmediacheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",socialmediacheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",socialmediacheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",socialmediacheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",socialmediacheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",socialmediacheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",socialmediacheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",socialmediacheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",socialmediacheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",socialmediacheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",socialmediacheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",socialmediacheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",socialmediacheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",socialmediacheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",socialmediacheck.addNote);
+router.get("/findcomponentsfor/:for",socialmediacheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",socialmediacheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",socialmediacheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",socialmediacheck.reinitiateCheck);
+module.exports = router;

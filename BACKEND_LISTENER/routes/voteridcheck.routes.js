@@ -1,0 +1,50 @@
+const voteridcheck = require('../controllers/data_entry/voteridcheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",voteridcheck.create);
+router.get("/:case",voteridcheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",voteridcheck.findOne);
+router.post("/uploadfile",voteridcheck.uploadFile);
+router.post("/uploadproofofwork",voteridcheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",voteridcheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",voteridcheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",voteridcheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",voteridcheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",voteridcheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",voteridcheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",voteridcheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",voteridcheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",voteridcheck.readPaymentProofs);
+router.put("/:caseId/:componentId",voteridcheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",voteridcheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",voteridcheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",voteridcheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",voteridcheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",voteridcheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",voteridcheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",voteridcheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",voteridcheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",voteridcheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",voteridcheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",voteridcheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",voteridcheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",voteridcheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",voteridcheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",voteridcheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",voteridcheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",voteridcheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",voteridcheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",voteridcheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",voteridcheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",voteridcheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",voteridcheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",voteridcheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",voteridcheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",voteridcheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",voteridcheck.addNote);
+router.get("/findcomponentsfor/:for",voteridcheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",voteridcheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",voteridcheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",voteridcheck.reinitiateCheck);
+module.exports = router;

@@ -1,0 +1,31 @@
+const testemployment = require('../controllers/data_entry/testemployment.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",testemployment.create);
+router.get("/:case",testemployment.findAllForACase);
+router.get("/findone/:caseId/:componentId",testemployment.findOne);
+router.post("/uploadfile",testemployment.uploadFile);
+router.post("/uploadproofofwork",testemployment.uploadProofOfWork);
+router.post("/uploadpvproofofwork",testemployment.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",testemployment.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",testemployment.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId/:fileName",testemployment.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId/:fileName",testemployment.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId/:fileName",testemployment.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",testemployment.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",testemployment.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",testemployment.readPaymentProofs);
+router.put("/:caseId/:componentId",testemployment.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",testemployment.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",testemployment.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",testemployment.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",testemployment.updateFeVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",testemployment.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",testemployment.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",testemployment.updateOutputqcStatus);
+router.put("/approveinsuff/:caseId/:componentId",testemployment.approveInsuff);
+router.put("/rejectinsuff/:caseId/:componentId",testemployment.rejectInsuff);
+router.put("/clearinsuff/:caseId/:componentId",testemployment.clearInsuff);
+router.get("/findcomponentsfor/:for",testemployment.findComponentsFor)
+module.exports = router;
