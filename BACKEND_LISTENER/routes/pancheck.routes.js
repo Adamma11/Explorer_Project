@@ -1,0 +1,50 @@
+const pancheck = require('../controllers/data_entry/pancheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",pancheck.create);
+router.get("/:case",pancheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",pancheck.findOne);
+router.post("/uploadfile",pancheck.uploadFile);
+router.post("/uploadproofofwork",pancheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",pancheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",pancheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",pancheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",pancheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",pancheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",pancheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",pancheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",pancheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",pancheck.readPaymentProofs);
+router.put("/:caseId/:componentId",pancheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",pancheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",pancheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",pancheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",pancheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",pancheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",pancheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",pancheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",pancheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",pancheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",pancheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",pancheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",pancheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",pancheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",pancheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",pancheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",pancheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",pancheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",pancheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",pancheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",pancheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",pancheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",pancheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",pancheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",pancheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",pancheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",pancheck.addNote);
+router.get("/findcomponentsfor/:for",pancheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",pancheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",pancheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",pancheck.reinitiateCheck);
+module.exports = router;

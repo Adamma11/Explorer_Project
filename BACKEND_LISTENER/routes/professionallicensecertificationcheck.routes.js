@@ -1,0 +1,50 @@
+const professionallicensecertificationcheck = require('../controllers/data_entry/professionallicensecertificationcheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",professionallicensecertificationcheck.create);
+router.get("/:case",professionallicensecertificationcheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",professionallicensecertificationcheck.findOne);
+router.post("/uploadfile",professionallicensecertificationcheck.uploadFile);
+router.post("/uploadproofofwork",professionallicensecertificationcheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",professionallicensecertificationcheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",professionallicensecertificationcheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",professionallicensecertificationcheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",professionallicensecertificationcheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",professionallicensecertificationcheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",professionallicensecertificationcheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",professionallicensecertificationcheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",professionallicensecertificationcheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",professionallicensecertificationcheck.readPaymentProofs);
+router.put("/:caseId/:componentId",professionallicensecertificationcheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",professionallicensecertificationcheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",professionallicensecertificationcheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",professionallicensecertificationcheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",professionallicensecertificationcheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",professionallicensecertificationcheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",professionallicensecertificationcheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",professionallicensecertificationcheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",professionallicensecertificationcheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",professionallicensecertificationcheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",professionallicensecertificationcheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",professionallicensecertificationcheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",professionallicensecertificationcheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",professionallicensecertificationcheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",professionallicensecertificationcheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",professionallicensecertificationcheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",professionallicensecertificationcheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",professionallicensecertificationcheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",professionallicensecertificationcheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",professionallicensecertificationcheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",professionallicensecertificationcheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",professionallicensecertificationcheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",professionallicensecertificationcheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",professionallicensecertificationcheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",professionallicensecertificationcheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",professionallicensecertificationcheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",professionallicensecertificationcheck.addNote);
+router.get("/findcomponentsfor/:for",professionallicensecertificationcheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",professionallicensecertificationcheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",professionallicensecertificationcheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",professionallicensecertificationcheck.reinitiateCheck);
+module.exports = router;

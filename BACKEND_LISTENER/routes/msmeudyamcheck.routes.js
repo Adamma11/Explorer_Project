@@ -1,0 +1,50 @@
+const msmeudyamcheck = require('../controllers/data_entry/msmeudyamcheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",msmeudyamcheck.create);
+router.get("/:case",msmeudyamcheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",msmeudyamcheck.findOne);
+router.post("/uploadfile",msmeudyamcheck.uploadFile);
+router.post("/uploadproofofwork",msmeudyamcheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",msmeudyamcheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",msmeudyamcheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",msmeudyamcheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",msmeudyamcheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",msmeudyamcheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",msmeudyamcheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",msmeudyamcheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",msmeudyamcheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",msmeudyamcheck.readPaymentProofs);
+router.put("/:caseId/:componentId",msmeudyamcheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",msmeudyamcheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",msmeudyamcheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",msmeudyamcheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",msmeudyamcheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",msmeudyamcheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",msmeudyamcheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",msmeudyamcheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",msmeudyamcheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",msmeudyamcheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",msmeudyamcheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",msmeudyamcheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",msmeudyamcheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",msmeudyamcheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",msmeudyamcheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",msmeudyamcheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",msmeudyamcheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",msmeudyamcheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",msmeudyamcheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",msmeudyamcheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",msmeudyamcheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",msmeudyamcheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",msmeudyamcheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",msmeudyamcheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",msmeudyamcheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",msmeudyamcheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",msmeudyamcheck.addNote);
+router.get("/findcomponentsfor/:for",msmeudyamcheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",msmeudyamcheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",msmeudyamcheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",msmeudyamcheck.reinitiateCheck);
+module.exports = router;

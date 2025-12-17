@@ -1,0 +1,31 @@
+const kkkkyyyy = require('../controllers/data_entry/kkkkyyyy.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",kkkkyyyy.create);
+router.get("/:case",kkkkyyyy.findAllForACase);
+router.get("/findone/:caseId/:componentId",kkkkyyyy.findOne);
+router.post("/uploadfile",kkkkyyyy.uploadFile);
+router.post("/uploadproofofwork",kkkkyyyy.uploadProofOfWork);
+router.post("/uploadpvproofofwork",kkkkyyyy.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",kkkkyyyy.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",kkkkyyyy.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId/:fileName",kkkkyyyy.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId/:fileName",kkkkyyyy.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId/:fileName",kkkkyyyy.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",kkkkyyyy.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",kkkkyyyy.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",kkkkyyyy.readPaymentProofs);
+router.put("/:caseId/:componentId",kkkkyyyy.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",kkkkyyyy.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",kkkkyyyy.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",kkkkyyyy.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",kkkkyyyy.updateFeVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",kkkkyyyy.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",kkkkyyyy.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",kkkkyyyy.updateOutputqcStatus);
+router.put("/approveinsuff/:caseId/:componentId",kkkkyyyy.approveInsuff);
+router.put("/rejectinsuff/:caseId/:componentId",kkkkyyyy.rejectInsuff);
+router.put("/clearinsuff/:caseId/:componentId",kkkkyyyy.clearInsuff);
+router.get("/findcomponentsfor/:for",kkkkyyyy.findComponentsFor)
+module.exports = router;

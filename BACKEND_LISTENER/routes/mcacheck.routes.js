@@ -1,0 +1,50 @@
+const mcacheck = require('../controllers/data_entry/mcacheck.controller');
+const express = require('express');
+const router = express.Router();
+
+router.post("/",mcacheck.create);
+router.get("/:case",mcacheck.findAllForACase);
+router.get("/findone/:caseId/:componentId",mcacheck.findOne);
+router.post("/uploadfile",mcacheck.uploadFile);
+router.post("/uploadproofofwork",mcacheck.uploadProofOfWork);
+router.post("/uploadpvproofofwork",mcacheck.uploadPvProofOfWork);
+router.post("/uploadpaymentproof",mcacheck.uploadPaymentProof);
+router.delete("/deletefile/:caseId/:componentName/:componentId/:fileName",mcacheck.deleteFile);
+router.get("/downloadfile/:caseId/:componentName/:componentId",mcacheck.downloadFile);
+router.get("/downloadproofofwork/:caseId/:componentName/:componentId",mcacheck.downloadProofOfWork);
+router.get("/downloadpaymentproof/:caseId/:componentName/:componentId",mcacheck.downloadPaymentProof);
+router.get("/readfilenames/:caseId/:componentName/:componentId",mcacheck.readFileNames);
+router.get("/readproofofworks/:caseId/:componentName/:componentId",mcacheck.readProofOfWorks);
+router.get("/readpaymentproofs/:caseId/:componentName/:componentId",mcacheck.readPaymentProofs);
+router.put("/:caseId/:componentId",mcacheck.update);
+router.put("/updatedataentrystatus/:caseId/:componentId",mcacheck.updateDataEntryStatus);
+router.put("/updateinputqcstatus/:caseId/:componentId",mcacheck.updateInputqcStatus);
+router.put("/updateverificationstatus/:caseId/:componentId",mcacheck.updateVerificationStatus);
+router.put("/updatefeverificationstatus/:caseId/:componentId",mcacheck.updateFeVerificationStatus);
+router.put("/updatevendorverificationstatus/:caseId/:componentId",mcacheck.updateVendorVerificationStatus);
+router.put("/updateverifierreviewstatus/:caseId/:componentId",mcacheck.updateVerifierReviewStatus);
+router.put("/updatementorreviewstatus/:caseId/:componentId",mcacheck.updateMentorReviewStatus);
+router.put("/updateoutputqcstatus/:caseId/:componentId",mcacheck.updateOutputqcStatus);
+router.put("/approveinsuff2/:caseId/:componentId",mcacheck.approveInsuff2);
+router.put("/rejectinsuff2/:caseId/:componentId",mcacheck.rejectInsuff2);
+router.put("/clearinsuff1/:caseId/:componentId",mcacheck.clearInsuff1);
+router.put("/clearinsuff2/:caseId/:componentId",mcacheck.clearInsuff2);
+router.put("/rejectinsuff1clearance/:caseId/:componentId",mcacheck.rejectInsuff1Clearance);
+router.put("/rejectinsuff2clearance/:caseId/:componentId",mcacheck.rejectInsuff2Clearance);
+router.put("/allocatechecktomyself/:caseId/:componentId",mcacheck.allocateCheckToMyself);
+router.get("/user/getallchecksallocatedtomeforverification",mcacheck.getAllChecksAllocatedToMeForVerification);
+router.get("/insuff/insuffforclient",mcacheck.getInsuffForClient);
+router.get("/insuff/insuffforscrutiny",mcacheck.getInsuffForScrutiny);
+router.put("/approveinsuffclearance/:caseId/:componentId",mcacheck.approveInsuffClearance);
+router.delete("/deletecheck/case/:caseId/component/:componentId",mcacheck.deleteCheck);
+router.put("/putittofebucket/:caseId/:componentId",mcacheck.putItToFeBucket);
+router.put("/putittovendorbucket/:caseId/:componentId",mcacheck.putItToVendorBucket);
+router.put("/allocatechecktofe/:caseId/:componentId",mcacheck.allocateCheckToFe);
+router.put("/allocatechecktovendor/:caseId/:componentId",mcacheck.allocateCheckToVendor);
+router.put("/allocatechecktoverifier/:caseId/:componentId",mcacheck.allocateCheckToVerifier);
+router.put("/addnote/:caseId/:componentId",mcacheck.addNote);
+router.get("/findcomponentsfor/:for",mcacheck.findComponentsFor)
+router.get("/findcomponentsforvendormanager/:status",mcacheck.findComponentsForVendorManager)
+router.get("/find/unallocated/verification/",mcacheck.findUnallocatedComponentsForVerification)
+router.put("/reinitiatecheck/:caseId/:componentId",mcacheck.reinitiateCheck);
+module.exports = router;
