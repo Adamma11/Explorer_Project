@@ -1,0 +1,148 @@
+*{
+  font-size: 0.875rem;
+  font-family: 'Gudea',"Helvetica Neue",HelveticaNeue-Light,Helvetica,Arial,sans-serif;
+}
+
+.table-container { 
+  display: flex;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  // margin: 0% 1%;
+  margin-right: 3.5rem;
+}
+
+.table {
+   flex: 1; 
+  margin-left: 20px;
+  margin-right: 15px;
+}
+
+//   .table-header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     width: 100%;
+//     // border-bottom: 1px solid #ccc;
+//     line-height: 1.5;
+//   }
+
+.table-header{
+  display: flex;
+  margin: 7px;
+ 
+  align-items: center;
+  gap: 10px;
+  margin-left: 0px;
+ 
+} 
+
+.show-details-colums{
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.mat-label {
+  margin-right: 10px;
+}
+
+input {
+  padding: 0.25rem 0.5rem;
+  // margin-bottom: 15px;
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  width: 100%;
+  line-height: 1.25;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+select {
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  width: 100%;
+  line-height: 1.25;
+  border: 1px solid rgba(0,0,0,0.15);
+} 
+
+.tagname {
+  text-align: center;
+  font-size: 30px;
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.mat-mdc-table .mdc-data-table__header-row {
+  height: 40px;
+}
+
+.mat-mdc-table .mdc-data-table__row {
+  height: 30px;
+}
+
+// tr th, td{
+//   font-size: 12px;
+// }
+tr th{
+  // font-weight: 600;
+  color: black;
+  // color: blue;
+}
+
+.filter-input {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.table>:not(caption)>*>* {
+  padding: 0px;
+}
+
+
+.details {
+  flex-shrink: 0; 
+  width: 68%;
+  margin-left: 5px; 
+} 
+
+.details h2 {
+  color: #4caf50;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+}
+
+.details p {
+  margin: 5px 0;
+}
+
+.btn-rounded-1 {
+  // display: inline-flex;
+  padding: 4px;
+  padding-left: 1.2em !important;
+  padding-right: 1.2em !important;
+  // border-radius: 500px;
+  // background-color: #002bff;
+  // color: white;
+  background-color: #bcbec0;
+  color: black;
+  border: 0px;
+  width: 80px;
+  margin: 10px;
+  height: 30px;
+}
+.modal-backdrop {
+  display: none !important;
+  z-index: 0 !important;
+  -bs-backdrop-zindex: 0 !important;
+}
+
+.hidden {
+  display: none;
+}
