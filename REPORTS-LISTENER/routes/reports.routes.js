@@ -1,0 +1,78 @@
+//const tlTracker = require('../controllers/reports/tl_tracker.controller');
+const analystTracker = require('../controllers/reports/analyst_tracker.controller');
+const analystTrackerNew = require('../controllers/reports/analyst_tracker_new.controller');
+const caseStatusReport = require('../controllers/reports/case_status_columnar.controller')
+//const stdWordReport = require('../controllers/reports/std_word_report_main.controller')
+//const cgWordReport = require('../controllers/reports/cg_word_report_main.controller')
+//const tcsWordReport = require("../controllers/reports/tcs_word_report_main.controller")
+const updateCaseInsuffDates = require('../controllers/reports/update_case_insuff_dates.controller')
+const caseFlowReport = require('../controllers/reports/case_flow_report_new.controller')
+const jsonCaseFlowReport = require('../controllers/reports/case_flow_report_json.controller')
+const vendorTracker = require('../controllers/reports/vendor_tracker.controller')
+const deStatusReport = require('../controllers/reports/de_status.controller')
+const qcStatusReport = require('../controllers/reports/qc_status.controller')
+const operationStats = require('../controllers/reports/operation_stats.controller')
+const billingTracker = require('../controllers/reports/billing_tracker.controller')
+const unbilledTracker = require('../controllers/reports/unbilled_tracker_new.controller')
+const insuffClientTracker = require('../controllers/reports/insuff_client_tracker.controller')
+const casesWithoutOutputqcDate = require('../controllers/reports/cases_without_outputqc_date.controller')
+const operationStatsForAnalyst = require('../controllers/reports/operation_stats_for_analyst.controller')
+const convertToJpgs = require('../controllers/reports/convert_to_jpgs.controller')
+const deleteJpegs = require('../controllers/reports/delete_jpegs.controller')
+const clientDetailsReport = require('../controllers/reports/client_details_report.controller')
+const rejectionReport = require('../controllers/reports/rejection_tracker.controller')
+const salesLeadsList = require("../controllers/reports/sales_leads_list.controller")
+const newanalystracker =require("../controllers/reports/new-analyst-tracker")
+const analystsummary = require("../controllers/reports/analystsummary")
+const auditFormTracker = require("../controllers/reports/audit_form_tracker.controller")
+const tlsummary = require('../controllers/reports/tlsummary')
+const finalreport = require('../controllers/reports/final_report_expo.controller')
+const indercommReport = require("../controllers/reports/indercomm_final_report.controller")
+const techMReport= require("../controllers/reports/tech_m_final_report.controller")
+const pwcReport = require("../controllers/reports/pwc_final_report.controller")
+const tlTracker = require('../controllers/reports/tl_Tracker_Dynamic.controller');
+const StatusLevelTracker = require("../controllers/reports/statusLevelTracker.controller")
+const dateWiseStatusTracker = require('../controllers/reports/date_status_tracker.controller')
+const DynamicAnalystTracker = require("../controllers/reports/analystDynamicTracker.controller")
+const clientTracker = require("../controllers/reports/client_tracker")
+const express = require('express');
+const router = express.Router();
+
+
+router.get("/tlreport",tlTracker.getTLTrackerReport);
+//router.get("/tlreport",tlTracker.getTLTrackerReport);
+router.get("/analysttracker",analystTrackerNew.getAnalystTrackerReport);
+router.get("/newanalystracker",newanalystracker.getNewAnalystTrackerReport);
+router.get("/casestatusreport/:client_id",caseStatusReport.getCaseStatusReport);
+//router.get("/standardwordreport/:caseId",stdWordReport.standardWordReport)
+//router.get("/cgwordreport/:caseId",cgWordReport.capgeminiWordReport)
+//router.get("/tcswordreport/:caseId",tcsWordReport.tcsWordReport)
+router.get("/updatecaseinsuffdates",updateCaseInsuffDates.updateCaseStatus)
+router.get("/caseflowreport",caseFlowReport.getCaseFlowReport)
+router.get("/jsoncaseflowreport",jsonCaseFlowReport.getCaseFlowReport)
+router.get("/vendortracker",vendorTracker.getVendorTrackerReport)
+router.get("/destatusreport",deStatusReport.getDataEntryStatusReport)
+router.get("/qcstatusreport",qcStatusReport.getQcStatusReport)
+router.get("/operationstats",operationStats.getOperationStats)
+router.get("/billingtracker",billingTracker.getBillingTracker)
+router.get("/unbilledtracker",unbilledTracker.getUnbilledTracker)
+router.get("/insuffclienttracker",insuffClientTracker.getInsuffForClientReport)
+router.get("/operationstatsforanalyst",operationStatsForAnalyst.getOperationStatsForAnalyst)
+router.get("/caseswithoutoutputqcdate",casesWithoutOutputqcDate.getCasesWithoutOutputqcDate)
+router.get("/writeclientdetails",clientDetailsReport.writeClientDetails)
+router.get("/rejectionreport",rejectionReport.getRejectionReport)
+router.get("/salesLeadsList", salesLeadsList.generatesSalesLeedsList)
+router.get("/analystsummart", analystsummary.getNewAnalystsummaryTrackerReport)
+router.get("/tlsummary",tlsummary.gettlsummaryTrackerReport)
+//router.get("/auditList", auditFormTracker.downloadAuditFormTracker)
+router.get("/standardwordreport/:caseId",finalreport.downloadFinalReport)
+router.get("/indercommreport/:caseId", indercommReport.downloadFinalReport) 
+router.get("/techMReport/:caseId", techMReport.downloadFinalReport) 
+router.get("/pwcReport/:caseId", pwcReport.downloadFinalReport)
+//router.get("/convertpdfsttojpgs/:caseId",convertToJpgs.convertPdfsToJpgs)
+//router.put("/deletejpegs/:caseId",deleteJpegs.deleteAllJpegs)
+router.get("/StatusLevelTracker", StatusLevelTracker.getStatusLevelTrackerForClient)
+router.get("/dateWiseStatusTracker", dateWiseStatusTracker.getdateWiseStatusTracker)
+router.get("/DynamicAnalystTracker",DynamicAnalystTracker.getAnalystTracker)
+router.get("/getClientTracker/:clientId", clientTracker.getclientTracker)
+module.exports = router;
