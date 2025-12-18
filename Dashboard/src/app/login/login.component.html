@@ -1,0 +1,128 @@
+<!-- 
+<body class="login-page">
+
+  <div class="container">
+    <div class="image-container">
+      <img src="https://cdn.dribbble.com/users/99287/screenshots/3839839/work_work_work.gif" alt="Your Image">       
+          </div>
+          <form [formGroup] = "loginForm" (ngSubmit)="loginProcess()">
+          <mat-card class="login-card">
+            <p class="tagname">Login Details</p>
+            
+         
+            <div class="login">
+              <mat-form-field appearance="fill">
+                <mat-label>Enter your email</mat-label>
+                <input matInput placeholder="pat@example.com" formControlName="userId">
+                <mat-error *ngIf="loginForm.get('emailId') && loginForm.get('userId')!.invalid">{{ getErrorMessage() }}</mat-error>
+              </mat-form-field>
+              
+            </div>
+          
+            <div class="password">
+              <mat-form-field appearance="fill">
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" >
+                  <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            
+            <button mat-flat-button color="warn" class="login-button">Login</button>
+            
+            <div class="forgot-password">
+              <a href="#">Forgot Password?</a>
+            </div>
+          </mat-card>
+        </form>
+        </div>
+        
+        
+</body> -->
+
+<!-- extra code -->
+      <!-- <div class="logo-container">
+        <img src="https://verifacts.co.in/wp-content/uploads/2021/10/Pictur1-removebg-preview.png" style="width: 211px; height: auto;" alt="Verifacts Logo">
+      </div> -->
+            <!-- <div class="logo-container">
+        <img src="https://verifacts.co.in/wp-content/uploads/2021/10/Pictur1-removebg-preview.png" style="width: 211px; height: auto;" alt="Verifacts Logo">
+      </div> -->
+
+<!-- <body class="login-page">
+  <div class="container">
+    <div class="image-container">
+
+      <img src="assets/expo.jpg" alt="Your Image">
+     
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="loginProcess()" class="login-container">
+      <div class="login-card">
+        <p class="tagname">Login Details</p>
+
+        <div class="input-container">
+          <mat-label>Enter your email</mat-label>
+          <input required="true" type="text" placeholder="Enter your email" formControlName="userId" class="login-input">
+           <div class="error-message" *ngIf="loginForm.get('emailId') && loginForm.get('userId')!.invalid">
+            {{ getErrorMessage() }}
+          </div>
+        </div>
+
+        <div class="input-container password">
+          <mat-label>Enter your password</mat-label>
+          <input required="true" type="{{ hide ? 'password' : 'text' }}" placeholder="Enter your password" formControlName="password"
+            class="login-input">
+          <mat-icon class="password-icon" (click)="hide = !hide" aria-label="Hide password">
+            {{ hide ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+        </div>
+
+        <button type="submit" class="login-button">Login</button>
+
+        <div class="forgot-password">
+          <button class="forgotPasswordButton" mat-button (click)="forgotPasswordButtonClicked()" >Forgot Password</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</body> -->
+
+<div class="main">
+  <div class="column">
+    <div class="image-container">
+      <img src="assets/expo.jpg" alt="Your Image" >
+    </div>
+  </div>
+  <div class="column">
+    <form [formGroup]="loginForm" (ngSubmit)="loginProcess()" class="login-container">
+      <div class="login-card">
+        <p class="tagname">Login Details</p>
+
+        <div class="input-container">
+          <!-- <mat-label>Enter your email</mat-label> -->
+          <input required="true" type="text" placeholder="Enter your email" formControlName="userId" class="login-input">
+           <div class="error-message" *ngIf="loginForm.get('emailId') && loginForm.get('userId')!.invalid">
+            {{ getErrorMessage() }}
+          </div>
+        </div>
+
+        <div class="input-container password">
+          <!-- <mat-label>Enter your password</mat-label> -->
+          <input required="true" type="{{ hide ? 'password' : 'text' }}" placeholder="Enter your password" formControlName="password"
+            class="login-input">
+          <mat-icon class="password-icon" (click)="hide = !hide" aria-label="Hide password">
+            {{ hide ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+        </div>
+
+        <button type="submit" class="login-button">Login</button>
+
+        <div class="forgot-password">
+          <button class="forgotPasswordButton" mat-button (click)="forgotPasswordButtonClicked()" >Forgot Password</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
