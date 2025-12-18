@@ -1,0 +1,637 @@
+<div  class="container-fluid mt-3">
+    <!-- <mat-toolbar class="text-white mt-3 mb-3">
+        <mat-toolbar-row class="justify-content-center">
+            <h2> Contract Details </h2>
+        </mat-toolbar-row>
+    </mat-toolbar> -->
+    <div >
+        <div style="margin-top: 10px" class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                <!-- <mat-form-field  appearance="outline" class="w-100">
+                    <input [(ngModel)]="clientName" value="clientName" readonly="true" type="text" matInput placeholder="Client Name">
+                    <mat-label>Client Name</mat-label>
+                </mat-form-field> -->
+                    <div class="form-group">
+                        <mat-label>Client Name</mat-label>
+                        <input [(ngModel)]="clientName" value="clientName" readonly="true" type="text" matInput placeholder="Client Name">
+                    </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-8 mb-3">
+                <form [formGroup]="contractDetailsForm">
+                    <!-- <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3 ">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Agreement Date</mat-label>
+                                <input matInput [matDatepicker]="agreementDatepicker" formControlName="agreementDate" placeholder="MM/DD/YYYY">
+                                <mat-datepicker-toggle matIconSuffix [for]="agreementDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #agreementDatepicker></mat-datepicker>
+                                <mat-error *ngIf="contractDetailsForm.get('agreementDate')?.hasError('required')">Agreement Date cannot be blank</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Effective Date</mat-label>
+                                <input matInput [matDatepicker]="effectiveDatePicker" formControlName="effectiveDate" placeholder="MM/DD/YYYY">
+                                <mat-datepicker-toggle matIconSuffix [for]="effectiveDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #effectiveDatePicker></mat-datepicker>
+                                <mat-error *ngIf="contractDetailsForm.get('effectiveDate')?.hasError('required')">Effective Date cannot be blank</mat-error>                    
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3"> 
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Expiry Date</mat-label>
+                                <input matInput [matDatepicker]="expiryDatePicker" formControlName="expiryDate" placeholder="MM/DD/YYYY">
+                                <mat-datepicker-toggle matIconSuffix [for]="expiryDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #expiryDatePicker></mat-datepicker>
+                                <mat-error *ngIf="contractDetailsForm.get('expiryDate')?.hasError('required')">Expirty Date cannot be blank</mat-error>                    
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3"> 
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Retention  Date</mat-label>
+                                <input matInput [matDatepicker]="retentationDatePicker" formControlName="retentationDate" placeholder="MM/DD/YYYY">
+                                <mat-datepicker-toggle matIconSuffix [for]="retentationDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #retentationDatePicker></mat-datepicker>
+                                <mat-error *ngIf="contractDetailsForm.get('retentationDate')?.hasError('required')">Retention Date cannot be blank</mat-error>
+                            </mat-form-field>
+        
+                        </div>
+        
+                    </div> -->
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <mat-label>Agreement Date</mat-label>
+                                <input type="date" formControlName="agreementDate" placeholder="MM/DD/YYYY">
+                                <!-- <mat-datepicker-toggle matIconSuffix [for]="agreementDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #agreementDatepicker></mat-datepicker> -->
+                                <mat-error *ngIf="contractDetailsForm.get('agreementDate')?.hasError('required')">Agreement Date cannot be blank</mat-error>
+                        </div>
+                        <div class="form-group">
+                            <mat-label>Effective Date</mat-label>
+                            <input type="date" formControlName="effectiveDate" placeholder="MM/DD/YYYY">
+                            <!-- <mat-datepicker-toggle matIconSuffix [for]="effectiveDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #effectiveDatePicker></mat-datepicker> -->
+                            <mat-error *ngIf="contractDetailsForm.get('effectiveDate')?.hasError('required')">Effective Date cannot be blank</mat-error>                    
+                        </div>
+                        <div class="form-group">
+                            <mat-label>Expiry Date</mat-label>
+                            <input type="date" formControlName="expiryDate" placeholder="MM/DD/YYYY">
+                            <!-- <mat-datepicker-toggle matIconSuffix [for]="expiryDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #expiryDatePicker></mat-datepicker> -->
+                            <mat-error *ngIf="contractDetailsForm.get('expiryDate')?.hasError('required')">Expirty Date cannot be blank</mat-error>                    
+                        </div>
+                        <div class="form-group">
+                            <mat-label>Retention  Date</mat-label>
+                            <input type="date" formControlName="retentationDate" placeholder="MM/DD/YYYY">
+                            <!-- <mat-datepicker-toggle matIconSuffix [for]="retentationDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #retentationDatePicker></mat-datepicker> -->
+                            <mat-error *ngIf="contractDetailsForm.get('retentationDate')?.hasError('required')">Retention Date cannot be blank</mat-error>
+                        </div>
+                    </div>
+        
+                </form>
+        
+            </div>
+            <div class="btn-wraper">
+                <div>
+                    <button class="btn-rounded"
+                    (click)="saveContractButtonClicked()"
+                    [disabled]="contractDetailsForm.invalid">Submit</button>
+                  <button class="btn-rounded"
+                  (click)="backButtonClicked()">Back</button>
+
+                </div>
+              </div>
+        </div>    
+    </div>
+    <mat-tab-group [@.disabled]="true">
+        <mat-tab>
+            <ng-template mat-tab-label> Components </ng-template>
+            <!-- <div class="container-fluid">
+                <div class="border rounded-3 p-3">
+                    <div class="mat-elevation-z8"> -->
+                        <table class="table" mat-table [dataSource]="componentDataSource">
+                            <ng-container  matColumnDef="serialNumber">
+                              <th mat-header-cell *matHeaderCellDef>#</th>
+                              <td mat-cell *matCellDef="let components;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="component">
+                                <th mat-header-cell *matHeaderCellDef> Component </th>
+                                <td mat-cell *matCellDef="let component">{{component.displayName}}</td>
+                            </ng-container>   
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef> Add to Contract </th>
+                                <td mat-cell *matCellDef="let component">
+                                    <mat-checkbox [(ngModel)]="component.selected" [checked]="component.selected" (change)="optionChanged($event,component)"></mat-checkbox>
+                                </td>
+                            </ng-container> 
+                            <ng-container matColumnDef="tat">
+                                <th mat-header-cell *matHeaderCellDef> TAT </th>
+                                <td mat-cell *matCellDef="let component">
+                                    <input (keypress)="numberOnly($event)" size="3" type="text" maxlength="3" [(ngModel)]="component.tat" value="component.tat">
+                                </td>
+                            </ng-container>                                                                                                       
+                           <ng-container matColumnDef="writtenPrice">
+                                <th mat-header-cell *matHeaderCellDef> Price-Written </th>
+                                <td mat-cell *matCellDef="let component">
+                                    <input (keypress)="numberOnly($event)" type="text" size="5" maxlength="10" [disabled]="!component.selected" [(ngModel)]="component.price" value="component.price">
+                                </td>
+                            </ng-container>                              
+                            <ng-container matColumnDef="verbalPrice">
+                                <th mat-header-cell *matHeaderCellDef >Price-Verbal</th>
+                                <td mat-cell *matCellDef="let component">
+                                    <input (keypress)="numberOnly($event)" type="text" size="5" maxlength="10" [disabled]="!component.selected" [(ngModel)]="component.verbalPrice" value="component.verbalPrice">
+                                </td>
+                            </ng-container>                                                      
+                            <ng-container matColumnDef="onlinePrice">
+                                <th mat-header-cell *matHeaderCellDef >Price-Online</th>
+                                <td mat-cell *matCellDef="let component">
+                                    <input (keypress)="numberOnly($event)" type="text" size="5" maxlength="10" [disabled]="!component.selected" [(ngModel)]="component.onlinePrice" value="component.onlinePrice">
+                                </td>
+                            </ng-container>                                                                              
+                            <ng-container matColumnDef="physicalVisitPrice">
+                                <th mat-header-cell *matHeaderCellDef >PV-Price per visit</th>
+                                <td mat-cell  *matCellDef="let component">
+                                    <input (keypress)="numberOnly($event)" type="text" size="5" maxlength="10" [disabled]="!component.selected" [(ngModel)]="component.pvPrice" value="component.pvPrice">
+                                </td>
+                            </ng-container>                                                                                                      
+                            <ng-container matColumnDef="reimbursementAllowed">
+                                <th mat-header-cell *matHeaderCellDef >Reimbursement Allowed</th>
+                                <td mat-cell *matCellDef="let component">
+                                    <mat-checkbox [(ngModel)]="component.reimbursementAllowed" [checked]="component.reimbursementAllowed" ></mat-checkbox>
+                                </td>
+                            </ng-container>                                                                                                                              
+                            <ng-container matColumnDef="reimbursementAbove">
+                                <th mat-header-cell *matHeaderCellDef >Reimbursement Above</th>
+                                <td mat-cell *matCellDef="let component">
+                                    <input (keypress)="numberOnly($event)" type="text" size="5" maxlength="10" [disabled]="!component.selected" [(ngModel)]="component.reimbursementPrice" value="component.reimbursementPrice">
+                                </td>
+                            </ng-container>                                                                                                                              
+                            <ng-container matColumnDef="closureModesAllowed">
+                                <th mat-header-cell *matHeaderCellDef >Closure Modes Allowed</th>
+                                <td mat-cell *matCellDef="let component">
+                                     <!-- <mat-form-field appearance="outline" class="w-75"> -->
+                                        <mat-select [(ngModel)]="component.closureModesAllowed" value="component.closureModesAllowed">
+                                            <mat-option value="VERBAL">Verbal</mat-option>
+                                            <mat-option value="WRITTEN">Written</mat-option>
+                                            <mat-option value="BOTH">Both</mat-option>
+                                        </mat-select>
+                                    <!-- </mat-form-field>  -->
+                                </td>
+                            </ng-container>                                                                              
+                            <ng-container matColumnDef="interimClosureAllowed">
+                                <th mat-header-cell *matHeaderCellDef >Interim Closure Allowed</th>
+                                <td mat-cell *matCellDef="let component">
+                                    <mat-checkbox [(ngModel)]="component.interimClosureAllowed" [checked]="component.interimClosureAllowed" ></mat-checkbox>
+                                </td>
+                            </ng-container>                                                                                                      
+                            <ng-container matColumnDef="scopeOfWork">
+                                <th mat-header-cell *matHeaderCellDef >Scope of Work</th>
+                                <td mat-cell *matCellDef="let component">
+                                    <input type="text" size="25" maxlength="100" [disabled]="!component.selected" [(ngModel)]="component.scopeOfWork" value="component.scopeOfWork">
+                                </td>
+                            </ng-container>                                                      
+                            <tr mat-header-row *matHeaderRowDef="componentDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: componentDisplayedColumns;"></tr>
+                        </table>
+                    <!-- </div>      
+                </div>
+            </div> -->
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label> Packages </ng-template>
+
+            <!-- <div class="container-fluid"> -->
+                <!-- <fieldset class="border rounded-3 p-3 mb-5">
+                    <legend class="float-none w-auto px-3"> Packages </legend>
+                    <div class="mat-elevation-z8"> -->
+                        <mat-divider></mat-divider>
+                        <h5> Packages </h5>
+
+                        <table class="table" mat-table [dataSource]="packageDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef>Sl No.</th>
+                                <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let package">
+                                    <input type="text" [(ngModel)]="package.name" value="package.name">
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="price">
+                                <th mat-header-cell *matHeaderCellDef>Price</th>
+                                <td mat-cell *matCellDef="let package">
+                                    <input (keypress)="numberOnly($event)" size="4" type="text" maxlength="4" [(ngModel)]="package.price"
+                                        value="package.price">
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="tat">
+                                <th mat-header-cell *matHeaderCellDef>TAT</th>
+                                <td mat-cell *matCellDef="let package">
+                                    <input (keypress)="numberOnly($event)" size="3" type="text" maxlength="3" [(ngModel)]="package.tat"
+                                        value="package.tat">
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>Select</th>
+                                <td mat-cell *matCellDef="let package">
+                                    <mat-checkbox [(ngModel)]="package.selected" [checked]="package.selected"
+                                        (change)="packageSelectionChanged($event,package)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="add">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <button mat-icon-button inline="true"
+                                        (click)="addPackageButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                                </th>
+                                <td mat-cell *matCellDef="let package">
+                                    <button mat-icon-button color="primary" inline="true"
+                                        (click)="addPackageButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="delete">
+                                <th mat-header-cell *matHeaderCellDef>Delete</th>
+                                <td mat-cell *matCellDef="let package">
+                                    <button mat-icon-button color="warn" inline="true"
+                                        (click)="deletePackageButtonClicked(package)"><mat-icon>delete_forever</mat-icon></button>
+                                </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="packageDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: packageDisplayedColumns;"></tr>
+                        </table>
+                        <!-- </div>
+                </fieldset> -->
+                <!-- <fieldset class="border  rounded-3  p-3 mb-5">
+                    <legend class="float-none w-100 px-3"> Components In Package </legend>
+                    <div class="mat-elevation-z8"> -->
+                        <mat-divider></mat-divider>
+                        <h5> Components In Package </h5>
+                        <table class="table" mat-table [dataSource]="packageComponentDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container  matColumnDef="serialNumber">
+                              <th mat-header-cell *matHeaderCellDef>Sl No.</th>
+                              <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="component">
+                                <th mat-header-cell *matHeaderCellDef>Component</th>
+                                <td mat-cell *matCellDef="let packageComponent">{{packageComponent.displayName}}</td>
+                            </ng-container>                        
+                            <ng-container matColumnDef="details">
+                                <th mat-header-cell *matHeaderCellDef>Details</th>        
+                                <td mat-cell *matCellDef="let packageComponent">
+                                    <input size="30"  type="text" [(ngModel)]="packageComponent.details" value="packageComponent.details">
+                                </td>                                                
+                            </ng-container>                       
+                            <ng-container matColumnDef="maxChecks">
+                                <th mat-header-cell *matHeaderCellDef>Max.Checks</th>        
+                                <td mat-cell *matCellDef="let packageComponent">
+                                    <input size="2" maxlength="2" (keypress)="numberOnly($event)" type="text" [(ngModel)]="packageComponent.maxChecks" value="packageComponent.maxChecks">
+                                </td>                                                
+                            </ng-container>                                                
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>Select</th>
+                                <td mat-cell *matCellDef="let packageComponent">
+                                    <mat-checkbox [disabled]="packageComponent.details==null || packageComponent.details=='' || packageComponent.maxChecks==0 || packageComponent.maxChecks==null" [(ngModel)]="packageComponent.selected" [checked]="packageComponent.selected" (change)="packageComponentOptionChanged($event,packageComponent)"></mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="packageComponentDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: packageComponentDisplayedColumns;"></tr>
+                        </table>
+
+                    <!-- </div>
+
+                </fieldset> -->
+
+            <!-- </div> -->
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label> Profiles </ng-template>
+            <!-- <div class="container-fluid mb-4"> -->
+                <!-- <fieldset class="border rounded-3 p-3 mb-5">
+                    <legend class="float-none w-auto px-3"> Profiles </legend>
+                    <div class="mat-elevation-z8"> -->
+                        <mat-divider></mat-divider>
+                        <h5> Profiles </h5>
+                        <table class="table" mat-table [dataSource]="profileDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container  matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef>#</th>
+                                <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let profile">
+                                    <input type="text"  [(ngModel)]="profile.name" value="profile.name">
+                                </td>
+                            </ng-container>                        
+                            <ng-container matColumnDef="tat">
+                                <th mat-header-cell *matHeaderCellDef>TAT</th>
+                                <td mat-cell *matCellDef="let profile">
+                                    <input (keypress)="numberOnly($event)" size="3" type="text" maxlength="3" [(ngModel)]="profile.tat" value="profile.tat">
+                                </td>
+                            </ng-container>                                                                               
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>Select</th>
+                                <td mat-cell *matCellDef="let profile">
+                                    <mat-checkbox [checked]="profile.selected" (change)="profileSelectionChanged($event,profile)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>                               
+                            <ng-container matColumnDef="add">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <button mat-icon-button inline="true" (click)="addProfileButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                                </th>
+                                <td mat-cell *matCellDef="let profile">
+                                    <button mat-icon-button color="primary" inline="true" (click)="addProfileButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                                </td>
+                            </ng-container>                                                 
+                            <ng-container matColumnDef="delete">
+                                <th mat-header-cell *matHeaderCellDef>Delete</th>
+                                <td mat-cell *matCellDef="let profile">
+                                    <button mat-icon-button color="warn" inline="true" (click)="deleteProfileButtonClicked(profile)"><mat-icon>delete_forever</mat-icon></button>
+                                </td>
+                            </ng-container>                                                           
+                            <tr mat-header-row *matHeaderRowDef="profileDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: profileDisplayedColumns;"></tr>
+                        </table>
+    
+                    <!-- </div>
+                </fieldset> -->
+                <!-- <fieldset class="border rounded-3 p-3 mb-5">
+                    <legend class="float-none w-auto px-3"> Components In Profiles</legend>
+                    <div class="mat-elevation-z8"> -->
+                        <mat-divider></mat-divider>
+                        <h5> Components In Profiles </h5>
+                        <table class="table" mat-table [dataSource]="profileComponentDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container  matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef>#</th>
+                                <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="component">
+                                <th mat-header-cell *matHeaderCellDef>Component</th>
+                                <td mat-cell *matCellDef="let profileComponent">{{profileComponent.displayName}}</td>
+                            </ng-container>                        
+                            <ng-container matColumnDef="details">
+                                <th mat-header-cell *matHeaderCellDef>Details</th>        
+                                <td mat-cell *matCellDef="let profileComponent">
+                                    <input type="text" [(ngModel)]="profileComponent.details" value="profileComponent.details">
+                                </td>                                                
+                            </ng-container>                                                
+                            <ng-container matColumnDef="maxChecks">
+                                <th mat-header-cell *matHeaderCellDef>Max.Checks</th>        
+                                <td mat-cell *matCellDef="let profileComponent">
+                                    <input size="2" maxlength="2" (keypress)="numberOnly($event)" type="text" [(ngModel)]="profileComponent.maxChecks" value="profileComponent.maxChecks">
+                                </td>                                                
+                            </ng-container>                                                                        
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell  *matHeaderCellDef>Select</th>
+                                <td mat-cell *matCellDef="let profileComponent">
+                                    <mat-checkbox [(ngModel)]="profileComponent.selected" [checked]="profileComponent.selected" (change)="profileComponentOptionChanged($event,profileComponent)"></mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="profileComponentDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: profileComponentDisplayedColumns;"></tr>
+                        </table>
+
+                    <!-- </div>
+                    
+                </fieldset> -->
+            <!-- </div> -->
+        
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label> Penalties & Incentive </ng-template>
+            <!-- <div class="container-fluid mb-4"> -->
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <!-- <fieldset class="border rounded-3 p-3 mb-5 w-100">
+                            <legend class="float-none w-auto px-3"> Penalty Slabs </legend>
+                            <div class="mat-elevation-z8"> -->
+                                <mat-divider></mat-divider>
+                                <h5> Penalty Slabs </h5>
+                                <table class="table" mat-table [dataSource]="penaltyDataSource">
+                                    <!-- <caption></caption> -->
+                                    <ng-container  matColumnDef="serialNumber">
+                                        <th mat-header-cell *matHeaderCellDef>#</th>
+                                        <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="from">
+                                        <th mat-header-cell *matHeaderCellDef>From</th>
+                                        <td mat-cell *matCellDef="let penalty">
+                                            <input (keypress)="numberOnly($event)" type="text" [(ngModel)]="penalty.from" size="3" maxlength="3" value="penalty.from">
+                                        </td>
+                                    </ng-container>                        
+                                    <ng-container matColumnDef="to">
+                                        <th mat-header-cell *matHeaderCellDef>To</th>
+                                        <td mat-cell *matCellDef="let penalty">
+                                            <input (keypress)="numberOnly($event)" size="3" maxlength="3" type="text" [(ngModel)]="penalty.to" value="penalty.to">
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="penalty">
+                                        <th mat-header-cell *matHeaderCellDef>Penalty</th>
+                                        <td mat-cell *matCellDef="let penalty">
+                                            <input (keypress)="numberOnly($event)" size="3" maxlength="3" type="text" [(ngModel)]="penalty.percent" value="penalty.percent">
+                                        </td>
+                                    </ng-container>         
+                                    <ng-container matColumnDef="add">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <button mat-icon-button (click)="addPenaltySlabButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                                        </th>
+                                        <td mat-cell *matCellDef="let penalty">
+                                            <button mat-icon-button color="primary" (click)="addPenaltySlabButtonClicked()"><mat-icon>add_circle</mat-icon></button>                                
+                                        </td>
+                                    </ng-container>                                         
+                                    <ng-container matColumnDef="delete">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                        </th>
+                                        <td mat-cell *matCellDef="let penalty">
+                                            <button mat-icon-button color="warn" (click)="deletePenaltySlabButtonClicked(penalty)"><mat-icon>delete_forever</mat-icon></button>                                                                
+                                        </td>
+                                    </ng-container>                                                                              
+                                    <tr mat-header-row *matHeaderRowDef="penaltyDisplayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: penaltyDisplayedColumns;"></tr>
+                                </table>   
+                            <!-- </div>
+                        </fieldset> -->
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <!-- <fieldset class="border rounded-3 p-3 mb-5 w-100">
+                            <legend class="float-none w-auto px-3"> Incentive Slabs </legend>
+                            <div class="mat-elevation-z8"> -->
+                                <mat-divider></mat-divider>
+                                <h5> Incentive Slabs </h5>
+                                <table class="table" mat-table [dataSource]="incentiveDataSource">
+                                    <caption></caption>
+                                    <ng-container  matColumnDef="serialNumber">
+                                        <th mat-header-cell *matHeaderCellDef>#</th>
+                                        <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="from">
+                                        <th mat-header-cell *matHeaderCellDef>From</th>
+                                        <td mat-cell *matCellDef="let incentive">
+                                            <input (keypress)="numberOnly($event)" [(ngModel)]="incentive.from" value="incentive.from" type="text" size="3" maxlength="3"> 
+                                        </td>
+                                    </ng-container>                        
+                                    <ng-container matColumnDef="to">
+                                        <th mat-header-cell *matHeaderCellDef>To</th>
+                                        <td mat-cell *matCellDef="let incentive">
+                                            <input (keypress)="numberOnly($event)" [(ngModel)]="incentive.to" value="incentive.to" type="text" size="3" maxlength="3">                                 
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="penalty">
+                                        <th mat-header-cell *matHeaderCellDef>Incentive</th>
+                                        <td mat-cell *matCellDef="let incentive">
+                                            <input (keypress)="numberOnly($event)" [(ngModel)]="incentive.percent" value="incentive.percent" type="text" size="3" maxlength="3">                                 
+                                        </td>
+                                    </ng-container>                 
+                                    <ng-container matColumnDef="add">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <button mat-icon-button (click)="addIncentiveSlabButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                                        </th>
+                                        <td mat-cell *matCellDef="let incentive">
+                                            <button mat-icon-button color="primary"><mat-icon>add_circle</mat-icon></button>                                
+                                        </td>
+                                    </ng-container>                                                                 
+                                    <ng-container matColumnDef="delete">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                        </th>
+                                        <td mat-cell *matCellDef="let incentive">
+                                            <button mat-icon-button color="warn" (click)="deleteIncentiveSlabButtonClicked(incentive)"><mat-icon>delete_forever</mat-icon></button>                                
+                                        </td>
+                                    </ng-container>                                                                                         
+                         
+                                    <tr mat-header-row *matHeaderRowDef="penaltyDisplayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: penaltyDisplayedColumns;"></tr>
+                                </table>
+<!--         
+                            </div>
+                            
+                        </fieldset> -->
+                    </div>
+
+                </div>
+             
+            
+            <!-- </div> -->
+
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label> Document Uploads </ng-template>
+            <div class="container-fluid mb-4">
+                <ng-container class="p-3 mb-5">
+                    <form [formGroup]="fileUploadForm">
+                        <div class="row align-items-center">
+                           <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3 p-3">
+                            <div class="file-input-container">
+                                <input
+                                  type="file"
+                                  #fileInput
+                                  class="hidden-input"
+                                  accept=".pdf"
+                                  (click)="fileInput.value = ''"
+                                  formControlName="clientContractFile"
+                                  style="display: none;"
+                                />
+                                <!-- <mat-form-field appearance="outline" class="w-100"> -->
+
+                                  <mat-label>Choose a PDF file</mat-label>
+                                  <input
+                                    matInput
+                                    placeholder="No file chosen"
+                                    readonly
+                                    (click)="fileInput.click()"
+                                    [value]="(fileInput.files && fileInput.files[0]) ? fileInput.files[0].name:''"
+                                  />
+                                <!-- </mat-form-field> -->
+                                <button *ngIf="this.fileUploadForm.get('clientContractFile')?.value" mat-icon-button 
+                                (click)="this.fileUploadForm.get('clientContractFile')?.reset()" class="mx-2 bg-danger text-white">
+                                  <mat-icon aria-hidden="false" aria-label="Clear">clear</mat-icon>
+                                </button>
+                              </div>
+                              
+                           </div>
+                           <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3 p-3">
+                            <!-- <mat-form-field  appearance="outline" class="w-100"> -->
+                                <mat-label>File Title</mat-label> 
+                                <input matInput formControlName="fileTitle" type="text" size="30" maxlength="100" placeholder="File Title">
+                            <!-- </mat-form-field> -->
+
+                           </div>
+                           <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3 p-3 btn-wraper justify-content-start">
+                            <div style="width: 30%;">
+                                <button [disabled]="fileUploadForm.get('clientContractFile')?.value=='' || fileUploadForm.get('fileTitle')?.value==''" class="btn-rounded"  (click)="uploadFile()">Upload File</button>
+                            </div>
+                           </div>
+
+                        </div>
+                        
+                        
+
+                    </form>
+                      
+                </ng-container>
+                <!-- <fieldset class="border rounded-3 p-3 mb-5 w-100">
+                    <legend class="float-none w-auto px-3 ">Files Uploaded</legend>
+                    <div class="mat-elevation-z8"> -->
+                        <mat-divider></mat-divider>
+                        <h5> Files Uploaded </h5>
+                        <table class="table" mat-table [dataSource]="fileDownloadDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container  matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef>#</th>
+                                <td mat-cell *matCellDef="let package;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="fileName">
+                                <th mat-header-cell *matHeaderCellDef>File Name</th>
+                                <td mat-cell *matCellDef="let file">{{file}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="download">
+                                <th mat-header-cell *matHeaderCellDef>Download</th> 
+                                <td mat-cell *matCellDef="let file">
+                                    <button style="height: 32px;width: 32px;" mat-icon-button color="primary" (click)="downloadFile(file)"><mat-icon>download</mat-icon></button>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="delete">
+                                <th mat-header-cell *matHeaderCellDef>Delete</th>
+                                <td mat-cell *matCellDef="let file">
+                                    <button style="height: 32px;width: 32px;" mat-icon-button color="warn"><mat-icon>delete_forever</mat-icon></button>
+                                </td>
+                            </ng-container>                    
+                                                                            
+                            <tr mat-header-row *matHeaderRowDef="fileDownloadDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: fileDownloadDisplayedColumns;"></tr>
+                        </table>
+
+                    <!-- </div>
+
+                </fieldset> -->
+
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+ 
+    <!-- <div class="d-flex justify-content-between">
+        <div>
+        </div>
+        <div>
+          <button matTooltip="Go back" class="btn btn-dark text-white  mt-3 mx-3 save-button" (click)="backButtonClicked()" >Back</button>          
+
+          <button matTooltip="Save Contract Details" class="btn btn-danger mt-3 mx-3 save-button" (click)="saveContractButtonClicked()" [disabled]="contractDetailsForm.invalid">Submit</button>
+        </div>
+    </div> -->
+    <!-- <div class="btn-wraper">
+        <div>
+          <button class="btn-rounded"
+          (click)="backButtonClicked()">Back</button>
+        <button class="btn-rounded"
+          (click)="saveContractButtonClicked()"
+          [disabled]="contractDetailsForm.invalid">Submit</button>
+        </div>
+      </div> -->
+</div>
