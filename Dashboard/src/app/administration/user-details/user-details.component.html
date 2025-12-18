@@ -1,0 +1,353 @@
+<div style="margin: 23px;">
+    <!-- <mat-toolbar class="text-white mt-3 mb-3">
+        <mat-toolbar-row class="justify-content-center">
+          <h2>User Details</h2>
+        </mat-toolbar-row>
+    </mat-toolbar> -->
+    <div class="my-3">
+        <form [formGroup]="userForm">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group">
+                        <mat-label>User Id</mat-label>
+                        <input type="email" formControlName="userId" maxlength="100"  matInput  size="30" placeholder="Email Id of the user">
+                        <mat-error *ngIf="userForm.get('userId')?.hasError('required')">User Id cannot be empty</mat-error>
+                        <mat-error *ngIf="userForm.get('userId')?.hasError('email')">User Id should be an email id</mat-error>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group">
+                        <mat-label>User Name</mat-label>
+                        <input formControlName="name" maxlength="100"  matInput  size="30" placeholder="User Name">
+                        <mat-error *ngIf="userForm.get('name')?.hasError('required')">Name cannot be empty</mat-error>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
+                    <div class="form-group">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option value="ACTIVE">Active</mat-option>
+                            <mat-option value="INACTIVE">Inactive</mat-option>                
+                        </mat-select>
+                        <mat-error *ngIf="userForm.get('status')?.hasError('required')">Please select a status</mat-error>
+                    </div> 
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
+                    <div class="form-group">
+                        <mat-label>User Type</mat-label>
+                        <mat-select (selectionChange)="typeChanged($event)" formControlName="type">
+                            <mat-option value="INTERNAL">Internal</mat-option>
+                            <mat-option value="CLIENT">Client</mat-option>                
+                            <mat-option value="VENDOR">Vendor</mat-option>                
+                        </mat-select>
+                        <mat-error *ngIf="userForm.get('type')?.hasError('required')">Please select a user type</mat-error>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
+                    <div class="form-group" *ngIf="userForm.get('type')?.value=='INTERNAL'">
+                        <mat-label>Attached to Branch</mat-label>
+                        <mat-select formControlName="branch">
+                            <mat-option *ngFor="let branch of branches" [value]="branch._id">{{branch.name}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
+                    <div class="form-group" *ngIf="userForm.get('type')?.value=='INTERNAL'">
+                        <mat-label>Reporting to User</mat-label>
+                        <mat-select formControlName="reportingManager">
+                            <mat-option *ngFor="let user of users" [value]="user._id">{{user.name}}</mat-option>
+                        </mat-select>
+                    </div>            
+                </div>
+            </div>
+        </form>
+    </div>
+    <mat-tab-group [@.disabled]="true">
+        <mat-tab>
+            <ng-template mat-tab-label>User Roles</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div>
+                        <table mat-table [dataSource]="userRoleDataSource">
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef> SL No. </th>
+                                <td mat-cell *matCellDef="let role;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let role">{{role.roleName}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>Select</th>
+                                <td mat-cell *matCellDef="let role">
+                                    <mat-checkbox [checked]="role.selected" [(ngModel)]="role.selected">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="roleDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: roleDisplayedColumns;let i=index;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>    
+        <mat-tab *ngIf="userForm.get('type')?.value=='VENDOR' || userForm.get('type')?.value=='INTERNAL'">
+            <ng-template mat-tab-label>User Vendor Assignments</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div class="table-header">
+                        <input matInput (keyup)="applyFilterForVendor($event)" placeholder="Search" #input>
+                    </div>
+                    <table mat-table [dataSource]="vendorDataSource">
+                        <ng-container matColumnDef="serialNumber">
+                            <th mat-header-cell *matHeaderCellDef> SL No. </th>
+                            <td mat-cell *matCellDef="let vendor;let i=index">{{i+1}}</td>
+                        </ng-container>   
+                        <ng-container matColumnDef="vendor">
+                            <th mat-header-cell *matHeaderCellDef>Vendor</th>
+                            <td mat-cell *matCellDef="let vendor">{{vendor.name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="masterToggleVendorSelection($event)">
+                                </mat-checkbox> 
+                            </th>
+                            <td mat-cell *matCellDef="let vendor">
+                                <mat-checkbox [checked]="vendor.selected" [(ngModel)]="vendor.selected">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="vendorDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: vendorDisplayedColumns;let i=index;"></tr>
+                        </table>   
+                </div>
+            </div>
+        </mat-tab>    
+        <mat-tab *ngIf="userForm.get('type')?.value=='INTERNAL'">
+            <ng-template mat-tab-label>User Pin Ranges</ng-template>
+            <div class="container-fluid">
+                <div class="row md-4">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                        <div class="table">
+                            <div class="header">
+                                <table mat-table [dataSource]="includedPinDataSource">
+                                    <ng-container matColumnDef="serialNumber">
+                                        <th mat-header-cell  *matHeaderCellDef> SL No. </th>
+                                        <td mat-cell *matCellDef="let role;let i=index">{{i+1}}</td>
+                                    </ng-container>   
+                                    <ng-container matColumnDef="from">
+                                        <th mat-header-cell   *matHeaderCellDef>From</th>
+                                        <td mat-cell  *matCellDef="let pin">
+                                            <input [(ngModel)]="pin.from" [value]="pin.from" type="text" size="6" maxlength="6">                                
+                                        </td>
+                                    </ng-container>                        
+                                    <ng-container matColumnDef="to">
+                                        <th mat-header-cell   *matHeaderCellDef>To</th>
+                                        <td mat-cell  *matCellDef="let pin">
+                                            <input [(ngModel)]="pin.to" [value]="pin.to" type="text" size="6" maxlength="6">                                
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="add">
+                                        <th mat-header-cell *matHeaderCellDef>
+                                            <!-- <button mat-icon-button (click)="includeAddClicked()">
+                                                <mat-icon>add_circle</mat-icon>
+                                            </button> -->
+                                            <i class="fa fa-plus-circle" aria-hidden="true" (click)="includeAddClicked()" style="cursor: pointer;"></i>
+                                        </th>
+                                        <td mat-cell *matCellDef="let pin;let i =index">
+                                            <button color="primary" mat-icon-button (click)="includeAddClicked()"><mat-icon>add_circle</mat-icon></button>
+                                        </td>
+                                    </ng-container>                         
+                                    <ng-container matColumnDef="delete">
+                                        <th mat-header-cell  *matHeaderCellDef>Delete</th>
+                                        <td mat-cell *matCellDef="let pin;let i =index">
+                                            <button color="warn" mat-icon-button (click)="deleteIncludePinRange(i)"><mat-icon>delete</mat-icon></button>
+                                        </td>
+                                    </ng-container> 
+                                    <tr mat-header-row *matHeaderRowDef="includePinDisplayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: includePinDisplayedColumns;let i=index;"></tr>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+                        <div class="table">
+                            <div class="header">
+                                <table mat-table [dataSource]="excludedPinDataSource">
+                                    <ng-container matColumnDef="serialNumber">
+                                        <th mat-header-cell  *matHeaderCellDef> SL No. </th>
+                                        <td mat-cell *matCellDef="let pin;let i=index">{{i+1}}</td>
+                                    </ng-container>   
+                                    <ng-container matColumnDef="from">
+                                        <th mat-header-cell   *matHeaderCellDef>From</th>
+                                        <td mat-cell *matCellDef="let pin">
+                                            <input [(ngModel)]="pin.from" [value]="pin.from" type="text" size="6" maxlength="6">                                
+                                        </td>
+                                    </ng-container>                        
+                                    <ng-container matColumnDef="to">
+                                        <th mat-header-cell  *matHeaderCellDef>To</th>
+                                        <td mat-cell *matCellDef="let pin">
+                                            <input [(ngModel)]="pin.to" [value]="pin.to" type="text" size="6" maxlength="6">                                
+                                        </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="add">
+                                        <th mat-header-cell  *matHeaderCellDef>
+                                            <!-- <button mat-icon-button (click)="excludeAddClicked()"><mat-icon>add_circle</mat-icon></button> -->
+                                            <i class="fa fa-plus-circle" aria-hidden="true" (click)="excludeAddClicked()" style="cursor: pointer;"></i>
+                                        </th>
+                                        <td mat-cell *matCellDef="let pin;let i =index">
+                                            <button color="primary" mat-icon-button (click)="excludeAddClicked()"><mat-icon>add_circle</mat-icon></button>
+                                        </td>
+                                    </ng-container>                                                 
+                                    <ng-container matColumnDef="delete">
+                                        <th mat-header-cell  *matHeaderCellDef>Delete</th>
+                                        <td mat-cell *matCellDef="let pin;let i=index">
+                                            <button color="warn" mat-icon-button (click)="deleteExcludePinRange(i)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </ng-container>          
+                                    <tr mat-header-row *matHeaderRowDef="excludePinDisplayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: excludePinDisplayedColumns;let i=index;"></tr>
+                                    </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </mat-tab>  
+        <mat-tab>
+            <ng-template mat-tab-label>User Branch Access</ng-template>
+            <div class="table">
+                <div class="header">
+                    <table mat-table [dataSource]="userBranchAccessDataSource">
+                        <ng-container matColumnDef="serialNumber">
+                            <th mat-header-cell *matHeaderCellDef> SL No. </th>
+                            <td mat-cell *matCellDef="let branch;let i=index">{{i+1}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef>Branch Name</th>
+                            <td mat-cell *matCellDef="let branch">{{branch.name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>Select</th>
+                            <td mat-cell *matCellDef="let branch">
+                                <mat-checkbox [checked]="branch.selected" [(ngModel)]="branch.selected">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="branchDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: branchDisplayedColumns;let i=index;"></tr>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab *ngIf="userForm.get('type')?.value=='INTERNAL' || userForm.get('type')?.value=='CLIENT'">
+            <ng-template mat-tab-label>User Client Assignments</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div class="table-header">
+                        <input matInput (keyup)="applyFilterForClient($event)" placeholder="Search" #input>
+                    </div>
+                    <table mat-table [dataSource]="subclientDataSource">
+                        <caption></caption>
+                        <ng-container matColumnDef="serialNumber">
+                            <th mat-header-cell *matHeaderCellDef style="width: 5%;"> SL No. </th>
+                            <td mat-cell *matCellDef="let subclient;let i=index">{{i+1}}</td>
+                        </ng-container>   
+                        <ng-container matColumnDef="clientName">
+                            <th mat-header-cell *matHeaderCellDef style="width:50%">Client</th>
+                            <td mat-cell *matCellDef="let subclient">{{subclient.clientName}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="subclientName">
+                            <th mat-header-cell *matHeaderCellDef style="width: 30%;">Sub Client</th>
+                            <td mat-cell *matCellDef="let subclient">{{subclient.name}}</td>
+                        </ng-container>           
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef style="width:15%">
+                                <mat-checkbox (change)="masterToggleSubclientSelection($event)"></mat-checkbox>                            
+                            </th>
+                            <td mat-cell *matCellDef="let subclient">
+                                <mat-checkbox [checked]="subclient.selected" [(ngModel)]="subclient.selected"></mat-checkbox>
+                            </td>
+                        </ng-container>  
+                        <tr mat-header-row *matHeaderRowDef="subclientDisplayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: subclientDisplayedColumns;let i=index;"></tr>
+                        </table> 
+                </div>
+            </div>
+        </mat-tab>   
+        <mat-tab>
+            <ng-template mat-tab-label>Upload Signature</ng-template>
+            <div class="container-fluid mb-4">
+                <ng-container class="p-3 mb-5">
+                    <form [formGroup]="fileUploadForm">
+                        <div class="row d-flex align-items-center" >
+                           <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3 p-3">
+                            <div class="file-input-container ">
+                                <input
+                                  type="file"
+                                  #fileInput
+                                  class="hidden-input"
+                                  accept=".JPG"
+                                  (click)="fileInput.value = ''"
+                                  formControlName="signatureFile"
+                                />
+                                <!-- <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Choose a JPG file</mat-label>
+                                  <input
+                                    matInput
+                                    placeholder="No file chosen"
+                                    readonly
+                                    (click)="fileInput.click()"
+                                    [value]="(fileInput.files && fileInput.files[0]) ? fileInput.files[0].name:''"
+                                  />
+                                </mat-form-field> -->
+                                <button *ngIf="this.fileUploadForm.get('signatureFile')?.value" mat-icon-button 
+                                (click)="this.fileUploadForm.get('signatureFile')?.reset()" class="text-danger">
+                                  <mat-icon aria-hidden="false" aria-label="Clear">clear</mat-icon>
+                                </button>
+                            </div>
+                          
+                           </div>
+                           <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3 p-3">
+                            <button [disabled]="fileUploadForm.invalid" class="btn-rounded" (click)="uploadFile()">Upload File</button>
+                           </div>
+                          
+                        </div>
+                    </form>       
+                </ng-container>
+                <div class="table">
+                    <div class="header">
+                        <table mat-table [dataSource]="signatureFileDatasource">
+                            <ng-container matColumnDef="signatureFile">
+                                <th mat-header-cell *matHeaderCellDef>Signature File</th>
+                                <td mat-cell *matCellDef="let signatureFile">{{signatureFile}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="delete">
+                                <th mat-header-cell *matHeaderCellDef>Delete</th>
+                                <td mat-cell *matCellDef="let signatureFile">
+                                    <button mat-icon-button color="warn" (click)="signatureDeleteButtonClicked(signatureFile)">
+                                        <mat-icon>delete_forever</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>                                                                                             
+                            <tr mat-header-row *matHeaderRowDef="signatureDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: signatureDisplayedColumns;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group> 
+    <div class="d-flex justify-content-between">
+        <div>
+        </div>
+        <div>
+          <button matTooltip="Go Back" class="btn-rounded" (click)="backButtonClicked()">Back</button>
+          <button matTooltip="Save Client Details" class="btn-rounded" (click)="saveButtonClicked()" [disabled]="userForm.invalid">Submit</button>
+        </div>
+      </div>
+</div>
