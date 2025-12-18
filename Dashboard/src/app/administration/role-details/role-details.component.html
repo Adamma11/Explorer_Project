@@ -1,0 +1,207 @@
+<div>
+    <div class="my-3">
+        <form [formGroup]="roleNameForm">
+            <div class="form-group">
+                <!-- <mat-form-field  appearance="outline" class="w-25"> -->
+                    <mat-label>Role Name</mat-label>
+                    <input required formControlName="roleName" maxlength="100"  matInput  size="30" placeholder="Role Name">
+                    <mat-error *ngIf="roleNameForm.get('roleName')?.hasError('required')">Role Name cannot be empty</mat-error>
+                <!-- </mat-form-field>     -->
+            </div>    
+        </form>
+    </div>
+    <mat-tab-group [@.disabled]="true">
+        <mat-tab>
+            <ng-template mat-tab-label>Dashboards</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div >
+                        <table mat-table [dataSource]="dashboardDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell  *matHeaderCellDef> SL No. </th>
+                                <td mat-cell *matCellDef="let item;let i=index">{{i+1}}</td>
+                            </ng-container>                
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell  *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let item;let i=index">{{item.name}}</td>
+                            </ng-container> 
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell  *matHeaderCellDef>
+                                    <input class="checkbox" type="checkbox" (change)="masterToggleDashboardSelection($event)"/>
+                                    
+                                </th>
+                                <td mat-cell *matCellDef="let item">
+                                    <input class="checkbox" type="checkbox" [checked]="item.selected" [(ngModel)]="item.selected"/>
+                                   
+                                </td>
+                            </ng-container>                
+                            <!-- <ng-container matColumnDef="select">
+                                <th mat-header-cell  *matHeaderCellDef>
+                                    <mat-checkbox (change)="masterToggleDashboardSelection($event)">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let item">
+                                    <mat-checkbox [checked]="item.selected" [(ngModel)]="item.selected">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>                                                                                               -->
+                            <tr mat-header-row *matHeaderRowDef="dashboardDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: dashboardDisplayedColumns;let i=index;"></tr>
+                        </table>
+                    </div>
+            </div>
+        </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>Screen Access</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div>
+                        <table mat-table [dataSource]="screenAccessDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef> SL No. </th>
+                                <td mat-cell *matCellDef="let screen;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let screen;let i=index">{{screen.name}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <!-- <mat-checkbox (change)="masterToggleScreenSelection($event)">
+                                    </mat-checkbox> -->
+                                    <input class="checkbox" type="checkbox" (change)="masterToggleScreenSelection($event)"/>
+
+                                </th>
+                                <td mat-cell *matCellDef="let screen">
+                                    <!-- <mat-checkbox [checked]="screen.selected" [(ngModel)]="screen.selected">
+                                    </mat-checkbox> -->
+                                    <input class="checkbox" type="checkbox"[checked]="screen.selected" [(ngModel)]="screen.selected"/>
+
+                                </td>
+                            </ng-container>  
+                            <!-- <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="masterToggleScreenSelection($event)">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let screen">
+                                    <mat-checkbox [checked]="screen.selected" [(ngModel)]="screen.selected">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>                                                                 -->
+                            <tr mat-header-row *matHeaderRowDef="screenAccessDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: screenAccessDisplayedColumns;let i=index;"></tr>            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>Component Access</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div>
+                        <table mat-table [dataSource]="componentAccessDataSource">
+                            <!-- <caption></caption> -->
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef> SL No. </th>
+                                <td mat-cell *matCellDef="let component;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let component;">{{component.name}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <!-- <mat-checkbox (change)="masterToggleComponentSelection($event)">
+                                    </mat-checkbox> -->
+                                    <input class="checkbox" type="checkbox" (change)="masterToggleComponentSelection($event)"/>
+
+                                </th>
+                                <td mat-cell *matCellDef="let component">
+                                    <!-- <mat-checkbox [checked]="component.selected" [(ngModel)]="component.selected">
+                                    </mat-checkbox> -->
+                                    <input class="checkbox" type="checkbox"[checked]="component.selected" [(ngModel)]="component.selected"/>
+
+                                </td>
+                            </ng-container> 
+                            <!-- <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="masterToggleComponentSelection($event)">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let component">
+                                    <mat-checkbox [checked]="component.selected" [(ngModel)]="component.selected">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>                                                             -->
+                            <tr mat-header-row *matHeaderRowDef="componentAccessDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: componentAccessDisplayedColumns;let i=index;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>Branch Data Access</ng-template>
+            <div class="table">
+                <div class="header">
+                    <div>
+                        <table mat-table [dataSource]="branchDataAccessDataSource">
+                            <caption></caption>
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef> SL No. </th>
+                                <td mat-cell *matCellDef="let branch;let i=index">{{i+1}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let branch;">{{branch.name}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <!-- <mat-checkbox (change)="masterToggleBranchSelection($event)">
+        
+                                    </mat-checkbox> -->
+                                    <input class="checkbox-1" type="checkbox" (change)="masterToggleBranchSelection($event)"/>
+
+                                </th>
+                                <td mat-cell *matCellDef="let branch">
+                                    <!-- <mat-checkbox [checked]="branch.selected" [(ngModel)]="branch.selected">
+                                    </mat-checkbox> -->
+                                    <input class="checkbox-1" type="checkbox"[checked]="branch.selected" [(ngModel)]="branch.selected"/>
+
+                                </td>
+                            </ng-container>    
+                            <!-- <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="masterToggleBranchSelection($event)">
+        
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let branch">
+                                    <mat-checkbox [checked]="branch.selected" [(ngModel)]="branch.selected">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>                                                              -->
+                            <tr mat-header-row *matHeaderRowDef="branchDataAccessDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: branchDataAccessDisplayedColumns;let i=index;"></tr>      
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
+    <div class="d-flex justify-content-between">
+        <div>
+        </div>
+        <div>
+          <button class="btn-rounded" (click)="backButtonClicked()">Back</button>
+          <button class="btn-rounded" (click)="saveButtonClicked()" [disabled]="roleNameForm.invalid">Submit</button>
+        </div>
+    </div>
+
+</div>
