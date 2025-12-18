@@ -1,0 +1,16 @@
+<!-- <p class="tagname">Analysis Type</p> -->
+<h1 class="tagname">Analysis Type Details</h1>
+<mat-divider></mat-divider>
+<form [formGroup]="analysisTypeDetailsForm" (ngSubmit)="saveButtonClicked()">
+
+  <div class="form-group">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" [value]="selectedRow?.name">
+  </div>
+
+  <div class="button-group">
+    <button class="btn-rounded" type="submit">Save</button>
+    <button class="btn-rounded" (click)="cancelButtonClicked($event)">Cancel</button>
+  </div>
+
+</form>
