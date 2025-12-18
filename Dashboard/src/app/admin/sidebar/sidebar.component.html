@@ -1,0 +1,145 @@
+<!-- 
+
+
+<div #sidenav *ngIf="isLoggedIn" class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''"  style="margin: auto;">
+  
+  <div class="logo-container">
+    <button (click)="toggleCollapse()" style="padding: 0px; border: none;">
+      <img src="../../../assets/Adamma Logo.jpg" alt="logo" srcset="" style="height: 50px;">
+    </button>
+    <div class="logo-text" @fadeInOut *ngIf="collapsed"></div>
+    
+    
+    
+    
+    <button class="btn-tab" *ngIf="collapsed" (click)="closeSidenav()">
+      <i class="fal fa-bars" ></i>
+    </button>
+    
+  </div>
+  
+  <div class="scrollwrap scrollwrap_delayed">
+    
+    <ul class="sidenav-nav">
+      <label style="width: 100%; font-size: large; background-color:white ; color:#212529; display: flex; align-items: center; justify-content: center; border-radius: 27px; margin-bottom: 10px "  *ngIf="collapsed" >
+        {{userName}}
+      </label>
+      <ng-container  *ngFor="let data of navData">
+        <li class="sidenav-nav-item" *ngIf="data.permission"  >
+          <a class="sidenav-nav-link" (click)="handleClick(data)"
+          *ngIf="  data.permission === true && data.items && data.items.length > 0" [ngClass]="getActiveClass(data)">
+          <i class="sidenav-link-icon" [class]="data.icon" (click)="toggleCollapse()"></i>
+          <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">{{data.label}}</span>
+          <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
+          [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+        </a>
+        
+        <a class="sidenav-nav-link"
+        *ngIf="data.permission === true && !data.items || (data.items && data.items.length === 0)"
+        [routerLink]="[data.routeLink]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="shrinkItems(data)">
+        <i class="sidenav-link-icon" [class]="data.icon" (click)="toggleCollapse()"></i>
+        <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">{{data.label}}</span>
+      </a>
+      <div *ngIf="data.permission === true && collapsed && data.items && data.items.length > 0">
+        <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple"
+        [expanded]="data.expanded"></app-sublevel-menu>
+      </div>
+    </li>
+  </ng-container>
+  <button style="color: white;" mat-button class="menu-button" (click)="signoutClicked()">
+    <mat-icon style="color: white;">exit_to_app</mat-icon>
+    <span style="color: white;">SIGN OUT</span>
+  </button>
+</ul>
+
+</div>
+
+</div>   
+ -->
+<!-- ////////////Sharath////////// -->
+ <div #sidenav
+     *ngIf="isLoggedIn"
+     class="sidenav"
+     [ngClass]="collapsed ? 'sidenav-collapsed' : ''"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()"
+     style="margin: auto;">
+
+      <!-- <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Second Line</span>
+      <span class="example-spacer"></span>
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar> -->
+
+  <div class="logo-container">
+    <button style="padding: 0px; border: none;">
+      <img src="../../../assets/Adamma Logo.jpg" alt="logo" style="height: 50px;">
+    </button>
+
+    <div class="logo-text" @fadeInOut *ngIf="collapsed"></div>
+
+
+    <!-- <h4 class="name" style="color: white;">{{userName}}</h4> -->
+    <!-- <div class="logo-text" style="width: auto; font-size: large;" @fadeInOut *ngIf="collapsed">{{userName}}</div> -->
+    <button class="btn-tab" *ngIf="collapsed" (click)="closeSidenav()">
+      <i class="fal fa-bars"></i>
+    </button>
+  </div>
+
+  <div class="scrollwrap scrollwrap_delayed">
+    <ul class="sidenav-nav">
+      <label *ngIf="collapsed"
+             style="width: 100%; font-size: large; background-color: white; color: #212529; display: flex; align-items: center; justify-content: center; border-radius: 27px; margin-bottom: 10px;">
+        {{ userName }}
+      </label>
+<ng-container *ngFor="let data of navData">
+  <li
+    class="sidenav-nav-item"
+    *ngIf="data.permission && (!data.items || data.items.length === 0 || (data.items && data.items.length > 0))">
+
+      <!-- <ng-container *ngFor="let data of navData">
+        <li class="sidenav-nav-item" *ngIf="data.permission"> -->
+           <!-- <ng-container *ngIf="data.permission === true"> -->
+          <a class="sidenav-nav-link"
+             (click)="handleClick(data)"
+             *ngIf="data.items && data.items.length > 0"
+             [ngClass]="getActiveClass(data)">
+            <i class="sidenav-link-icon" [class]="data.icon"></i>
+            <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">{{ data.label }}</span>
+            <i *ngIf="data.items && collapsed"
+               class="menu-collapse-icon"
+               [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+          </a>
+
+          <a class="sidenav-nav-link"
+             *ngIf="!data.items || data.items.length === 0"
+             [routerLink]="[data.routeLink]"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }"
+             (click)="shrinkItems(data)">
+            <i class="sidenav-link-icon" [class]="data.icon"></i>
+            <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">{{ data.label }}</span>
+          </a>
+
+          <div *ngIf="collapsed && data.items && data.items.length > 0">
+            <app-sublevel-menu
+              [data]="data"
+              [collapsed]="collapsed"
+              [multiple]="multiple"
+              [expanded]="data.expanded">
+            </app-sublevel-menu>
+          </div>
+        </li>
+      </ng-container>
+
+      <button style="color: white;" mat-button class="menu-button" (click)="signoutClicked()">
+        <mat-icon style="color: white;">exit_to_app</mat-icon>
+        <span style="color: white;">SIGN OUT</span>
+      </button>
+    </ul>
+  </div>
+
+</div>
