@@ -1,0 +1,150 @@
+
+<!-- <div> -->
+    <!-- <div style="width: 90%;text-align: right; font-weight: bold;">
+        <span style="color: rgb(0, 0, 0);font-size: large;margin-right: 10px;position: relative;top: 10px;">Upcoming Holiday:
+          <span style="color:#00f;font-size: large;  margin-right: 10px;" > {{upComingHoliday.date | date:"dd-MMM-yyyy" }}</span>  
+          <span style="color: rgb(223, 15, 15);font-size: large;">{{upComingHoliday.description}}</span>
+        </span>
+      </div> -->
+      <div style="width: 90%;text-align: right; font-weight: bold;">
+        <span style="color: rgb(0, 0, 0);font-size: large;margin-right: 10px;position: relative;top: 10px;">Upcoming Holiday:
+          <span style="color:#00f; font-size: large; margin-right: 10px;">
+            {{ upComingHoliday?.date ? (upComingHoliday.date | date: "dd-MMM-yyyy") : '' }}
+          </span>
+          <span style="color: rgb(223, 15, 15); font-size: large;">
+            {{ upComingHoliday?.description || '' }}
+          </span>
+        </span>
+      </div>
+<div *ngIf="showClientDashboard">
+    <h2>Client Dashboard</h2>
+
+<div style="padding: 20px;"> <!-- Overall padding -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <div *ngFor="let cardItem of clientDashboardCardItems" style="flex: 1 1 calc(16.66% - 10px);">
+        <mat-card class="card" >
+            <mat-card-header  class="card-header" >
+              <mat-card-title >{{cardItem.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+                <div  *ngIf="clientDashboardloading">
+                    <div class="loader-text">Loading...</div>
+                </div>
+                <div *ngIf="!clientDashboardloading">{{cardItem.count}}</div>
+            </mat-card-content>
+            <mat-card-actions>
+                <p>since the beginning of the month</p>
+            </mat-card-actions>
+        
+        </mat-card>
+      </div>
+    </div>
+</div>
+
+</div>
+
+<div *ngIf="showAnalystDashboard">
+    <h2>Analyst Dashboard</h2>
+<div style="padding: 20px;"> <!-- Overall padding -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <div *ngFor="let cardItem of analystDashboardCardItems" style="flex: 1 1 calc(16.66% - 10px);">
+        <mat-card class="card" >
+            <mat-card-header  class="card-header" >
+              <mat-card-title >{{cardItem.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+                <div  *ngIf="analystDashboardloading">
+                    <div class="loader-text">Loading...</div>
+                </div>
+                <div *ngIf="!analystDashboardloading">{{cardItem.count}}</div>
+            </mat-card-content>
+            <mat-card-actions>
+                <p>since the beginning of the month</p>
+            </mat-card-actions>
+        
+        </mat-card>
+      </div>
+    </div>
+</div>
+
+</div>
+
+ 
+
+<div *ngIf="showTlDashboard">
+<h2>TL Dashboard</h2>
+<div style="padding: 20px;"> <!-- Overall padding -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <div *ngFor="let cardItem of tlDashboardCardItems" style="flex: 1 1 calc(16.66% - 10px);">
+        <mat-card class="card" >
+            <mat-card-header  class="card-header" >
+              <mat-card-title >{{cardItem.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+                <div  *ngIf="tlDashboardloading">
+                    <div class="loader-text">Loading...</div>
+                </div>
+                <div *ngIf="!tlDashboardloading">{{cardItem.count}}</div>
+            </mat-card-content>
+            <mat-card-actions>
+                <p>since the beginning of the month</p>
+            </mat-card-actions>
+        
+        </mat-card>
+      </div>
+    </div>
+</div>
+</div>
+
+<div *ngIf="showQualityDashboard">
+<h2>QC Dashboard</h2>
+<div style="padding: 20px;"> <!-- Overall padding -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <div *ngFor="let cardItem of qcDashboardCardItems" style="flex: 1 1 calc(16.66% - 10px);">
+        <mat-card class="card" >
+            <mat-card-header  class="card-header" >
+              <mat-card-title >{{cardItem.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+                <div  *ngIf="qcDashboardloading">
+                    <div class="loader-text">Loading...</div>
+                </div>
+                <div *ngIf="!qcDashboardloading">{{cardItem.count}}</div>
+            </mat-card-content>
+            <mat-card-actions>
+                <p>since the beginning of the month</p>
+            </mat-card-actions>
+        
+        </mat-card>
+      </div>
+    </div>
+</div>
+</div>
+
+
+<div *ngIf="showDataEntryDashboard">
+<h2>Inception Dashboard</h2>
+<div style="padding: 20px;"> <!-- Overall padding -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <div *ngFor="let cardItem of inceptionDashboardCardItems" style="flex: 1 1 calc(16.66% - 10px);">
+        <mat-card class="card" >
+            <mat-card-header  class="card-header" >
+              <mat-card-title >{{cardItem.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+                <div  *ngIf="inceptionDashboardloading">
+                    <div class="loader-text">Loading...</div>
+                </div>
+                <div *ngIf="!inceptionDashboardloading">{{cardItem.count}}</div>
+            </mat-card-content>
+            <mat-card-actions>
+                <p>since the beginning of the month</p>
+            </mat-card-actions>
+        
+        </mat-card>
+      </div>
+    </div>
+</div>
+</div>
+
+<!-- </div> -->

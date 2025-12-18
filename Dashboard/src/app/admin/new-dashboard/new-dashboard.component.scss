@@ -1,0 +1,48 @@
+.loader-text {
+    margin-top: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  
+h2{
+    margin-left: 20px;
+}
+.card {
+    width: auto;
+    min-width: 100px;
+    margin: 0;
+    padding: 10px; 
+    background-color: #5c5c5c;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset, 
+                rgba(0, 0, 0, 0.1) 0 3px 5px, 
+                rgba(0, 0, 0, 0.1) 0 10px 13px;
+    overflow: visible;
+    height: 150px; 
+    overflow: hidden; 
+    /* max-width: 800px; */
+  
+  }
+
+  .mat-card-header{
+    background: #14273b;
+    padding: 0px;
+    height: 40px;
+  }
+
+  .mat-card-header .mat-card-title {
+    line-height: 16px;
+    font-size: 16px;
+}
+
+  .mat-card-content{
+    text-align: center;
+    font-size: 16px;
+  }
+
+  p{
+    text-align: center;
+  }
