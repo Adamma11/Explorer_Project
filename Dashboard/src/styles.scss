@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Gudea&display=swap');
+/* styles.css */
+
+
+*:not(.fa):not(.fas):not(.far):not(.fal):not(.mat-icon){
+    font-family: 'Gudea', "Helvetica Neue", HelveticaNeue-Light, Helvetica, Arial, sans-serif;
+}
+html,
+body {
+    height: 100%;
+    // font-family: 'Gudea', "Helvetica Neue", HelveticaNeue-Light, Helvetica, Arial, sans-serif;
+}
+
+.modal-backdrop {
+    z-index: 0 !important;
+    -bs-backdrop-zindex: 0 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 0 !important;
+}
+
+.btn-rounded{
+    flex: 1;
+    padding: 3px !important;
+    // border-radius: 500px;
+    background-color: #002bff;
+    color: white;
+    border: 0px;
+  }
+
+.btn-save{
+  background: #bcbec0 !important;
+  color: black !important;
+  border: none !important;
+}
+
+.btn-cancel{
+  background: black !important;
+  color: white !important;
+  border: none !important;
+}
+
+// styles.scss
+
+// Import any other styles or libraries here
+
+// Your global styles
+
+// Responsive Styles
+@media only screen and (max-width: 600px) {
+    // Styles for screens smaller than or equal to 600px
+    body {
+      font-size: 14px;
+    }
+  
+    // Adjust other styles as needed
+  }
+  
+  @media only screen and (min-width: 601px) and (max-width: 1024px) {
+    // Styles for screens between 601px and 1024px
+    body {
+      font-size: 16px;
+    }
+  
+    // Adjust other styles as needed
+  }
+  
+  @media only screen and (min-width: 1025px) {
+    // Styles for screens larger than 1024px
+    body {
+      font-size: 18px;
+    }
+  
+    // Adjust other styles as needed
+  }
+  
+  // Additional global styles or overrides can go here
+  .form-card-group{
+    display: block;
+    color: #000000 !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    mat-label {
+      display: block;
+      color: #000000 !important;
+      font-weight: bold !important;
+      font-size: 15px !important;
+  
+      &.label-value {
+        color: black !important;
+      }
+    }
+  }
