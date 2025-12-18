@@ -1,0 +1,15 @@
+<!-- <p class="tagname">Analysis Code</p> -->
+<form [formGroup]="analysisTypeDetailsForm" (ngSubmit)="saveButtonClicked()">
+  <mat-card>
+    <mat-card-content>
+      <div class="form-group">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" [value]="selectedRow?.name">
+      </div>
+    </mat-card-content>
+    <div class="button-group">
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button mat-raised-button color="primary" (click)="cancelButtonClicked($event)">Cancel</button>
+  </div>
+  </mat-card>
+</form>

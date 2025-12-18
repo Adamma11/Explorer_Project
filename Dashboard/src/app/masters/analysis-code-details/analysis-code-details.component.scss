@@ -1,0 +1,79 @@
+*{
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif; 
+}
+
+.tagname{
+  align-items: center;
+  text-align: center;
+}
+
+
+.custom-form {
+  // max-width: 600px;
+  margin: 0 auto;
+  // padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+ 
+}
+
+.form-row{
+  display: grid;
+  grid-template-columns: repeat(3, 0.6fr);
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group mat-label {
+  display: block;
+  // margin-bottom: 8px;
+  // font-weight: 500;
+  color: #0136ff
+}
+
+.form-group input,
+.form-group mat-checkbox{
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.form-group textarea{
+  width: 300%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-group mat-select {
+  width: 90%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-row .checkbox{
+  display: flex;
+  align-items: center;
+}
+
+
+.button-group {
+  grid-column: span 2;
+  // margin-top: 16px;
+  margin: 5px 16px 12px;
+  text-align: right;
+}
+
+.button-group button {
+  margin-left: 8px;
+  height: 30px;
+  border-radius: 25px;
+}
