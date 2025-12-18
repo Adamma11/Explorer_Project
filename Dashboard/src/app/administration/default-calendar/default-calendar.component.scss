@@ -1,0 +1,21 @@
+
+@media screen and (min-width:1200px) {
+ 
+    .yearDropDown{
+        width:20% ;
+    }
+  }
+  
+  
+  @media screen and (max-width:1199px) {
+    
+    .yearDropDown{
+        width:50% ;
+    }  
+  }
+
+  .tagname {
+    text-align: center;
+    font-size: 30px;
+    font-family: inherit;
+  }
