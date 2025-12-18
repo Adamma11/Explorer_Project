@@ -1,0 +1,164 @@
+<h1 class="tagname">Update LHS - {{componentDisplayName}}</h1>
+<div>
+    <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+        <div  style="display: flex; flex-wrap: wrap;">
+            <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">All Doc’s:</h4>
+            <button
+    class="btn-rounded-1 fixed-size-btn"
+    *ngFor="let file of casedox"
+    style="margin-right: 10px; margin-left: 19px; margin-top: 5px;"
+    (click)="previewCaseDocFile(file)"
+  >
+    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+
+    <span (click)="downloadcdfFile(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+      <i class="fas fa-download"></i>
+    </span>
+  </button>
+        </div> 
+  <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+  <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+
+  <div  style="display: flex; flex-wrap: wrap;">
+    <h4  style="padding: 0px; margin: 0px;margin-left: 20px;">Uploaded Proofs:</h4>
+    <button class="btn-rounded-2" *ngFor="let file of proofsUploaded" style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;    " (click)="downloadProofOfWork(file)">{{ file }}</button>
+  </div>
+<mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+
+        <div class="mat-card">
+          <div class="document-card">
+            <h4 class="card-heading" style="padding: 0px; margin: 0px;">Case Information</h4>
+            <!-- <button class="btn-rounded" (click)="confirmButtonClicked()"> Confirm </button> -->
+          </div>
+          <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Case Id: <span style="color: black !important;">{{caseId}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Candidate Name: <span style="color: black !important;">{{candidateName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Client: <span style="color: black !important;">{{clientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Subclient: <span style="color: black !important;">{{subclientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+            </div>
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Father Name: <span style="color: black !important;">{{fathername}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{fathername}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>D.O.B: <span style="color: black !important;">{{dob | date:'dd-MMM-yyyy' }}</span>
+                </mat-label>
+                <!-- <mat-label class="label-value"> {{dob | date:'dd-MMM-yyyy' }}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Contact No: <span style="color: black !important;">{{number}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{contact}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Email Id: <span style="color: black !important;">{{emailid}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{emailid}}</mat-label> -->
+            </div>
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>D.O.J: <span style="color: black !important;">{{doj | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{doj}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Process: <span style="color: black !important;">{{process}}</span> </mat-label>
+                <!-- <mat-label class="label-value"> {{ process }}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Location: <span style="color: black !important;">{{place}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{place}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+              <mat-label>TAT Start: <span  style="color: black !important;">{{tatStartDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+            </div>
+            <div class="form-card-group">
+              <mat-label>TaT End: <span  style="color: black !important;">{{tatEndDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+            </div>
+
+        </div>
+        </div>
+
+<mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+
+
+<form [formGroup]="providedDetailsForm">
+  
+        <label style="color: white; background-color:#6b728d; display: flex ; justify-content: center;margin: 10px;">Provided Details</label>
+
+        <mat-card-content class="grid-content" style="margin: 10px;">
+            <div class="form-row" *ngFor="let componentField of componentFields">
+                <div class="form-group"
+                *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <input formControlName="{{componentField.name}}" matInput size="30" type="text"
+                        placeholder={{componentField.label}}>
+                </div>
+                <div class="form-group"
+                *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <textarea maxlength="{{componentField.size}}" rows="1" cols="30"
+                        formControlName="{{componentField.name}}" matInput size="30" type="text"
+                        placeholder={{componentField.label}}></textarea>
+                </div>
+                <div class="form-group"
+                *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <mat-select formControlName="{{componentField.name}}">
+                        <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                            <mat-option value={{val}}>{{val}}</mat-option>
+                        </ng-template>
+                    </mat-select>
+                </div>
+                <div class="form-group"
+                *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <input formControlName={{componentField.name}} matInput size="11" maxlength="11"
+                        type="date" placeholder={{componentField.label}}>
+                </div>
+            </div>
+        </mat-card-content>
+   
+</form>
+<fieldset>
+    <!-- <legend style="background-color: black;color: white;">Required Changes</legend> -->
+    <label style="color: white; background-color:#6b728d; display: flex ; justify-content: center; margin: 10px;">Required Changes</label>
+
+    <mat-form-field appearance="outline" style="margin: 10px;">
+        <textarea readonly matInput rows="3" cols="30" [(ngModel)]="changesRequired"></textarea>
+    </mat-form-field>
+</fieldset>
+<div >
+    <!-- <div fxFlex></div> -->
+    <button class="btn-rounded" mat-raised-button color="primary" (click)="saveStatusButtonClicked()">Save Status</button>
+</div>  
+<!-- <div *ngIf="showCandidateDocsDialog" cdkDrag style="padding:20px;position:absolute;left:20px;top:vh;width:800px;height:500px;background-color: white;"  class="mat-elevation-z3">
+    <div style="width:100%">
+        <div fxFlex></div><h3>{{displayedCandidateDocName}}</h3><div fxFlex></div>
+    </div>    
+    <ngx-extended-pdf-viewer  height="50vh" [src]="candidateDocBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>        
+    <div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+        <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeCandidateDocsDialog()">Close</button>
+    </div>
+</div>
+<div *ngIf="showProofOfWorkDialog" cdkDrag style="padding:20px;position:absolute;left:20px;top:vh;width:800px;height:500px;background-color: white;"  class="mat-elevation-z3">
+    <div style="width:100%">
+        <div fxFlex></div><h3>{{displayedProofOfWorkDocName}}</h3><div fxFlex></div>
+    </div>    
+    <ngx-extended-pdf-viewer  height="50vh" [src]="proofOfWorkDocBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>        
+    <div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+        <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeProofOfWorkDocsDialog()">Close</button>
+    </div>
+</div>      -->
+</div>
