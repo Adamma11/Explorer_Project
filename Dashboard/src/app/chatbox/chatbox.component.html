@@ -1,0 +1,123 @@
+<div style="margin: 20px;">
+  <!-- Close Button -->
+  <div fxLayout="row" style="display: flex; justify-content: end;">
+    <div fxFlex></div>
+    <button
+      (click)="cancelButtonClicked()"
+      style="display: flex; border-radius: 35px; justify-content: end; background-color: #33BABC;"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <h2 class="tagname">Case History</h2>
+  <mat-divider style="color: aqua; background-color: #33BABC;"></mat-divider>
+
+  <!-- List of comments + history -->
+  <ul>
+    <li *ngFor="let item of comments">
+      <!-- Comment -->
+      <ng-container *ngIf="item.type === 'COMMENT'">
+        <b>{{ item.user }}</b> - Date: {{ item.date | date: "dd-MMM-YY" }} :
+        Comment: {{ item.text }} :
+        <span *ngIf="item.colorType">Color: {{ item.colorType }}</span>
+      </ng-container>
+
+      <!-- History -->
+      <ng-container *ngIf="item.type === 'HISTORY'">
+        <i>System</i> - Date: {{ item.date | date: "dd-MMM-YY" }} :
+        {{ item.text }}
+      </ng-container>
+    </li>
+  </ul>
+
+  <!-- Add Comment Form -->
+  <form>
+    <div>
+      <!-- Color Type Dropdown -->
+      <mat-form-field style="width: 352px; margin-top: 10px;">
+        <mat-select name="colorType" (selectionChange)="statusSelectionChanged($event)">
+          <mat-option value="RED">
+            <div class="color-option">
+              <div class="color-box red"></div>
+              <span>Red</span>
+            </div>
+          </mat-option>
+          <mat-option value="BLUE">
+            <div class="color-option">
+              <div class="color-box blue"></div>
+              <span>Blue</span>
+            </div>
+          </mat-option>
+          <mat-option value="GREEN">
+            <div class="color-option">
+              <div class="color-box green"></div>
+              <span>Green</span>
+            </div>
+          </mat-option>
+          <mat-option value="VIOLET">
+            <div class="color-option">
+              <div class="color-box violet"></div>
+              <span>Violet</span>
+            </div>
+          </mat-option>
+          <mat-option value="INDIGO">
+            <div class="color-option">
+              <div class="color-box indigo"></div>
+              <span>Indigo</span>
+            </div>
+          </mat-option>
+          <mat-option value="YELLOW">
+            <div class="color-option">
+              <div class="color-box yellow"></div>
+              <span>Yellow</span>
+            </div>
+          </mat-option>
+          <mat-option value="ORANGE">
+            <div class="color-option">
+              <div class="color-box orange"></div>
+              <span>Orange</span>
+            </div>
+          </mat-option>
+          <mat-option value="PINK">
+            <div class="color-option">
+              <div class="color-box pink"></div>
+              <span>Pink</span>
+            </div>
+          </mat-option>
+          <mat-option value="GREY">
+            <div class="color-option">
+              <div class="color-box grey"></div>
+              <span>Grey</span>
+            </div>
+          </mat-option>
+          <mat-option value="PURPLE">
+            <div class="color-option">
+              <div class="color-box purple"></div>
+              <span>Purple</span>
+            </div>
+          </mat-option>
+        </mat-select>
+        <mat-label>Color Type</mat-label>
+      </mat-form-field>
+
+      <!-- Comment Textarea -->
+      <div class="input-container">
+        <textarea
+          type="text"
+          placeholder="Enter Your Comment Here"
+          #commentBox
+          name="comment"
+          [(ngModel)]="comment"
+          class="login-input"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" (click)="addComment()" class="login-button">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
