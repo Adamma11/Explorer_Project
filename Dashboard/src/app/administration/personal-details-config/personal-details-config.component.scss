@@ -1,0 +1,84 @@
+
+@media screen and (min-width:1200px) {
+    .col-sm-6{
+        margin-bottom: 0px;
+    }
+
+  
+  }
+  
+  
+  @media screen and (max-width:1199px) {
+    .personal-Details-feilds{
+        margin-top: 15px;
+        margin-bottom:15px ;
+        .col-sm-6{
+            margin-bottom: 15px;
+        }
+    }
+    
+
+  
+  }
+  
+//   :host ::ng-deep .mat-toolbar-multiple-rows{
+//     min-height: 50px !important;
+//     .mat-toolbar-row{
+//       height: 50px !important;
+//       h2{
+//         margin: 0px;
+//       }
+//     }
+//   }
+
+.tagname {
+  text-align: center;
+  font-size: 30px;
+  font-family: inherit;
+}
+
+.btn-rounded{
+  padding: 4px;
+  padding-left: 1.2em !important;
+  padding-right: 1.2em !important;
+  // border-radius: 500px;
+  // background-color: #002bff;
+  // color: white;
+  background-color: #bcbec0;
+  color: black;
+  border: 0px;
+  margin-left: 30px;
+  height: 47px
+}
+.add {
+  background: red;
+  color: white;
+  width: 80px;
+  display: flex;
+  border-radius: 36px;
+  margin-left: 70%;
+  border: none;
+  height: 27px;
+  margin: 6px;
+  margin-left: 77%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save{
+    /* display: flex; */
+    background: red;
+    color: white;
+    width: 80px;
+    display: flex;
+    border-radius: 36px;
+    /* margin: 92px; */
+    // margin-left: 75%;
+    border: none;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}

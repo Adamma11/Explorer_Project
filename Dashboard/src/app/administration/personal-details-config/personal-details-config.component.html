@@ -1,0 +1,122 @@
+<div class="container-fluid mt-3">
+    <!-- <mat-toolbar class="text-white  mb-0 mt-3">
+        <mat-toolbar-row class="justify-content-center">
+            <h2>Personal Details Configuration</h2>
+        </mat-toolbar-row>    
+    </mat-toolbar> -->
+    <h1 class="tagname">Personal Details Configuration</h1>
+
+    <div class="border">
+        <form [formGroup]="personalDetailsForm" class="my-1 mx-3">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 my-3">
+                    <mat-form-field appearance="outline" class="w-50">
+                        <input formControlName="displayName" type="text" matInput  placeholder="Display Name" required>
+                        <mat-label>Display Name</mat-label>
+                    </mat-form-field>
+                    <button class="btn-rounded"   (click)="addButtonClicked()" >
+                      Add
+                   </button>
+                    <button class="btn-rounded"  (click)="saveButtonClicked()" >
+                   Save
+                   </button>
+                    <!-- <button  matTooltip="Add"class="btn-rounded" (click)="addButtonClicked()">
+                      ADD
+                  </button> -->
+                </div>
+                
+            </div>
+         
+
+        </form>
+    </div>
+    <div class="border p-3">
+      <mat-toolbar class="second-toolbar">
+        <mat-toolbar-row style="background-color: #bcbec0;">
+            <h3 class="text-white" >Personal Details Fields</h3>
+            <!-- <button class="add"   (click)="addButtonClicked()" >
+             Add
+          </button>
+           <button class="save"  (click)="saveButtonClicked()" >
+          Save
+          </button> -->
+        </mat-toolbar-row>    
+       
+    </mat-toolbar>
+         <div class="container-fluid" style="overflow-y: auto; height: 400px;" cdkDropList (cdkDropListDropped)="drop($event)" class="pt-3">
+            <div *ngFor="let personalDetailsField of personalDetailsFields; let i = index" class="card mb-3" style="background-color: #edf1f3;">
+              <div class="card-body" cdkDrag>
+                <div class="row personal-Details-feilds">
+                  <div class="col-md-2 col-sm-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input [(ngModel)]="personalDetailsField.name" [value]="personalDetailsField.name" matInput type="text"
+                        placeholder="F col-lg-ield Name">
+                      <mat-label>Field Name</mat-label>
+                    </mat-form-field>
+                  </div>
+          
+                  <div class="col-md-2 col-sm-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-select [(ngModel)]="personalDetailsField.type" [value]="personalDetailsField.type" matInput>
+                        <mat-option value="TEXT">Text</mat-option>
+                        <mat-option value="SELECT">Select</mat-option>
+                        <mat-option value="CHECKBOX">Checkbox</mat-option>
+                        <mat-option value="NUMBER">Number</mat-option>
+                        <mat-option value="TEXTAREA">Textarea</mat-option>
+                        <mat-option value="EMAIL">Email</mat-option>
+                        <mat-option value="TELEPHONE">Telephone</mat-option>
+                        <mat-option value="URL">url</mat-option>
+                        <mat-option value="TIME">Time</mat-option>
+                        <mat-option value="DATE">Date</mat-option>
+                        <mat-option value="AC-UNI">Auto Complete - Universisty</mat-option>
+                        <mat-option value="AC-COM">Auto Complete - Company</mat-option>
+                        <mat-option value="AC-PIN">Auto Complete - PIN</mat-option>
+                      </mat-select>
+                      <mat-label>Type</mat-label>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-2 col-sm-6" *ngIf="personalDetailsField.type==='SELECT' || personalDetailsField.type==='RADIO' || personalDetailsField.type==='CHECKBOX'">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input [(ngModel)]="personalDetailsField.values" [value]="personalDetailsField.values" matInput type="text" placeholder="Values">
+                      <mat-label>Values</mat-label>
+                    </mat-form-field>
+                  </div>
+          
+                  <div class="col-md-2 col-sm-6" *ngIf="personalDetailsField.type !=='SELECT' && personalDetailsField.type !=='RADIO' && personalDetailsField.type !=='CHECKBOX'">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input [(ngModel)]="personalDetailsField.size" [value]="personalDetailsField.size" matInput type="number"
+                        placeholder="Size">
+                      <mat-label>Size</mat-label>
+                    </mat-form-field>
+                  </div>
+          
+                  <div class="col-md-2 col-sm-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <input [(ngModel)]="personalDetailsField.label" [value]="personalDetailsField.label" matInput type="text"
+                        placeholder="Label">
+                      <mat-label>Label</mat-label>
+                    </mat-form-field>
+                  </div>
+          
+                  <div class="col-md-1 col-sm-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="personalDetailsField.mandatory" id="checkbox{{i}}">
+                      <label class="form-check-label" for="checkbox{{i}}">
+                        Mandatory
+                      </label>
+                    </div>
+                  </div>
+          
+                  <div class="col-md-1 col-sm-6">
+                    <button mat-raised-button color="warn" (click)="deleteButtonClicked(personalDetailsField)">Delete
+                      <mat-icon>delete_forever</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div> 
+
+</div>
