@@ -1,0 +1,81 @@
+<div class="table-container">
+    <div class="main-container"> 
+        <p class="tagname">Users</p>
+         <mat-divider style="margin: 3px; color: aqua; background-color: #33BABC;" ></mat-divider>
+
+        <div class="table">
+            <div class="header">
+                <div class="table-header">
+                    <div class="filter-card">
+                      <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+                    </div>
+                    <button class="btn-rounded" (click)="addButtonClicked()">
+                        <!-- <mat-icon class="icon-display">add</mat-icon> -->
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <div >
+                    <table mat-table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="serialNumber">
+                            <th mat-header-cell *matHeaderCellDef > SL No. </th>
+                            <td mat-cell *matCellDef="let user;let i=index">{{(i+1) + (paginator.pageIndex * paginator.pageSize)}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="userId">
+                            <th mat-header-cell  *matHeaderCellDef mat-sort-header>User Id</th>
+                            <td mat-cell *matCellDef="let user">{{user.userId}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                            <td mat-cell *matCellDef="let user">{{user.name}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                            <td mat-cell *matCellDef="let user">{{user.status}}</td>
+                        </ng-container>  
+                        <ng-container matColumnDef="password">
+                            <th mat-header-cell *matHeaderCellDef>Password</th>
+                            <td mat-cell *matCellDef="let user">
+                                <!-- <button mat-icon-button (click)="editButtonClicked(user)" class="icon-button-small">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                </button> -->
+                                <i class="fa fa-key" aria-hidden="true" (click)="generatePasswordButtonClicked(user)" style="padding: 0px 5px; cursor: pointer; "></i>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="edit">
+                            <th mat-header-cell *matHeaderCellDef>Edit</th>
+                            <td mat-cell *matCellDef="let user">
+                                <!-- <button mat-icon-button (click)="editButtonClicked(user)" class="icon-button-small">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                </button> -->
+                                <i class="fa fa-pencil" aria-hidden="true" (click)="editButtonClicked(user)" style="padding: 0px 5px; cursor: pointer; "></i>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="delete">
+                            <th mat-header-cell *matHeaderCellDef>Delete</th>
+                            <td mat-cell *matCellDef="let user">                               
+                                <!-- <button mat-icon-button (click)="deleteButtonClicked(user)" inline="true" class="icon-button-small">
+                                    <mat-icon color="warn">delete_forever</mat-icon>
+                                </button> -->
+                                <i class="fa fa-trash" aria-hidden="true" (click)="deleteButtonClicked(user)" style="padding: 0px 5px; cursor: pointer; "></i>
+                            </td>
+                        </ng-container>
+                                         
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;let i=index;" ></tr>
+            
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons aria-label="Select page of periodic elements" class="mt-3"></mat-paginator>
+            
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- <div class="d-flex justify-content-between mt-3">
+    <div>
+    </div>
+    <div>
+        <button matTooltip="Go back" class="btn btn-dark text-white  mt-3 mx-3 save-button" (click)="backButtonClicked()" >Back</button>          
+    </div>
+</div> -->
