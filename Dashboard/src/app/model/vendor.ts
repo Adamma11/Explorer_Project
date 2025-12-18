@@ -1,0 +1,19 @@
+export interface Vendor {
+    _id:string;
+    name:string;
+    branch:string;
+    status:string;
+    gstin:string;
+    contactPerson:string;
+    telephone:string;
+    email:string;
+    address:string;
+    pinCode:string;
+    city:string;
+    state:string;
+    country:string;
+    includedPinRanges:any[];
+    excludedPinRanges:any[];
+    modifiedBy:string;    
+    selected:boolean;
+}

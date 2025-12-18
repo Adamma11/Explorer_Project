@@ -1,0 +1,20 @@
+export interface ClientContractComponent {
+    _id:string;
+    client:string;
+    clientContract:string;
+    component:string;
+    componentName:string;
+    displayName:string;
+    selected:boolean;
+    tat:number;
+    price:number;
+    verbalPrice:number;
+    onlinePrice:number;
+    pvPrice:number;
+    reimbursementAllowed:boolean;
+    reimbursementPrice:number;
+    closureModesAllowed:string;
+    interimClosureAllowed:boolean;
+    scopeOfWork:string;
+    modifiedBy:string;    
+}
