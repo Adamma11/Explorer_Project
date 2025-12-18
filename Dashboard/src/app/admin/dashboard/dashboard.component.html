@@ -1,0 +1,1394 @@
+<div>
+    <!-- <div *ngIf="showClientDashboardthree">
+        <div class="mini-card-container">
+          <div class="card" (click)="navigateToCaseStatus('initiationDate')">
+              <span class="card-title">Case Inflow</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.inflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner  class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Case Outflow</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.outflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+              <span class="card-title">WIP</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.wip }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+              <span class="card-title">Insuff</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.insuff }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+              <span class="card-title">Insuff + WIP</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.insuffWip }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+              <span class="card-title">Clients</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.clientCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="inflow-outlow-pending-frequency">
+          <div class="inflow-outflow">
+            <h2>Case Inflow and Outflow for this month</h2>
+            
+            <div style="width: 85vw;" *ngIf="caseInflowOutflowData && !caseInflowOutflowLoading">
+              <canvas
+              style="width: 100%;" 
+              baseChart width="1200"
+                height="360"
+                [type]="'line'"
+                [data]="caseInflowOutflowData"
+                [options]="caseInflowOutflowOptions"
+                [legend]="caseInflowOutflowLegend"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="caseInflowOutflowLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner ></mat-spinner></div>
+            </div>
+          </div>
+
+
+      
+        </div>
+        
+        <div class="case-initiation-grading">
+          <div class="case-initiation">
+            <h2>Case Initiation</h2>
+            <div class="messageContainer">
+              <div class="overlay" *ngIf="caseInitiationOverlay">
+                <p>Click on a bar to see the date-wise graph</p>
+              </div>
+              <div class="overlay" *ngIf="!caseInitiationOverlay">
+                <p>Clieck on month button to see month-wise graph</p>
+              </div>
+              <button *ngIf="!caseInitiationOverlay" mat-button style="background-color: #ed7014;color: #FFF;float: right;"  (click)="this.getLastSixMonthsCaseInitiationCount()">
+                Month
+              </button>
+            </div>
+           
+      
+            <div *ngIf="caseInitiationData && !caseInitiationLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'bar'"
+                [data]="caseInitiationData"
+                [options]="caseInitiationOptions"
+                [legend]="caseInitiationLegend"
+                (chartClick)="onMonthSelectForCaseInitiation($event)"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="caseInitiationLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        
+          <div class="grading-color">
+            <h2>Cases Breakdown By Grading</h2>
+            <div class="sub-container">
+              <div *ngIf="gradingColorData && !gradingColorLoading">
+                <canvas
+                baseChart
+                [type]="'pie'"
+                [data]="gradingColorData"
+                [options]="gradingColorOptions"
+                [legend]="gradingColorLegend"
+              >
+              </canvas>
+              </div>
+              <div *ngIf="gradingColorLoading" class="loading-container">
+                <div class="loading-text"><mat-spinner></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="outputqc-initiatedCasesChecks">
+          <div class="outputqc-completed">
+            <h2>Completed cases</h2>
+            <div class="messageContainer">
+              <div class="overlay" *ngIf="OutputQcCompletionOverlay">
+                <p>Click on a bar to see the date-wise graph</p>
+              </div>
+              <div class="overlay" *ngIf="!OutputQcCompletionOverlay">
+                <p>Clieck on month button to see month-wise graph</p>
+              </div>
+              <button *ngIf="!OutputQcCompletionOverlay" mat-button style="background-color: #ed7014;color: #FFF;float: right;"  (click)="this.getLastSixMonthsOutputQcCompletionCount()">
+                Month
+              </button>
+            </div>
+           
+      
+            <div *ngIf="outputQcCompletionData && !outputQcCompletionLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'bar'"
+                [data]="outputQcCompletionData"
+                [options]="outputQcCompletionOptions"
+                [options]="dataForChart"
+                [legend]="outputQcCompletionLegend"
+                (chartClick)="onMonthSelectForOutputQcCompletion($event)"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="outputQcCompletionLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        
+          <div class="initiated-cases-checks">
+            <h2>Checks For Initiated Cases</h2>
+            <div *ngIf="initiatedCasesChecksData && !initiatedCasesChecksLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'bar'"
+                [data]="initiatedCasesChecksData"
+                [options]="initiatedCasesChecksOptions"
+                [legend]="initiatedCasesChecksLegend"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="initiatedCasesChecksLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        </div>
+    
+    
+      </div> -->
+    
+
+      <div *ngIf="showClientDashboardthree">
+        <div class="mini-card-container">
+      
+          <!-- /////sep19-modified// -->
+            <div class="card green" (click)="navigateToCaseStatus('initiationDate')">
+              <span class="card-title">
+   Over All Open BGV's  <span class="blue-arrow" 
+          (click)="goToDecaseList($event)">&gt;</span>
+  </span>
+            <div class="card-content">
+              <!-- <h4 *ngIf="!caseDataForDashboardLoading">{{ unallocatedForAllBgv }}</h4> -->
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ combinedCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner  class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+           <div class="card orange" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">case pending DE <span class="blue-arrow" (click)="goTopendingDeCase($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseCounts?.['DE-ALLOCATED'] }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card blue" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Pending Inception QC <span class="blue-arrow" (click)="goInceptionQc($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseCounts?.['DE-COMPLETED'] }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+<!-- <div class="card">
+  <span class="card-title">Unallocated checks</span>
+  <div class="card-content">
+    <h4>{{ unallocatedCount }}</h4>
+  </div>
+</div> -->
+
+
+
+
+             <div class="card purple" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Unallocated checks-- <span class="blue-arrow" 
+                (click)="getUnalocatedCheks($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ unallocatedCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+           <div class="card teal" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Insufficiency <span class="blue-arrow"
+                (click)="getInsuffdata($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ insuffCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+
+            <div class="card yellow" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">BGV's on Hold <span class="blue-arrow"
+                (click)="getOnHold($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ onHoldCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+          
+
+            <!-- <div class="card" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Interim QC Pending <span class="blue-arrow">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseCounts?.['MENTOR-REVIEW']}}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="card pink" (click)="navigateToCaseStatus('mentorReview')">
+  <span class="card-title">
+    Interim QC Pending <span class="blue-arrow"
+    (click)="getPendingInterimQc($event)">&gt;</span>
+  </span>
+  <div class="card-content">
+    <h4 *ngIf="!caseDataForDashboardLoading">{{ mentorReviewCount }}</h4>
+    <div *ngIf="caseDataForDashboardLoading">
+      <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+    </div>
+  </div>
+</div>
+
+
+          <div class="card indigo" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Final QC Pending <span class="blue-arrow"
+                (click)="getPedingFinalQc($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseCounts?.['MENTOR-REVIEW-ACCEPTED'] }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+<!-- Repeat similar for INPUTQC-REJECTED, DE-COMPLETED, MENTOR-REVIEW, MENTOR-REVIEW-ACCEPTED -->
+
+
+          <!-- sep-15 case pending DE -->
+
+          <div class="card cyan" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Single Check Pending <span class="blue-arrow"
+                (click)="getSinglecheckPeding($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ mentorReviewCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card lime" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">All Checks Completed <span class="blue-arrow"
+                (click)="getAllchecksCompleted($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ outputQcAcceptedCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="card brown" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Cases Received <span class="blue-arrow">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseInitiationTotal }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- <div class="card gray" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Components Received<span class="blue-arrow">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.outflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+
+           <!-- <div class="card" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">BGV's Closed within TAT<span class="blue-arrow">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.outflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">BGV's Closed Beyond TAT<span class="blue-arrow">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.outflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+
+<div class="card rose">
+  <span class="card-title">Closed within TAT <span class="blue-arrow">&gt;</span></span>
+  <div class="card-content">
+    <h4 *ngIf="!tatTrendLoading">{{ inTatTotal }}</h4>
+    <div *ngIf="tatTrendLoading">
+      <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+    </div>
+  </div>
+</div>
+
+<div class="card amber">
+  <span class="card-title">Closed Beyond TAT <span class="blue-arrow">&gt;</span></span>
+  <div class="card-content">
+    <h4 *ngIf="!tatTrendLoading">{{ outTatTotal }}</h4>
+    <div *ngIf="tatTrendLoading">
+      <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+    </div>
+  </div>
+</div>
+
+
+          <div class="card slate" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Cost Approval Pending<span class="blue-arrow" 
+                 (click)="getAllcostApprovalPending($event)">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ insuffCount }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- <div class="card" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Clarification Pending<span class="blue-arrow">&gt;</span></span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.outflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- /////end sep19-modified// -->
+
+
+          <!-- <div class="card" (click)="navigateToCaseStatus('initiationDate')">
+              <span class="card-title">Case Inflow</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.inflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner  class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" (click)="navigateToCaseStatus('completionDate')">
+              <span class="card-title">Case Outflow</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.outflow }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+              <span class="card-title">WIP</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.wip }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+        
+          <!-- <div class="card" (click)="navigateToCaseStatus('pending')">
+              <span class="card-title">Insuff</span>
+            <div class="card-content">
+              <h4 *ngIf="!caseDataForDashboardLoading">{{ caseDataForDashboard?.insuff }}</h4>
+              <div *ngIf="caseDataForDashboardLoading">
+                <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+        
+        </div>
+        
+        <div class="inflow-outlow-pending-frequency">
+          <!-- <div class="inflow-outflow">
+            <h2>Case Inflow and Outflow for this month</h2> -->
+            <!-- <div *ngIf="caseInflowOutflowData && !caseInflowOutflowLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'line'"
+                [data]="caseInflowOutflowData"
+                [options]="caseInflowOutflowOptions"
+                [legend]="caseInflowOutflowLegend"
+              >
+              </canvas>
+            </div> -->
+            <!-- <div style="width: 85vw;" *ngIf="caseInflowOutflowData && !caseInflowOutflowLoading">
+              <canvas
+              style="width: 100%;" 
+              baseChart width="1200"
+                height="360"
+                [type]="'line'"
+                [data]="caseInflowOutflowData"
+                [options]="caseInflowOutflowOptions"
+                [legend]="caseInflowOutflowLegend"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="caseInflowOutflowLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner ></mat-spinner></div>
+            </div>
+          </div> -->
+
+
+        <!-- venky 02/jan/2025 -->
+
+          <!-- <div class="pending-frequency">
+            <h2>Pending Frequency Bucket</h2>
+            <div class="sub-container">
+              <div *ngIf="pendingFrequencyBucketData && !pendingFrequencyBucketLoading">
+                <canvas
+                  baseChart
+                  [type]="'pie'"
+                  [data]="pendingFrequencyBucketData"
+                  [options]="pendingFrequencyBucketOptions"
+                  [legend]="pendingFrequencyBucketLegend"
+                >
+                </canvas>
+              </div>
+              <div *ngIf="pendingFrequencyBucketLoading" class="loading-container">
+                <div class="loading-text"><mat-spinner></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- <div class="initiated-cases-checks">
+  <h4>
+    <strong>Total Component Received Trend</strong>
+    <span style="margin-left: 10px; color: #555;">
+     <strong> {{ monthLabel }}</strong>
+    </span>
+  </h4>
+  <div *ngIf="initiatedCasesChecksData && !initiatedCasesChecksLoading">
+    <canvas
+      baseChart
+      width="800"
+      height="380"
+      [type]="'bar'"
+      [data]="initiatedCasesChecksData"
+      [options]="initiatedCasesChecksOptions"
+      [legend]="initiatedCasesChecksLegend"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+  <div *ngIf="initiatedCasesChecksLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div> -->
+
+<div class="initiated-cases-checks">
+  <h2>Case Initiation vs Total Components Received Trend</h2>
+  <span style="margin-left: 10px; color: #555;">
+     <strong> {{ monthLabel }}</strong>
+    </span>
+  <div *ngIf="mergedCaseComponentData && !mergedCaseComponentLoading">
+    <canvas
+      baseChart
+      width="800"
+      height="380"
+      [type]="'bar'"
+      [data]="mergedCaseComponentData"
+      [options]="initiatedCasesChecksOptions"
+      [legend]="initiatedCasesChecksLegend"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+  <div *ngIf="mergedCaseComponentLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div>
+        </div>
+        
+ 
+        <div class="outputqc-initiatedCasesChecks">
+          <!-- <div class="outputqc-completed">
+            <h2>Completed cases</h2>
+            <div class="messageContainer">
+              <div class="overlay" *ngIf="OutputQcCompletionOverlay">
+                <p>Click on a bar to see the date-wise graph</p>
+              </div>
+              <div class="overlay" *ngIf="!OutputQcCompletionOverlay">
+                <p>Clieck on month button to see month-wise graph</p>
+              </div>
+              <button *ngIf="!OutputQcCompletionOverlay" mat-button style="background-color: #ed7014;color: #FFF;float: right;"  (click)="this.getLastSixMonthsOutputQcCompletionCount()">
+                Month
+              </button>
+            </div>
+           
+      
+            <div *ngIf="outputQcCompletionData && !outputQcCompletionLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'bar'"
+                [data]="outputQcCompletionData"
+                [options]="outputQcCompletionOptions"
+                [options]="dataForChart"
+                [legend]="outputQcCompletionLegend"
+                (chartClick)="onMonthSelectForOutputQcCompletion($event)"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="outputQcCompletionLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div> -->
+        
+          <!-- <div class="initiated-cases-checks">
+            <h2>Checks For Initiated Cases</h2>
+            <div *ngIf="initiatedCasesChecksData && !initiatedCasesChecksLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'bar'"
+                [data]="initiatedCasesChecksData"
+                [options]="initiatedCasesChecksOptions"
+                [legend]="initiatedCasesChecksLegend"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="initiatedCasesChecksLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div> -->
+
+
+
+
+  <div class="case-initiation-grading">
+   <!-- <div class="case-initiation">
+            <h2>Case Initiation</h2>
+            <div class="messageContainer">
+              <div class="overlay" *ngIf="caseInitiationOverlay">
+                <p>Click on a bar to see the date-wise graph</p>
+              </div>
+              <div class="overlay" *ngIf="!caseInitiationOverlay">
+                <p>Clieck on month button to see month-wise graph</p>
+              </div>
+              <button *ngIf="!caseInitiationOverlay" mat-button style="background-color: #ed7014;color: #FFF;float: right;"  (click)="this.getLastSixMonthsCaseInitiationCount()">
+                Month
+              </button>
+            </div>
+           
+            <div *ngIf="caseInitiationData && !caseInitiationLoading">
+              <canvas
+                baseChart
+                width="700"
+                height="360"
+                [type]="'bar'"
+                [data]="caseInitiationData"
+                [options]="caseInitiationOptions"
+                [legend]="caseInitiationLegend"
+                (chartClick)="onMonthSelectForCaseInitiation($event)"
+              >
+              </canvas>
+            </div>
+            <div *ngIf="caseInitiationLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>  -->
+
+<!-- <div class="tatGraph">
+  <h4><strong>Monthly TAT Trend</strong></h4>
+
+  <div style="margin-bottom:10px;">
+    <button mat-button (click)="onTatFilterChange('inTat')" [disabled]="tatFilter==='inTat'">
+      In TAT (Initiated)
+    </button>
+    <button mat-button (click)="onTatFilterChange('outTat')" [disabled]="tatFilter==='outTat'">
+      Out TAT (Ended)
+    </button>
+  </div>
+
+  <div *ngIf="tatTrendData && !tatTrendLoading">
+    <canvas
+      baseChart
+      width="350"
+      height="230"
+      [type]="'bar'"
+      [data]="tatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="true"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+
+  <div *ngIf="tatTrendLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div> -->
+        
+<!-- 
+<div class="tatGraph">
+  <h4><strong>Monthly TAT Trend</strong></h4>
+
+  <div *ngIf="inTatTrendData && !tatTrendLoading">
+    <h5>In TAT (Initiated)</h5>
+    <canvas
+      baseChart
+      width="350"
+      height="230"
+      [type]="'bar'"
+      [data]="inTatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="true"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+
+  <div *ngIf="outTatTrendData && !tatTrendLoading" style="margin-top: 20px;">
+    <h5>Out of TAT (Ended)</h5>
+    <canvas
+      baseChart
+      width="350"
+      height="230"
+      [type]="'bar'"
+      [data]="outTatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="true"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+
+  <div *ngIf="tatTrendLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div> -->
+<!-- 
+          <div class="grading-color">
+            <h2>Cases Breakdown By Grading</h2>
+            <div class="sub-container">
+              <div *ngIf="gradingColorData && !gradingColorLoading">
+                <canvas
+                baseChart
+                [type]="'pie'"
+                [data]="gradingColorData"
+                [options]="gradingColorOptions"
+                [legend]="gradingColorLegend"
+              >
+              </canvas>
+              </div>
+              <div *ngIf="gradingColorLoading" class="loading-container">
+                <div class="loading-text"><mat-spinner></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+          
+<div class="tat-grading-container">
+  <!-- In TAT -->
+  <div class="graph-card" *ngIf="inTatTrendData && !tatTrendLoading">
+    <h5>In TAT</h5>
+    <canvas
+      baseChart
+      [type]="'bar'"
+      [data]="inTatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="true"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+
+  <!-- Out TAT -->
+  <div class="graph-card" *ngIf="outTatTrendData && !tatTrendLoading">
+    <h5>Out of TAT</h5>
+    <canvas
+      baseChart
+      [type]="'bar'"
+      [data]="outTatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="true"
+      [plugins]="[ChartDataLabels]">
+    </canvas>
+  </div>
+
+  <!-- Grading Breakdown -->
+  <div class="graph-card" *ngIf="gradingColorData && !gradingColorLoading">
+    <h5>Cases Breakdown By Grading</h5>
+    <canvas
+      baseChart
+      [type]="'pie'"
+      [data]="gradingColorData"
+      [options]="gradingColorOptions"
+      [legend]="gradingColorLegend">
+    </canvas>
+  </div>
+</div>
+        </div>
+        </div>
+
+        <!-- ///added code sep-19// -->
+         <!-- <div class="initiated-cases-checks">
+  <h4><strong>Cases Within TAT vs Beyond TAT</strong></h4>
+
+  <div *ngIf="tatStatsData && !tatStatsLoading">
+    <canvas
+      baseChart
+      width="800"
+      height="380"
+      [type]="'bar'"
+      [data]="tatStatsData"
+      [options]="tatStatsOptions"
+      [legend]="tatStatsLegend">
+    </canvas>
+  </div>
+
+  <div *ngIf="tatStatsLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div> -->
+        <!-- ///added ended sep-19// -->
+
+        <!-- sep-20 aded code -->
+    
+        <!-- <div class="initiated-cases-checks">
+  <h4><strong>%age TAT Closure</strong></h4>
+
+  <div style="margin-bottom:10px;">
+    <button mat-button (click)="onTatFilterChange('inTatPercent')" [disabled]="tatFilter==='inTatPercent'">In TAT</button>
+    <button mat-button (click)="onTatFilterChange('outTatPercent')" [disabled]="tatFilter==='outTatPercent'">Out of TAT</button>
+  </div>
+
+  <div *ngIf="tatTrendData && !tatTrendLoading">
+    <canvas
+      baseChart
+      width="800"
+      height="380"
+      [type]="'bar'"
+      [data]="tatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="tatTrendLegend"
+      [plugins]="[ChartDataLabels]">  
+    </canvas>
+  </div>
+
+  <div *ngIf="tatTrendLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div> -->
+<!-- sep-20 code end -->
+
+<!-- <div class="initiated-cases-checks">
+  <h4><strong>Monthly TAT Trend</strong></h4>
+
+  <div *ngIf="tatTrendData && !tatTrendLoading">
+    <canvas
+      baseChart
+      width="800"
+      height="380"
+      [type]="'bar'"
+      [data]="tatTrendData"
+      [options]="tatTrendOptions"
+      [legend]="true">
+    </canvas>
+  </div>
+
+  <div *ngIf="tatTrendLoading" class="loading-container">
+    <div class="loading-text"><mat-spinner></mat-spinner></div>
+  </div>
+</div> -->
+
+
+
+      </div>
+    
+
+
+      <div *ngIf="showAnalystDashboardtwo">
+        <h2>Analyst Dashboard</h2>
+          <!-- <div class="mini-card-container">
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"> Checks Closed </span>
+                </div>
+                <div class="card-content">
+                  <h4 *ngIf="!closedChecksCountLoading">{{ closedChecks }}</h4>
+                  <div *ngIf="closedChecksCountLoading">
+                    <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"> Checks Pending </span>
+                </div>
+                <div class="card-content">
+                  <h4 *ngIf="!pendingChecksCountLoading">{{ pendingChecks }}</h4>
+                  <div *ngIf="pendingChecksCountLoading">
+                    <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"> WIP </span>
+                </div>
+                <div class="card-content">
+                  <h4 *ngIf="!wipChecksCountLoading">{{ wipChecks }}</h4>
+                  <div *ngIf="wipChecksCountLoading">
+                    <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"> Approached TAT </span>
+                </div>
+                <div class="card-content">
+                  <h4 *ngIf="!noOfApproachedTATLoading">{{ noOfApprochedTatChecks }}</h4>
+                  <div *ngIf="noOfApproachedTATLoading">
+                    <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                  <span class="card-title"> Beyond TAT </span>
+                </div>
+                <div class="card-content">
+                  <h4 *ngIf="!noOfBeyondTATLoading">{{ noOfBeyondTatChecks }}</h4>
+                  <div *ngIf="noOfBeyondTATLoading">
+                    <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+            </div>
+            
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"> Efforts </span>
+                </div>
+                <div class="card-content">
+                  <h4 *ngIf="!noOfEffortsOnTodayLoading">{{noOfEffortsOnToday}}</h4>
+                  <div *ngIf="noOfEffortsOnTodayLoading">
+                    <div class="loading-text"><mat-spinner class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+            
+            </div> -->
+
+
+            <div style="padding: 20px;"> 
+
+              <div class="mini-card-container">
+                <ng-container *ngFor="let cardItem of analystDashboardCardItems">
+                <div class="card">
+                  <span class="card-title">{{cardItem.title}}</span>
+                <div class="card-content">
+                  <h4 *ngIf="!analystDashboardloading">{{cardItem.count}}</h4>
+                  <div *ngIf="analystDashboardloading">
+                    <div class="loading-text"><mat-spinner  class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+              </div>
+          </div>
+
+
+
+            <div class="completed-pending-checks-outer-container">
+              <div class="completed-pending-checks">
+                <h2>Checks For Initiated Cases</h2>
+                <div *ngIf="checksVSPendingData && !checksVSPendingLoading">
+                  <canvas
+                    baseChart
+                    width="700"
+                    height="360"
+                    [type]="'bar'"
+                    [data]="checksVSPendingData"
+                    [options]="checksVSPendingOptions"
+                    [legend]="checksVSPendingLegend"
+                  >
+                  </canvas>
+                </div>
+                <div *ngIf="checksVSPendingLoading" class="loading-container">
+                  <div class="loading-text"><mat-spinner></mat-spinner></div>
+                </div>
+              </div>
+              <div class="no-of-efforts-per-day">
+                <h2>No Of Efforts Per Day</h2>
+                <div class="sub-container">
+                  <div *ngIf="noOfEffortsPerDayData && !noOfEffortsPerDayLoading">
+                    <canvas
+                      baseChart
+                      width="700"
+                      height="360"
+                      [type]="'line'"
+                      [data]="noOfEffortsPerDayData"
+                      [options]="noOfEffortsPerDayDataOptions"
+                      [legend]="noOfEffortsPerDayDataLegend"
+                    >
+                    </canvas>
+                  </div>
+                  <div *ngIf="noOfEffortsPerDayLoading" class="loading-container">
+                    <div class="loading-text"><mat-spinner></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+    
+    
+      </div>
+     
+      <div *ngIf="showTlDashboard">
+        <h2>TL Dashboard</h2>
+        <div style="padding: 20px;">
+          <div class="mini-card-container">
+              <ng-container *ngFor="let cardItem of tlDashboardCardItems">
+              <div class="card">
+                <span class="card-title">{{cardItem.title}}</span>
+              <div class="card-content">
+                <h4 *ngIf="!tlDashboardloading">{{cardItem.count}}</h4>
+                <div *ngIf="tlDashboardloading">
+                  <div class="loading-text"><mat-spinner  class="mini-card-spinner"></mat-spinner></div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+            </div>
+      </div>
+        <!-- <div class="mini-card-container">
+        <div class="card" >
+            <div class="card-header">
+              <span class="card-title">TL Completed</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!tlPendingAndCompletedChecksForMonthCountLoading">
+                {{ tlCompletedChecksCount }}
+              </h4>
+              <div *ngIf="tlPendingAndCompletedChecksForMonthCountLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">TL Pending</span>
+          </div>
+          <div class="card-content">
+            <h4 *ngIf="!tlPendingAndCompletedChecksForMonthCountLoading">
+              {{ tlPendingChecksCount }}
+            </h4>
+            <div *ngIf="tlPendingAndCompletedChecksForMonthCountLoading">
+              <div class="loading-text">
+                <mat-spinner class="mini-card-spinner"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" >
+          <div class="card-header">
+            <span class="card-title">Mentor Pending</span>
+          </div>
+          <div class="card-content">
+            <h4 *ngIf="!tlPendingAndCompletedChecksForMonthCountLoading">
+              {{tlMentorPending}}
+            </h4>
+            <div *ngIf="tlPendingAndCompletedChecksForMonthCountLoading">
+              <div class="loading-text">
+                <mat-spinner class="mini-card-spinner"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="card" >
+          <div class="card-header">
+            <span class="card-title">Insuff</span>
+          </div>
+          <div class="card-content">
+            <h4 *ngIf="true">
+              0
+            </h4>
+            <div *ngIf="false">
+              <div class="loading-text">
+                <mat-spinner class="mini-card-spinner"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="card" >
+          <div class="card-header">
+            <span class="card-title">Insuff + WIP</span>
+          </div>
+          <div class="card-content">
+            <h4 *ngIf="true">
+              0
+            </h4>
+            <div *ngIf="false">
+              <div class="loading-text">
+                <mat-spinner class="mini-card-spinner"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="card" >
+          <div class="card-header">
+            <span class="card-title">Clients</span>
+          </div>
+          <div class="card-content">
+            <h4 *ngIf="true">
+              0
+            </h4>
+            <div *ngIf="false">
+              <div class="loading-text">
+                <mat-spinner class="mini-card-spinner"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+      
+     
+      <div *ngIf="showManagmentDashboard">
+        <h2>Client Dashboard</h2>
+        <div style="padding: 20px;">
+            <div class="mini-card-container">
+                <ng-container *ngFor="let cardItem of clientDashboardCardItems">
+                <div class="card">
+                  <span class="card-title">{{cardItem.title}}</span>
+                <div class="card-content">
+                  <h4 *ngIf="!clientDashboardloading">{{cardItem.count}}</h4>
+                  <div *ngIf="clientDashboardloading">
+                    <div class="loading-text"><mat-spinner  class="mini-card-spinner"></mat-spinner></div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+              </div>
+        </div>
+
+
+
+        <!-- <form class="client_form">
+          <div class="form-content-left">
+            <mat-form-field class="client_form_width" appearance="fill">
+              <mat-label>Client</mat-label>
+              <input type="text" placeholder="Pick one" aria-label="Client" matInput [formControl]="ManagementClientNameControl"
+                [matAutocomplete]="auto" (input)="onChangeClientName($event)" />
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                (optionSelected)="onClientNameOptionSelected($event)">
+                <mat-option *ngFor="let option of ManagementFilteredClientNames | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div *ngIf="!ManagementcaseDataForDashboardLoading">
+              <button (click)="topTenClientsHandler()">Top 10 Clients</button>
+            </div>
+        
+            <div *ngIf="!ManagementcaseDataForDashboardLoading">
+              <button (click)="topTwentyClientsHandler()">Top 20 Clients</button>
+            </div>
+        
+          </div>
+        
+          <div class="form-content-right">
+        
+            <div style="float: right;">
+              <button (click)="refreshPage()">Refresh Page</button>
+            </div>
+          </div>
+        
+        
+        </form>
+        <div class="mini-card-container">
+          <div class="card" (click)="navigateToCaseStatus('initiationDate')">
+            <div class="card-header">
+              <span class="card-title">Case Inflow</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!ManagementcaseDataForDashboardLoading">
+                {{ ManagementFilteredCaseDataForDashboard?.inflow }}
+              </h4>
+              <div *ngIf="ManagementcaseDataForDashboardLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" (click)="navigateToCaseStatus('completionDate')">
+            <div class="card-header">
+              <span class="card-title">Case Outflow</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!ManagementcaseDataForDashboardLoading">
+                {{ ManagementFilteredCaseDataForDashboard?.outflow }}
+              </h4>
+              <div *ngIf="ManagementcaseDataForDashboardLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+            <div class="card-header">
+              <span class="card-title">WIP</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!ManagementcaseDataForDashboardLoading">
+                {{ ManagementFilteredCaseDataForDashboard?.wip }}
+              </h4>
+              <div *ngIf="ManagementcaseDataForDashboardLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+            <div class="card-header">
+              <span class="card-title">Insuff</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!ManagementcaseDataForDashboardLoading">
+                {{ ManagementFilteredCaseDataForDashboard?.insuff }}
+              </h4>
+              <div *ngIf="ManagementcaseDataForDashboardLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+            <div class="card-header">
+              <span class="card-title">Insuff + WIP</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!ManagementcaseDataForDashboardLoading">
+                {{ ManagementFilteredCaseDataForDashboard?.insuffWip }}
+              </h4>
+              <div *ngIf="ManagementcaseDataForDashboardLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="card" (click)="navigateToCaseStatus('pending')">
+            <div class="card-header">
+              <span class="card-title">Clients</span>
+            </div>
+            <div class="card-content">
+              <h4 *ngIf="!ManagementcaseDataForDashboardLoading">
+                {{ ManagementFilteredCaseDataForDashboard?.clientCount }}
+              </h4>
+              <div *ngIf="ManagementcaseDataForDashboardLoading">
+                <div class="loading-text">
+                  <mat-spinner class="mini-card-spinner"></mat-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        
+        <div class="inflow-outlow-pending-frequency">
+          <div class="inflow-outflow">
+            <h2>Case Inflow and Outflow for this month</h2>
+            <!-- <div *ngIf="ManagementcaseInflowOutflowData && !ManagementCaseInflowOutflowLoading">
+              <canvas baseChart width="700" height="360" [type]="'line'" [data]="ManagementcaseInflowOutflowData"
+                [options]="ManagementCaseInflowOutflowOptions" [legend]="ManagementCaseInflowOutflowLegend">
+              </canvas>
+            </div> -->
+            <div style="width: 85vw;" *ngIf="ManagementcaseInflowOutflowData && !ManagementCaseInflowOutflowLoading">
+              <canvas style="width: 100%;" baseChart width="1200" height="360" [type]="'line'" [data]="ManagementcaseInflowOutflowData"
+                      [options]="ManagementCaseInflowOutflowOptions" [legend]="ManagementCaseInflowOutflowLegend">
+              </canvas>
+            </div>
+            <div *ngIf="ManagementCaseInflowOutflowLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        
+          <!-- venky 02/jan/2025 -->
+
+          <!-- <div class="pending-frequency">
+            <h2>Pending Frequency Bucket</h2>
+            <div class="sub-container">
+              <div *ngIf="ManagementPendingFrequencyBucketData && !ManagementPendingFrequencyBucketLoading">
+                <canvas baseChart [type]="'pie'" [data]="ManagementPendingFrequencyBucketData" [options]="ManagementPendingFrequencyBucketOptions"
+                  [legend]="ManagementPendingFrequencyBucketLegend">
+                </canvas>
+              </div>
+              <div *ngIf="ManagementPendingFrequencyBucketLoading" class="loading-container">
+                <div class="loading-text"><mat-spinner></mat-spinner></div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+        
+        <div class="case-initiation-grading">
+          <div class="case-initiation">
+            <h2>Case Initiation</h2>
+            <div class="messageContainer">
+              <div class="overlay" *ngIf="ManagementCaseInitiationOverlay">
+                <p>Click on a bar to see the date-wise graph</p>
+              </div>
+              <div class="overlay" *ngIf="!ManagementCaseInitiationOverlay">
+                <p>Clieck on month button to see month-wise graph</p>
+              </div>
+              <button *ngIf="!ManagementCaseInitiationOverlay" mat-button style="background-color: #ed7014; color: #fff; float: right"
+                (click)="managementGetLastSixMonthsCaseInitiationCount()">
+                Month
+              </button>
+            </div>
+        
+            <div *ngIf="ManagementCaseInitiationData && !ManagementCaseInitiationLoading">
+              <canvas baseChart width="700" height="360" [type]="'bar'" [data]="ManagementCaseInitiationData"
+                [options]="ManagementCaseInitiationOptions" [legend]="ManagementCaseInitiationLegend"
+                (chartClick)="managementOnMonthSelectForCaseInitiation($event)">
+              </canvas>
+            </div>
+            <div *ngIf="ManagementCaseInitiationLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        
+          <div class="grading-color">
+            <h2>Cases Breakdown By Grading</h2>
+            <div class="sub-container">
+              <div *ngIf="ManagementGradingColorData && !ManagementGradingColorLoading">
+                <canvas baseChart [type]="'pie'" [data]="ManagementGradingColorData" [options]="ManagementGradingColorOptions"
+                  [legend]="ManagementGradingColorLegend">
+                </canvas>
+              </div>
+              <div *ngIf="ManagementGradingColorLoading" class="loading-container">
+                <div class="loading-text"><mat-spinner></mat-spinner></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="outputqc-initiatedCasesChecks">
+          <div class="outputqc-completed">
+            <h2>Completed cases</h2>
+            <div class="messageContainer">
+              <div class="overlay" *ngIf="ManagementOutputQcCompletionOverlay">
+                <p>Click on a bar to see the date-wise graph</p>
+              </div>
+              <div class="overlay" *ngIf="!ManagementOutputQcCompletionOverlay">
+                <p>Clieck on month button to see month-wise graph</p>
+              </div>
+              <button *ngIf="!ManagementOutputQcCompletionOverlay" mat-button style="background-color: #ed7014; color: #fff; float: right"
+                (click)="managementGetLastSixMonthsOutputQcCompletionCount()">
+                Month
+              </button>
+            </div>
+        
+            <div *ngIf="ManagementOutputQcCompletionData && !ManagementOutputQcCompletionLoading">
+              <canvas baseChart width="700" height="360" [type]="'bar'" [data]="ManagementOutputQcCompletionData"
+                [options]="ManagementOutputQcCompletionOptions" [legend]="ManagementOutputQcCompletionLegend"
+                (chartClick)="managementOnMonthSelectForOutputQcCompletion($event)">
+              </canvas>
+            </div>
+            <div *ngIf="ManagementOutputQcCompletionLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        
+          <div class="initiated-cases-checks">
+            <h2>Checks For Initiated Cases</h2>
+            <div *ngIf="ManagementInitiatedCasesChecksData && !ManagementInitiatedCasesChecksLoading">
+              <canvas baseChart width="700" height="360" [type]="'bar'" [data]="ManagementInitiatedCasesChecksData"
+                [options]="ManagementInitiatedCasesChecksOptions" [legend]="ManagementInitiatedCasesChecksLegend">
+              </canvas>
+            </div>
+            <div *ngIf="ManagementInitiatedCasesChecksLoading" class="loading-container">
+              <div class="loading-text"><mat-spinner></mat-spinner></div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+    
+    

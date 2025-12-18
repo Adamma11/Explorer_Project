@@ -1,0 +1,703 @@
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+//////////////////////////////////////////
+
+// .mini-card-container {
+//     display: flex;
+//     justify-content: space-between;
+//     width: 100%;
+//     padding: 16px;
+//     box-sizing: border-box; 
+// }
+
+// .card {
+//     flex-basis: calc((100% - 32px - 8px*5) / 6); 
+//     margin-bottom: 8px;
+//     margin-right: 8px; 
+//     padding: 12px;
+//     background-color: #ed7014 !important;
+//     border-radius: 5px;
+//     box-sizing: border-box; 
+//     color: #FFF;
+// }
+
+// .card:last-child {
+//     margin-right: 0; 
+// }
+
+// .card-footer{
+//     font-size: 12px;
+// }
+
+// .card-content{
+//     margin-top: 10px;
+// }
+
+// .inflow-outlow-pending-frequency {
+//     display: flex;
+//     justify-content: space-between;
+//     width: 100%;
+//     padding: 16px;
+//     box-sizing: border-box;
+  
+//     .inflow-outflow {
+//       flex-basis: 65%;
+//       width: 100%;
+//       margin-right: 20px; /* Add some margin between charts */
+//       background-color: #FFF;
+//       border-radius: 5px;
+//       box-sizing: border-box;
+//       box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+//       padding: 16px;
+//       position: relative;
+//       .loading-container {
+//         position: relative;
+//         height: 360px; /* Adjust the height based on your chart height */
+//         .loading-text{
+//             position: absolute;
+//             top: 50%;
+//             left: 50%;
+//             transform: translate(-50%, -50%);
+//             font-size: 20px;
+//             font-weight: 600;
+//             text-align: center;
+//           }
+//       }
+//       h2 {
+//         margin: 10px; /* Add margin around h2 */
+//       }
+ 
+     
+//     }
+  
+//     .pending-frequency {
+//       flex-basis: 35%;
+//       width: 100%;
+//       background-color: #FFF;
+//       border-radius: 5px;
+//       box-sizing: border-box;
+//       box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+//       padding: 16px;
+//       position: relative;
+//       .loading-container {
+//         position: relative;
+//         height: 360px; /* Adjust the height based on your chart height */
+//         .loading-text{
+//             position: absolute;
+//             top: 50%;
+//             left: 50%;
+//             transform: translate(-50%, -50%);
+//             font-size: 20px;
+//             font-weight: 600;
+//             text-align: center;
+//           }
+//       }
+    
+//       h2 {
+//         margin: 10px; /* Add margin around h2 */
+//       }
+//       .sub-container{
+//         display: flex;
+//         flex-direction: column;
+//         align-items: center; /* Center content horizontally */
+//         justify-content: center; /* Center content vertically */
+//       }
+//     }
+//   }
+  
+//   .grading-color-container {
+//     display: flex;
+//     justify-content: flex-start;
+//     width: 100%;
+//     padding: 16px;
+//     box-sizing: border-box;
+//     .grading-color{
+//         flex-basis: 100%;
+//         // flex-basis: 35%;
+//         box-sizing: border-box;
+//         width: 100%; /* Adjusted width considering 16px padding on each side */
+//         background-color: #FFF;
+//         border-radius: 5px;
+//         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+//         padding: 16px;   
+//         position: relative;
+//         .loading-container {
+//             position: relative;
+//             height: 360px; /* Adjust the height based on your chart height */
+//             .loading-text{
+//                 position: absolute;
+//                 top: 50%;
+//                 left: 50%;
+//                 transform: translate(-50%, -50%);
+//                 font-size: 20px;
+//                 font-weight: 600;
+//                 text-align: center;
+//               }
+//           } 
+//     }
+   
+//     h2 {
+//       margin: 10px; /* Add margin around h2 */
+//     }
+  
+//     .sub-container {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center; /* Center content horizontally */
+//       justify-content: center; /* Center content vertically */
+//       margin-bottom: 20px;
+//     }
+//   }
+  
+//////New Client Dash board///////////////////
+
+.mini-card-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box; 
+}
+
+.card {
+  flex-basis: calc((100% - 32px - 8px*5) / 6); 
+  margin-bottom: 8px;
+  margin-right: 8px; 
+  padding: 12px;
+  background-color:#ed7014 !important;
+  border-radius: 5px;
+  box-sizing: border-box; 
+  color: #FFF;
+  cursor: pointer;
+}
+
+.card:last-child {
+  margin-right: 0; 
+}
+
+.card-footer{
+  font-size: 12px;
+}
+
+.card-content{
+  margin-top: 10px;
+}
+
+.inflow-outlow-pending-frequency,.case-initiation-grading,.outputqc-initiatedCasesChecks {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+
+  .inflow-outflow,.case-initiation,.outputqc-completed,.initiated-cases-checks,.pending-frequency,.grading-color {
+    flex-basis: 50%;
+    width: 100%;
+    background-color: #FFF;
+    border-radius: 20px !important;
+    box-sizing: border-box;
+    // box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 0px 0px;
+    // border: 1px solid #ed7014 !important;
+    border: 1px solid #bcbec0 !important;
+    padding: 16px;
+    position: relative;
+    .messageContainer{
+      display: flex;justify-content: space-between; margin-bottom: 10px; color: #333675;font-weight: 700;
+    }
+    .loading-container {
+      position: relative;
+      height: 360px; /* Adjust the height based on your chart height */
+      .loading-text{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 20px;
+          font-weight: 600;
+          text-align: center;
+        }
+    }
+    h2 {
+      margin: 10px; /* Add margin around h2 */
+    }
+    .sub-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      justify-content: center; /* Center content vertically */
+    }
+
+   
+  }
+  .inflow-outflow,.case-initiation,.outputqc-completed{
+    margin-right: 20px;
+  }
+  .initiated-cases-checks,.pending-frequency,.grading-color{
+    margin-right: 10px;
+  }
+
+}
+
+:host ::ng-deep .mini-card-spinner circle, .mat-spinner circle{
+  stroke: #FFF !important;
+}
+:host ::ng-deep mat-spinner.mini-card-spinner{
+      margin: 10px auto;
+      width: 50px !important;
+      height: 50px !important;
+      color: #ed7014 !important ;
+      svg{
+        width: 50px !important;
+        height: 50px !important;
+      }
+    } 
+////////////////////////////////////////
+////////////New Analyst Dashboard/////////
+
+.completed-pending-checks-outer-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+
+  .completed-pending-checks,.no-of-efforts-per-day {
+    flex-basis: 50%;
+    width: 100%;
+    background-color: #FFF;
+    border-radius: 5px;
+    box-sizing: border-box;
+    // abox-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    padding: 16px;
+    position: relative;
+    .loading-container {
+      position: relative;
+      height: 360px; /* Adjust the height based on your chart height */
+      .loading-text{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 20px;
+          font-weight: 600;
+          text-align: center;
+        }
+    }
+    h2 {
+      margin: 10px; /* Add margin around h2 */
+    }
+    .sub-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      justify-content: center; /* Center content vertically */
+    }
+
+   
+  }
+  .completed-pending-checks,.no-of-efforts-per-day{
+    margin-right: 20px;
+  }
+
+
+}
+/// //////////////////////////////////////
+/// 12Feb2024//
+.client_form {
+  margin: 10px 5px 0px 15px;
+  display: flex;
+  justify-content: space-between; 
+  &_width{
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  .form-content-left {
+     flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    
+  }
+  
+  .form-content-right {
+    display: flex;
+    align-items: flex-start;
+    margin-right: 10px;
+  }
+  
+  button{
+    align-items: center;
+    appearance: none;
+    background-color: #ed7014 !important;
+    border: 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    height: 42px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 14px;
+    padding-right: 14px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s,transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow,transform;
+    font-size: 14px;
+    margin-left: 20px;
+  }
+}
+
+
+
+.mini-card-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box; 
+}
+
+.card {
+    flex-basis: calc((100% - 32px - 8px*5) / 6); 
+    margin-bottom: 8px;
+    margin-right: 8px; 
+    padding: 12px;
+    // background-color: #ed7014 !important;
+    // updated-06jan25
+    background-color: #bcbec0  !important;
+    border-radius: 37px;
+    box-sizing: border-box; 
+    color: #FFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.card:last-child {
+    margin-right: 0; 
+}
+
+.card-footer{
+    font-size: 12px;
+}
+
+.card-content{
+    margin-top: 10px;
+}
+
+.inflow-outlow-pending-frequency,.case-initiation-grading,.outputqc-initiatedCasesChecks {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+  
+    .inflow-outflow,.case-initiation,.outputqc-completed,.initiated-cases-checks,.pending-frequency,.grading-color {
+      flex-basis: 50%;
+      width: 100%;
+      background-color: #FFF;
+      border-radius: 5px;
+      box-sizing: border-box;
+    //   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      padding: 16px;
+      position: relative;
+      .messageContainer{
+        display: flex;justify-content: space-between; margin-bottom: 10px; color: #333675;font-weight: 700;
+      }
+      .loading-container {
+        position: relative;
+        height: 360px; /* Adjust the height based on your chart height */
+        .loading-text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+          }
+      }
+      h2 {
+        margin: 10px; /* Add margin around h2 */
+      }
+      .sub-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content horizontally */
+        justify-content: center; /* Center content vertically */
+      }
+ 
+     
+    }
+    .inflow-outflow,.case-initiation,.outputqc-completed{
+      margin-right: 20px;
+    }
+    .initiated-cases-checks,.pending-frequency,.grading-color{
+      margin-right: 10px;
+    }
+
+  }
+  
+  :host ::ng-deep .mini-card-spinner circle, .mat-spinner circle{
+    stroke: #FFF !important;
+  }
+  :host ::ng-deep mat-spinner.mini-card-spinner{
+        margin: 10px auto;
+        width: 50px !important;
+        height: 50px !important;
+        color: #ed7014 !important;
+        svg{
+          width: 50px !important;
+          height: 50px !important;
+        }
+      } 
+      
+.card-title{
+  color: black;
+  font-weight: bolder;
+    ///sep-15
+   display: flex;
+  justify-content: space-between; /* title left, arrow right */
+  align-items: center;
+//////
+}
+
+.card-content{
+  h4 {
+    color: black;
+  }
+}
+
+.card-footer{
+    border-top: none;
+    background-color: #ed7014 !important;
+    padding: 0;
+
+}
+
+////sep-13 code added
+
+.chart-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.month-label {
+  margin-left: 8px;
+  font-weight: normal;
+  color: #555;
+}
+
+// .chart-container {
+//   width: 100%;
+//   max-width: 100%;   /* take full width of parent */
+//   height: 500px;     /* adjust height as needed */
+//   margin: 0 auto;    /* center align */
+// }
+
+.chart-container {
+  width: 100%;
+  height: 500px; /* adjust height as needed */
+}
+
+.initiated-cases-checks canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.initiated-cases-checks {
+  flex-basis: 100% !important;  /* full width instead of 50% */
+  width: 100% !important;
+  border: 3px solid #bcbec0 !important;  /* thicker border */
+  border-radius: 20px !important;
+  padding: 16px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.blue-arrow {
+  color: blue;
+ font-weight: bold;
+  margin-right: 5px;
+}
+
+.card-content h4 {
+  color: rgb(20, 125, 211);
+  font-size: 22px;
+  margin: 0;
+}
+
+//////////////////endsep-13////
+
+///sep-20///
+
+// sep-26
+
+.mini-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* equal blocks */
+  gap: 16px; /* spacing between cards */
+}
+
+.card {
+  border-left: 8px solid transparent; /* default */
+  border-radius: 6px;
+  padding: 10px;
+  margin: 8px;
+  min-width: 100px;   /* make smaller */
+  max-width: 200px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background: #fff;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-content {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.card-content h4 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: #222;
+}
+
+.blue-arrow {
+  color: #1976d2;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+/* Different border colors */
+.card.green {
+  border-left-color: #28a745; /* Success green */
+}
+
+.card.red {
+  border-left-color: #dc3545; /* Danger red */
+}
+
+.card.orange {
+  border-left-color: #fd7e14; /* Warning orange */
+}
+
+.card.blue {
+  border-left-color: #007bff; /* Primary blue */
+}
+
+.card.purple {
+  border-left-color: #6f42c1; /* Purple */
+}
+
+.card.teal {
+  border-left-color: #20c997; /* Teal */
+}
+
+.card.yellow {
+  border-left-color: #facc15; /* Golden Yellow */
+}
+
+.card.pink {
+  border-left-color: #ec4899; /* Pink/Magenta */
+}
+
+.card.indigo {
+  border-left-color: #4338ca; /* Indigo */
+}
+
+.card.cyan {
+  border-left-color: #06b6d4; /* Cyan */
+}
+
+.card.lime {
+  border-left-color: #84cc16; /* Lime Green */
+}
+
+.card.brown {
+  border-left-color: #8d6e63; /* Soft Brown */
+}
+
+.card.gray {
+  border-left-color: #6b7280; /* Neutral Gray */
+}
+
+.card.sky {
+  border-left-color: #38bdf8; /* Sky Blue */
+}
+
+.card.rose {
+  border-left-color: #f43f5e; /* Rose Red */
+}
+
+.card.amber {
+  border-left-color: #f59e0b; /* Amber */
+}
+
+.card.slate {
+  border-left-color: #475569; /* Slate Gray */
+}
+
+////////////////sep-28-///
+.tat-grading-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* exactly 3 equal columns */
+  gap: 10px;
+  width: 100%;
+}
+
+.graph-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  height: 350px;   /* fixed same height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.graph-card canvas {
+  flex: 1;           /* canvas takes all remaining space */
+  max-height: 280px; /* keeps them visually equal */
+}
