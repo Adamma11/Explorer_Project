@@ -1,0 +1,86 @@
+<h1 class="tagname">Education Master Details</h1>
+<mat-divider></mat-divider>
+<form [formGroup]="educationForm" (ngSubmit)="saveEducationData()">
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" [value]="selectedRow?.name">
+                </div>
+                <div class="form-group">
+                    <mat-label>Mandatory Requirment</mat-label>
+                    <input matInput formControlName="mandatory" [value]="selectedRow?.mandatory">
+                </div>
+                <div class="form-group">
+                    <mat-label>City</mat-label>
+                    <input matInput formControlName="city" [value]="selectedRow?.city">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="address" [value]="selectedRow?.address"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Approved or UnApprovrd</mat-label>
+                    <input matInput formControlName="source" [value]="selectedRow?.source">
+                </div>
+                <div class="form-group">
+                    <mat-label>URL</mat-label>
+                    <input matInput formControlName="url" [value]="selectedRow?.url">
+                </div>
+                <div class="form-group">
+                    <mat-label>Verification Fee</mat-label>
+                    <input matInput formControlName="verificationFee" [value]="selectedRow?.verificationFee">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Branch</mat-label>
+                    <mat-select formControlName="branch">
+                        <mat-option *ngFor="let branch of branches" value={{branch._id}}>{{branch.name}}</mat-option>
+                    </mat-select>
+                </div>
+                <div class="form-group">
+                    <mat-label>Concern Person</mat-label>
+                    <input matInput formControlName="concernperson" [value]="selectedRow?.concernperson">
+                </div>
+                <div class="form-group">
+                    <mat-label>Designation</mat-label>
+                    <input matInput formControlName="designation" [value]="selectedRow?.designation">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" [value]="selectedRow?.email">
+                </div>
+                <div class="form-group">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phone" [value]="selectedRow?.phone">
+                </div>
+                <div class="form-group">
+                    <mat-label>No. of Days for Verification</mat-label>
+                    <input matInput formControlName="daysforverification" [value]="selectedRow?.daysforverification">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Mode of Verification</mat-label>
+                    <mat-select formControlName="modeofverification" [value]="selectedRow?.modeofverification">
+                        <mat-option value="email">Email</mat-option>
+                        <mat-option value="verbel">Verbel</mat-option>
+                        <mat-option value="written">Written</mat-option>
+                        <mat-option value="post">Post</mat-option>
+                        <mat-option value="direct">Direct</mat-option>
+                        <mat-option value="online">Online</mat-option>
+                        <mat-option value="offline">Offline</mat-option>
+                    </mat-select>
+                </div>
+            </div>
+        <div class="button-group">
+            <button class="btn-rounded" type="submit">Save</button>
+            <button class="btn-rounded" (click)="cancelButtonClicked($event)">Cancel</button>
+        </div>
+</form>
