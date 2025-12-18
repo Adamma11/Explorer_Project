@@ -1,0 +1,1040 @@
+<div class="container-fluid  mt-3">
+  <!-- <mat-toolbar class="text-white mt-3 mb-3">
+      <mat-toolbar-row class="justify-content-center">
+        <h2>Client Details</h2>
+      </mat-toolbar-row>
+    </mat-toolbar> -->
+  <div>
+    <form [formGroup]="generalDetailsForm">
+      <div class="form-row">
+        <div class="form-group">
+          <mat-label>Client Name</mat-label>
+          <input formControlName="name" type="text" matInput placeholder="Client Name" required>
+        </div>
+        <div class="form-group">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option value="ACTIVE">Active</mat-option>
+            <mat-option value="INACTIVE">Inactive</mat-option>
+          </mat-select>
+        </div>
+        <div class="form-group">
+          <mat-label>Client Code</mat-label>
+          <input formControlName="clientCode" type="text" matInput placeholder="Client Code">
+        </div>
+      </div>
+      <div class="btn-wraper">
+        <div>
+          <button class="btn-rounded"
+          (click)="backButtonClicked()">Back</button>
+        <button class="btn-rounded"
+          (click)="saveButtonClicked()"
+          [disabled]="generalDetailsForm.invalid || contactDetailsForm.invalid || statutoryDetailsForm.invalid">Submit</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <div class="col-sm-4">
+    <mat-select [(ngModel)]="selectedTab">
+      <mat-option value="CONTRACT_STATURORY"> Contact & Staturory Details </mat-option>
+      <mat-option value="GRADING_REPORT"> Grading,Report & Other Details </mat-option>
+      <mat-option value="HOLIDAYS"> Holidays </mat-option>
+      <mat-option value="CONTRACT"> Contract </mat-option>
+      <mat-option value="SUBCLIENTS"> Subclients </mat-option>
+      <mat-option value="ANALYSIS"> Analysis </mat-option>
+      <!-- <mat-option value="INACTIVE">Inactive</mat-option> -->
+    </mat-select>
+  </div>
+
+  <div>
+    <div *ngIf="selectedTab=== 'CONTRACT_STATURORY'">
+      <form [formGroup]="contactDetailsForm" class="mb-4">
+          <mat-divider></mat-divider>
+          <h5>Contact Details</h5>
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>Contact Person</mat-label>
+              <input formControlName="contactPerson" matInput type="text" placeholder="Contact Person">
+            </div>
+            <div class="form-group">
+              <mat-label>Telephone</mat-label>
+              <input formControlName="telephone" matInput type="text" placeholder="Telephone">
+            </div>
+            <div class="form-group">
+              <mat-label>Email</mat-label>
+              <input formControlName="email" matInput type="text" placeholder="Email">
+              <mat-error *ngIf="contactDetailsForm.get('email')?.hasError('email')">Email pattern does not
+                match</mat-error>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>Address</mat-label>
+              <textarea formControlName="address" matInput rows="2" placeholder="Address" required></textarea>
+              <mat-error *ngIf="contactDetailsForm.get('address')?.hasError('required')">Address is Required</mat-error>
+            </div>
+            <div class="form-group">
+              <mat-label>PIN</mat-label>
+              <input (blur)="validatePin()" pattern="^[1-9]{1}[0-9]{5}" formControlName="pinCode" matInput type="text"
+                maxlength="6" placeholder="PIN" required>
+              <mat-error *ngIf="contactDetailsForm.get('pinCode')?.hasError('required')">PIN is Required</mat-error>
+              <mat-error *ngIf="contactDetailsForm.get('pinCode')?.hasError('pattern')">PIN shpuld be in the format
+                999999</mat-error>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>City / District</mat-label>
+              <input readonly formControlName="city" matInput type="text" placeholder="City / District" required>
+              <mat-error *ngIf="contactDetailsForm.get('city')?.hasError('required')">City is Required</mat-error>
+            </div>
+            <div class="form-group">
+              <mat-label>State</mat-label>
+              <input readonly formControlName="state" matInput type="text" placeholder="State" required>
+              <mat-error *ngIf="contactDetailsForm.get('state')?.hasError('required')">State is Required</mat-error>
+            </div>
+            <div class="form-group">
+              <mat-label>Country</mat-label>
+              <input readonly formControlName="country" matInput type="text" placeholder="Country" required>
+              <mat-error *ngIf="contactDetailsForm.get('country')?.hasError('required')">Country is Required</mat-error>
+            </div>
+          </div>
+      </form>
+      <form [formGroup]="statutoryDetailsForm">
+          <mat-divider></mat-divider>
+          <h5>Statutory Details</h5>
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>CIN</mat-label>
+              <input pattern="^[L-U]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}" formControlName="cin" matInput
+                type="text" maxlength="21" placeholder="CIN">
+              <mat-error *ngIf="statutoryDetailsForm.get('cin')?.hasError('pattern')">Enter GSTIN in Upper Case -
+                X99999XX9999XXX999999</mat-error>
+            </div>
+            <div class="form-group">
+              <mat-label>GSTIN</mat-label>
+              <input pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9]{1}[Z]{1}[A-Z]{1}" formControlName="gstIn" matInput
+                type="text" size="30" maxlength="15" placeholder="GSTIN">
+              <mat-error *ngIf="statutoryDetailsForm.get('gstIn')?.hasError('pattern')">Enter GSTIN in Upper Case -
+                99XXXXX9999X9ZX</mat-error>
+            </div>
+            <div class="form-group">
+              <mat-label>PAN</mat-label>
+              <input pattern="^[A-Z]{5}[0-9]{4}[A-Z]" formControlName="pan" matInput type="text" maxlength="10"
+                placeholder="PAN">
+              <mat-error *ngIf="statutoryDetailsForm.get('pan')?.hasError('pattern')">Enter PAN in Upper Case -
+                XXXXX9999X</mat-error>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>PF Number</mat-label>
+              <input formControlName="pfNumber" matInput type="text" maxlength="30" placeholder="PF Number">
+            </div>
+            <div class="form-group">
+              <mat-label>Domain Name</mat-label>
+              <input formControlName="domainName" matInput type="url" size="30" maxlength="50"
+                placeholder="Domain Name">
+            </div>
+          </div>
+      </form>
+    </div>
+
+    <div class="container-fluid" *ngIf="selectedTab === 'GRADING_REPORT'">
+      <div class="row md-4">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+          <mat-divider></mat-divider>
+          <h5> Grading Colors</h5>
+          <!-- <fieldset class="border rounded-3 p-3"> -->
+            <!-- <legend class="float-none w-auto px-3">Grading Colors</legend> -->
+            <!-- <div class="mat-elevation-z8"> -->
+              <table class="table" mat-table [dataSource]="colorDataSource">
+                <!-- <caption></caption> -->
+                <ng-container matColumnDef="serialNumber">
+                  <th mat-header-cell *matHeaderCellDef> Sl No. </th>
+                  <td mat-cell *matCellDef="let element;let i=index">{{ i+1 }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="color">
+                  <th mat-header-cell *matHeaderCellDef> Color </th>
+                  <td mat-cell *matCellDef="let element">
+                    <select class="form-select" [(ngModel)]="element.color">
+                      <option value="-1">Select One</option>
+                      <option *ngFor="let colorcode of colorcodes" value={{colorcode._id}}>{{colorcode.name}}</option>
+                    </select>
+
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> Status </th>
+                  <td mat-cell *matCellDef="let element">
+                    <input class="form-control" [(ngModel)]="element.status" size="20" maxLength="20"
+                      [value]="element.status">
+                  </td>
+
+                </ng-container>
+                <ng-container matColumnDef="add">
+                  <th mat-header-cell *matHeaderCellDef >
+                    <button mat-icon-button (click)="addColorStatus()"><mat-icon>add_circle</mat-icon></button>
+                  </th>
+                  <td mat-cell *matCellDef="let colorCode">
+                    <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef> Delete </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button
+                      (click)="deleteColorCode(element)"><mat-icon>delete_forever</mat-icon></button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="colorDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: colorDisplayedColumns;let i=index;"
+                  [ngClass]="{'striped-row': i % 2 !== 0,'hovered-row':isHovered(i)}" (mouseover)="highlightRow(i)"
+                  (mouseout)="unhighlightRow(i)"></tr>
+
+              </table>
+            <!-- </div> -->
+
+          <!-- </fieldset> -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+          <mat-divider></mat-divider>
+          <h5> Report Types </h5>
+          <!-- <fieldset class="border rounded-3 p-3"> -->
+            <!-- <legend class="float-none w-auto px-3">Report Types</legend> -->
+            <!-- <div class="mat-elevation-z8"> -->
+              <table class="table" mat-table [dataSource]="reportTypeDataSource">
+                <!-- <caption></caption> -->
+                <ng-container matColumnDef="serialNumber">
+                  <th mat-header-cell *matHeaderCellDef> Sl No. </th>
+                  <td mat-cell *matCellDef="let element;let i=index">{{ i+1 }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="reportType">
+                  <th mat-header-cell *matHeaderCellDef>Report Type</th>
+                  <td mat-cell *matCellDef="let reportType">
+                    <input class="form-control" type="text" [(ngModel)]="reportType.type" size="20" maxLength="20"
+                      [value]="reportType.type">
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="add">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <button mat-icon-button (click)="addReportType()"><mat-icon>add_circle</mat-icon></button>
+                  </th>
+                  <td mat-cell *matCellDef="let reportType">
+                    <button mat-icon-button><mat-icon>add_circle</mat-icon></button>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef>
+                    Delete
+                  </th>
+                  <td mat-cell *matCellDef="let reportType">
+                    <button mat-icon-button><mat-icon>delete_forever</mat-icon></button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="reportTypeDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: reportTypeDisplayedColumns;let i=index;"
+                  [ngClass]="{'striped-row': i % 2 !== 0,'hovered-row':isHovered(i)}" (mouseover)="highlightRow(i)"
+                  (mouseout)="unhighlightRow(i)"></tr>
+              </table>
+
+            <!-- </div> -->
+
+          <!-- </fieldset> -->
+        </div>
+      </div>
+      <form [formGroup]="otherDetailsForm">
+        <!-- <fieldset class="border rounded-3 p-3">
+          <legend class="float-none w-auto px-3">Other Details</legend> -->
+
+          <mat-divider></mat-divider>
+          <h5>Other Details</h5>
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>Priority</mat-label>
+              <input formControlName="priority" matInput maxlength="3" type="text" placeholder="Priority">
+            </div>
+            <div class="form-group">
+              <mat-label>Archive after</mat-label>
+              <input formControlName="archiveAfter" matInput maxlength="3" type="text"
+              placeholder="No of Years">
+            </div>
+            <div class="form-group">
+              <mat-label>Upload Types</mat-label>
+              <mat-select formControlName="uploadTypes" multiple>
+                <mat-option value="CASE-UPLOAD">Case Upload</mat-option>
+                <mat-option value="BATCH-UPLOAD">Batch Upload</mat-option>
+                <mat-option value="CANDIDATE-DATA-ENTRY">Candidate Data Entry</mat-option>
+              </mat-select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <mat-label>Closure Type</mat-label>
+              <mat-select formControlName="closureTypesAllowed" multiple>
+                <mat-option value="INTERIM">Interim</mat-option>
+                <mat-option value="FINAL">Final</mat-option>
+              </mat-select>
+            </div>
+            <div class="form-group">
+              <mat-label>Closure Modes Allowed</mat-label>
+              <mat-select formControlName="closureModesAllowed" multiple>
+                <mat-option value="VERBAL">Verbal</mat-option>
+                <mat-option value="WRITTEN">Written</mat-option>
+              </mat-select>
+            </div>
+            <div class="form-group">
+              <mat-label>TAT Calculation Method</mat-label>
+              <mat-select formControlName="tatCalculationMethod">
+                <mat-option value="CALENDAR">Calendar Days</mat-option>
+                <mat-option value="WORKING">Working Days</mat-option>
+              </mat-select>
+            </div>
+          </div>
+
+        <!-- </fieldset> -->
+      </form>
+    </div>
+
+    <div class="container-fluid" *ngIf="selectedTab === 'HOLIDAYS'">
+      <!-- <div class="my-3"> -->
+        <form [formGroup]="holidayYearForm">
+          <!-- <mat-form-field appearance="outline"> -->
+            <div class="form-row">
+              <div class="form-group">
+                <mat-label>Select a Year</mat-label>
+                <mat-select formControlName="holidayYear" (selectionChange)="yearChanged()" placeholder="Select Year">
+                  <mat-option value="2020">2020</mat-option>
+                  <mat-option value="2021">2021</mat-option>
+                  <mat-option value="2022">2022</mat-option>
+                  <mat-option value="2023">2023</mat-option>
+                  <mat-option value="2024">2024</mat-option>
+                  <mat-option value="2025">2025</mat-option>
+                  <mat-option value="2026">2026</mat-option>
+                  <mat-option value="2027">2027</mat-option>
+                  <mat-option value="2028">2028</mat-option>
+                  <mat-option value="2029">2029</mat-option>
+                  <mat-option value="2030">2030</mat-option>
+                  <mat-option value="2031">2031</mat-option>
+                  <mat-option value="2032">2032</mat-option>
+                  <mat-option value="2033">2033</mat-option>
+                  <mat-option value="2034">2034</mat-option>
+                  <mat-option value="2035">2035</mat-option>
+                  <mat-option value="2036">2036</mat-option>
+                  <mat-option value="2037">2037</mat-option>
+                  <mat-option value="2038">2038</mat-option>
+                  <mat-option value="2039">2039</mat-option>
+                  <mat-option value="2040">2040</mat-option>
+                </mat-select>
+              </div>
+            </div>
+
+          <!-- </mat-form-field> -->
+        </form>
+      <!-- </div> -->
+      <!-- <fieldset class="border rounded-3 p-3"> -->
+        <!-- <legend class="float-none w-auto px-3"> Holidays </legend> -->
+        <!-- <div class="mat-elevation-z8"> -->
+          <table class="table" mat-table [dataSource]="holidayDataSource">
+            <caption></caption>
+            <ng-container matColumnDef="serialNumber">
+              <th mat-header-cell *matHeaderCellDef> # </th>
+              <td mat-cell *matCellDef="let element;let i=index">{{ i+1 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let element">
+                <input class="form-control" [(ngModel)]="element.date" [value]="element.date" type="date">
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Description</th>
+              <td mat-cell *matCellDef="let element">
+                <input class="form-control" [(ngModel)]="element.description" [value]="element.description" type="text"
+                  size="20" maxLength="20">
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="add">
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-icon-button (click)="addAHoliday()"><mat-icon>add_circle</mat-icon></button>
+              </th>
+              <td mat-cell *matCellDef="let colorCode">
+                <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef> Delete </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button
+                  (click)="deleteAHoliday(element)"><mat-icon>delete_forever</mat-icon></button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="holidayDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: holidayDisplayedColumns;"></tr>
+          </table>
+        <!-- </div> -->
+
+      <!-- </fieldset> -->
+    </div>
+
+    <div class="container-fluid mb-4" *ngIf="selectedTab=== 'CONTRACT'">
+      <!-- <fieldset class="border rounded-3 p-3">
+        <legend class="float-none w-auto px-3"> Contract </legend>
+        <div class="mat-elevation-z8"> -->
+          <table class="table" mat-table [dataSource]="contractDataSource">
+            <caption></caption>
+            <ng-container matColumnDef="serialNumber">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let contract;let i=index">{{i+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="agreementDate">
+              <th mat-header-cell *matHeaderCellDef>Agreement Date</th>
+              <td mat-cell *matCellDef="let contract">{{contract.agreementDate | date:'dd-MMM-yyyy'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="effectiveDate">
+              <th mat-header-cell *matHeaderCellDef>Effective Date</th>
+              <td mat-cell *matCellDef="let contract">{{contract.effectiveDate | date :'dd-MMM-yyyy'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="expiryDate">
+              <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+              <td mat-cell *matCellDef="let contract">{{contract.expiryDate | date:'dd-MMM-yyyy'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="retentationDate">
+              <th mat-header-cell *matHeaderCellDef>Retention Date</th>
+              <td mat-cell *matCellDef="let contract">{{contract.retentationDate | date:'dd-MMM-yyyy'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="add">
+              <th mat-header-cell *matHeaderCellDef>
+                <button matTooltip="Add a new contract" mat-icon-button
+                  (click)="addContractDetailsClicked()"><mat-icon>add_circle</mat-icon></button>
+              </th>
+              <td mat-cell *matCellDef="let contract">
+                <button matTooltip="Add a new contract" mat-icon-button
+                  inline="true"><mat-icon>add_circle</mat-icon></button>
+              </td>mat-cell
+            </ng-container>
+            <ng-container matColumnDef="details">
+              <th mat-header-cell *matHeaderCellDef>Details</th>
+              <td mat-cell *matCellDef="let contract">
+                <button mat-icon-button inline="true"
+                  (click)="editContractButtonClicked(contract)"><mat-icon>edit</mat-icon></button>
+              </td>mat-cell
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef>Delete</th>
+              <td mat-cell *matCellDef="let contract">
+                <button mat-icon-button inline="true"
+                  (click)="deleteContract(contract)"><mat-icon>delete</mat-icon></button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="contractDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: contractDisplayedColumns;"></tr>
+          </table>
+        <!-- </div>
+      </fieldset> -->
+
+
+    </div>
+
+    <div class="container-fluid mb-4" *ngIf="selectedTab=== 'SUBCLIENTS'">
+      <!-- <ng-container class="border rounded-3 p-3"> -->
+        <!-- <div class="mat-elevation-z8"> -->
+          <table class="table" mat-table [dataSource]="subclientsDataSource">
+            <caption></caption>
+            <ng-container matColumnDef="serialNumber">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let contract;let i=index">{{i+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Sub Client</th>
+              <td mat-cell *matCellDef="let subclient;let i =index">{{subclient.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="add">
+              <th mat-header-cell *matHeaderCellDef>
+                <button matTooltip="Add Subclient" mat-icon-button
+                  (click)="addSubclientButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+              </th>
+              <td mat-cell *matCellDef="let subclient;">
+                <button mat-icon-button
+                  (click)="addSubclientButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="details">
+              <th mat-header-cell *matHeaderCellDef>Edit</th>
+              <td mat-cell *matCellDef="let subclient;">
+                <button mat-icon-button
+                  (click)="editSubclientButtonClicked(subclient)"><mat-icon>edit</mat-icon></button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef>Delete</th>
+              <td mat-cell *matCellDef="let subclient;">
+                <button mat-icon-button><mat-icon>delete</mat-icon></button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="subclientDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: subclientDisplayedColumns;"></tr>
+          </table>
+
+        <!-- </div> -->
+
+      <!-- </ng-container> -->
+
+    </div>
+
+    <div class="container-fluid mb-3" *ngIf="selectedTab=== 'ANALYSIS'">
+      <!-- <ng-container class="border rounded-3 p-3">
+        <div class="mat-elevation-z8"> -->
+          <table class="table" mat-table [dataSource]="clientAnalysisCodeDataSource">
+            <caption></caption>
+            <ng-container matColumnDef="serialNumber">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let contract;let i=index">{{i+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="analysisType">
+              <th mat-header-cell *matHeaderCellDef>Analysis Type</th>
+              <td mat-cell *matCellDef="let clientAnalysisCode">{{clientAnalysisCode.analysisTypeName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="analysisCode">
+              <th mat-header-cell *matHeaderCellDef>Analysis Code</th>
+              <td mat-cell *matCellDef="let clientAnalysisCode">
+                <select class="form-select" [(ngModel)]="clientAnalysisCode.analysisCode"
+                  value="clientAnalysisCode.analysisCode">
+                  <option value="-1">Select One</option>
+                  <option *ngFor="let analysisCode of clientAnalysisCode.analysisCodes" value="{{analysisCode._id}}">
+                    {{analysisCode.name}}</option>
+                </select>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="clientAnalysisCodeDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: clientAnalysisCodeDisplayedColumns;"></tr>
+          </table>
+
+        <!-- </div> -->
+
+      <!-- </ng-container> -->
+    </div>
+
+  </div>
+  <!-- <mat-tab-group [@.disabled]="true">
+      <mat-tab>
+        <ng-template mat-tab-label> Contact & Staturory Details </ng-template>
+        <div class="container-fluid">
+            <form [formGroup]="contactDetailsForm" class="mb-4">
+                <fieldset class="border rounded-3 p-3">
+                        <legend class="float-none w-auto px-3" >Contact Details</legend>            
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input formControlName="contactPerson" matInput type="text" size="30"  placeholder="Contact Person">
+                                    <mat-label>Contact Person</mat-label> 
+                                </mat-form-field>
+                
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input formControlName="telephone" matInput type="text" size="30" placeholder="Telephone">
+                                    <mat-label>Telephone</mat-label> 
+                                </mat-form-field>
+                
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input formControlName="email" matInput type="text" size="10"  placeholder="Email">
+                                    <mat-label>Email</mat-label> 
+                                    <mat-error *ngIf="contactDetailsForm.get('email')?.hasError('email')">Email pattern does not match</mat-error> 
+                                </mat-form-field>
+                            </div>
+                
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <textarea formControlName="address" matInput rows="2" placeholder="Address" required></textarea>
+                                    <mat-label>Address</mat-label> 
+                                    <mat-error *ngIf="contactDetailsForm.get('address')?.hasError('required')">Address is Required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input (blur)="validatePin()" pattern="^[1-9]{1}[0-9]{5}" formControlName="pinCode" matInput type="text" size="30"  maxlength="6" placeholder="PIN" required>
+                                    <mat-label>PIN</mat-label> 
+                                    <mat-error *ngIf="contactDetailsForm.get('pinCode')?.hasError('required')">PIN is Required</mat-error>                            
+                                    <mat-error *ngIf="contactDetailsForm.get('pinCode')?.hasError('pattern')">PIN shpuld be in the format 999999</mat-error>                            
+                                </mat-form-field> 
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input readonly formControlName="city" matInput type="text" size="30" placeholder="City / District" required>
+                                    <mat-label>City / District</mat-label> 
+                                    <mat-error *ngIf="contactDetailsForm.get('city')?.hasError('required')">City is Required</mat-error>                            
+                                </mat-form-field>  
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input readonly formControlName="state" matInput type="text" size="30" placeholder="State" required>
+                                    <mat-label>State</mat-label> 
+                                    <mat-error *ngIf="contactDetailsForm.get('state')?.hasError('required')">State is Required</mat-error>                                                                                    
+                                </mat-form-field>   
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <input readonly formControlName="country" matInput type="text" size="30" placeholder="Country" required>
+                                    <mat-label>Country</mat-label> 
+                                    <mat-error *ngIf="contactDetailsForm.get('country')?.hasError('required')">Country is Required</mat-error>                                                                                                                
+                                </mat-form-field>   
+                            </div>
+
+                        </div>
+                </fieldset>
+            </form>
+            <form [formGroup]="statutoryDetailsForm">
+                <fieldset class="border rounded-3  p-3">
+                    <legend class="float-none w-auto px-3">Statutory Details</legend>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                           <mat-form-field appearance="outline" class="w-100">
+                            <input pattern="^[L-U]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}" formControlName="cin" matInput type="text" size="30" maxlength="21" placeholder="CIN">
+                            <mat-label>CIN</mat-label> 
+                            <mat-error *ngIf="statutoryDetailsForm.get('cin')?.hasError('pattern')">Enter GSTIN in Upper Case - X99999XX9999XXX999999</mat-error>                               
+                           </mat-form-field>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9]{1}[Z]{1}[A-Z]{1}" formControlName="gstIn" matInput type="text" size="30" maxlength="15" placeholder="GSTIN">
+                                <mat-label>GSTIN</mat-label> 
+                                <mat-error *ngIf="statutoryDetailsForm.get('gstIn')?.hasError('pattern')">Enter GSTIN in Upper Case - 99XXXXX9999X9ZX</mat-error>
+                            </mat-form-field> 
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input pattern="^[A-Z]{5}[0-9]{4}[A-Z]" formControlName= "pan" matInput type="text" size="10" maxlength="10" placeholder="PAN">
+                                <mat-label>PAN</mat-label> 
+                                <mat-error *ngIf="statutoryDetailsForm.get('pan')?.hasError('pattern')">Enter PAN in Upper Case - XXXXX9999X</mat-error>
+                            </mat-form-field>    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                            <mat-form-field  appearance="outline" class="w-100">
+                                <input formControlName="pfNumber" matInput type="text" size="30" maxlength="30" placeholder="PF Number">
+                                <mat-label>PF Number</mat-label> 
+                            </mat-form-field>  
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input formControlName="domainName" matInput type="url" size="30" maxlength="50" placeholder="Domain Name">
+                                <mat-label>Domain Name</mat-label> 
+                            </mat-form-field>    
+                        </div>
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label> Grading,Report & Other Details </ng-template>
+        <div class="container-fluid">
+          <div class="row md-4">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+              <fieldset class="border rounded-3 p-3">
+                <legend class="float-none w-auto px-3" >Grading Colors</legend> 
+                <div class="mat-elevation-z8">
+                  <table class="table table-striped" mat-table [dataSource]="colorDataSource">
+                    <caption></caption>
+                    <ng-container matColumnDef="serialNumber">
+                      <th mat-header-cell *matHeaderCellDef> # </th>
+                      <td mat-cell *matCellDef="let element;let i=index">{{ i+1 }}</td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="color">
+                      <th mat-header-cell *matHeaderCellDef> Color </th>
+                      <td mat-cell *matCellDef="let element">
+                           <select class="form-select" [(ngModel)]="element.color">
+                              <option value="-1">Select One</option>
+                              <option *ngFor="let colorcode of colorcodes" value={{colorcode._id}}>{{colorcode.name}}</option>                                
+                           </select>
+                        
+                      </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="status">
+                      <th mat-header-cell *matHeaderCellDef> Status </th>
+                      <td mat-cell *matCellDef="let element">
+                          <input class="form-control" [(ngModel)]="element.status" size="20" maxLength="20" [value]="element.status">
+                      </td>
+                     
+                    </ng-container>
+                    <ng-container matColumnDef="add">
+                      <th mat-header-cell *matHeaderCellDef>
+                          <button mat-icon-button (click)="addColorStatus()"><mat-icon>add_circle</mat-icon></button> 
+                      </th>
+                      <td mat-cell *matCellDef="let colorCode">
+                          <button mat-icon-button color="primary"><mat-icon>add_circle</mat-icon></button>
+                      </td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="delete">
+                      <th mat-header-cell *matHeaderCellDef> Delete </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button mat-icon-button color="warn" (click)="deleteColorCode(element)"><mat-icon>delete_forever</mat-icon></button>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="colorDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: colorDisplayedColumns;let i=index;" [ngClass]="{'striped-row': i % 2 !== 0,'hovered-row':isHovered(i)}" 
+                    (mouseover)="highlightRow(i)"
+                    (mouseout)="unhighlightRow(i)"></tr>
+        
+                   </table>
+                </div>    
+               
+              </fieldset>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3">
+              <fieldset class="border rounded-3 p-3">
+                <legend class="float-none w-auto px-3" >Report Types</legend>
+                <div class="mat-elevation-z8">
+                  <table class="table table-striped" mat-table [dataSource]="reportTypeDataSource">
+                    <caption></caption>
+                    <ng-container matColumnDef="serialNumber">
+                      <th mat-header-cell *matHeaderCellDef> # </th>
+                      <td mat-cell *matCellDef="let element;let i=index">{{ i+1 }}</td>
+                    </ng-container>
+      
+                    <ng-container matColumnDef="reportType">
+                      <th mat-header-cell *matHeaderCellDef>Report Type</th>
+                      <td mat-cell *matCellDef="let reportType">
+                          <input class="form-control" type="text" [(ngModel)]="reportType.type" size="20" maxLength="20" [value]="reportType.type">
+                      </td>
+                  </ng-container>
+                  <ng-container matColumnDef="add">
+                      <th mat-header-cell *matHeaderCellDef>
+                          <button mat-icon-button (click)="addReportType()"><mat-icon>add_circle</mat-icon></button> 
+                      </th>
+                      <td mat-cell *matCellDef="let reportType">
+                          <button mat-icon-button color="primary"><mat-icon>add_circle</mat-icon></button>
+                      </td>
+                  </ng-container>
+                  <ng-container matColumnDef="delete">
+                      <th mat-header-cell *matHeaderCellDef>
+                          Delete
+                      </th>
+                      <td mat-cell *matCellDef="let reportType">
+                          <button  mat-icon-button color="warn" ><mat-icon>delete_forever</mat-icon></button>
+                      </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="reportTypeDisplayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: reportTypeDisplayedColumns;let i=index;" [ngClass]="{'striped-row': i % 2 !== 0,'hovered-row':isHovered(i)}" 
+                  (mouseover)="highlightRow(i)"
+                  (mouseout)="unhighlightRow(i)"></tr>
+                  </table>
+      
+                </div>
+    
+              </fieldset>
+            </div>
+          </div>
+          <form [formGroup]="otherDetailsForm">
+                <fieldset class="border rounded-3 p-3">
+                  <legend class="float-none w-auto px-3" >Other Details</legend>
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <input formControlName="priority" matInput maxlength="3" size="3" type="text" placeholder="Priority"> 
+                        <mat-label>Priority</mat-label>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <input formControlName="archiveAfter" matInput maxlength="3" size="3" type="text" placeholder="No of Years"> 
+                        <mat-label>Archive after</mat-label>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-select formControlName="uploadTypes" multiple>
+                            <mat-option value="CASE-UPLOAD">Case Upload</mat-option>
+                            <mat-option value="BATCH-UPLOAD">Batch Upload</mat-option>
+                            <mat-option value="CANDIDATE-DATA-ENTRY">Candidate Data Entry</mat-option>
+                        </mat-select>
+                        <mat-label>Upload Types</mat-label>
+                    </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-select formControlName="closureTypesAllowed" multiple>
+                            <mat-option value="INTERIM">Interim</mat-option>
+                            <mat-option value="FINAL">Final</mat-option>
+                        </mat-select>
+                        <mat-label>Closure Type</mat-label>
+                    </mat-form-field>   
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-select formControlName="closureModesAllowed" multiple>
+                            <mat-option value="VERBAL">Verbal</mat-option>
+                            <mat-option value="WRITTEN">Written</mat-option>
+                        </mat-select>
+                        <mat-label>Closure Modes Allowed</mat-label>
+                    </mat-form-field>  
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-select formControlName="tatCalculationMethod">
+                            <mat-option value="CALENDAR">Calendar Days</mat-option>
+                            <mat-option value="WORKING">Working Days</mat-option>
+                        </mat-select>
+                        <mat-label>TAT Calculation Method</mat-label>
+                    </mat-form-field>    
+                    </div>
+
+                  </div>
+
+                </fieldset>    
+          </form>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label> Holidays </ng-template>
+        <div class="container-fluid">
+          <div class="my-3">
+            <form [formGroup]="holidayYearForm">
+            <mat-form-field appearance="outline">
+                <mat-select formControlName="holidayYear" (selectionChange)="yearChanged()">
+                    <mat-option value="2020">2020</mat-option>
+                    <mat-option value="2021">2021</mat-option>
+                    <mat-option value="2022">2022</mat-option>
+                    <mat-option value="2023">2023</mat-option>
+                    <mat-option value="2024">2024</mat-option>
+                    <mat-option value="2025">2025</mat-option>
+                    <mat-option value="2026">2026</mat-option>
+                    <mat-option value="2027">2027</mat-option>
+                    <mat-option value="2028">2028</mat-option>
+                    <mat-option value="2029">2029</mat-option>                            
+                    <mat-option value="2030">2030</mat-option>
+                    <mat-option value="2031">2031</mat-option>
+                    <mat-option value="2032">2032</mat-option>
+                    <mat-option value="2033">2033</mat-option>
+                    <mat-option value="2034">2034</mat-option>
+                    <mat-option value="2035">2035</mat-option>
+                    <mat-option value="2036">2036</mat-option>
+                    <mat-option value="2037">2037</mat-option>
+                    <mat-option value="2038">2038</mat-option>
+                    <mat-option value="2039">2039</mat-option>
+                    <mat-option value="2040">2040</mat-option>                                                                                    
+                </mat-select>
+                <mat-label>Select a Year</mat-label>
+            </mat-form-field>
+            </form>
+          </div>
+          <fieldset class="border rounded-3 p-3">
+                <legend class="float-none w-auto px-3" > Holidays </legend>    
+                <div class="mat-elevation-z8">
+                  <table class="table table-striped" mat-table [dataSource]="holidayDataSource">
+                    <caption></caption>
+                    <ng-container matColumnDef="serialNumber">
+                      <th mat-header-cell *matHeaderCellDef> # </th>
+                      <td mat-cell *matCellDef="let element;let i=index">{{ i+1 }}</td>
+                    </ng-container>
+      
+                      <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let element"> 
+                          <input class="form-control" [(ngModel)]="element.date" [value]="element.date" type="date">
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                        <td mat-cell *matCellDef="let element">
+                                <input class="form-control" [(ngModel)]="element.description" [value]="element.description" type="text" size="20" maxLength="20">
+                        </td>
+                    </ng-container> 
+                    <ng-container matColumnDef="add">
+                      <th mat-header-cell *matHeaderCellDef>
+                          <button mat-icon-button (click)="addAHoliday()"><mat-icon>add_circle</mat-icon></button> 
+                      </th>
+                      <td mat-cell *matCellDef="let colorCode">
+                          <button mat-icon-button color="primary"><mat-icon>add_circle</mat-icon></button>
+                      </td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="delete">
+                      <th mat-header-cell *matHeaderCellDef> Delete </th>
+                      <td mat-cell *matCellDef="let element">
+                          <button mat-icon-button color="warn" (click)="deleteAHoliday(element)"><mat-icon>delete_forever</mat-icon></button>
+                      </td>
+                    </ng-container>
+                      
+                      <tr mat-header-row *matHeaderRowDef="holidayDisplayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: holidayDisplayedColumns;"></tr>
+                  </table>
+                </div>
+            
+          </fieldset>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="_id !=''" >
+        <ng-template mat-tab-label > Contract </ng-template>
+        <div class="container-fluid mb-4">
+          <fieldset class="border rounded-3 p-3">
+            <legend class="float-none w-auto px-3"> Contract </legend>
+            <div class="mat-elevation-z8">
+              <table class="table table-striped" mat-table [dataSource]="contractDataSource">
+                <caption></caption>
+                <ng-container  matColumnDef="serialNumber">
+                  <th mat-header-cell *matHeaderCellDef>#</th>
+                  <td mat-cell *matCellDef="let contract;let i=index">{{i+1}}</td>
+                </ng-container>
+                <ng-container matColumnDef="agreementDate">
+                  <th mat-header-cell *matHeaderCellDef>Agreement Date</th>
+                  <td mat-cell *matCellDef="let contract">{{contract.agreementDate | date:'dd-MMM-yyyy'}}</td>
+              </ng-container>                        
+              <ng-container matColumnDef="effectiveDate">
+                  <th mat-header-cell *matHeaderCellDef>Effective Date</th>
+                  <td mat-cell *matCellDef="let contract">{{contract.effectiveDate | date :'dd-MMM-yyyy'}}</td>
+              </ng-container>                               
+              <ng-container matColumnDef="expiryDate">
+                  <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                  <td mat-cell *matCellDef="let contract">{{contract.expiryDate | date:'dd-MMM-yyyy'}}</td>
+              </ng-container>    
+              <ng-container matColumnDef="retentationDate">
+                  <th mat-header-cell *matHeaderCellDef>Retention Date</th>
+                  <td mat-cell *matCellDef="let contract">{{contract.retentationDate | date:'dd-MMM-yyyy'}}</td>
+              </ng-container>                                                             
+              <ng-container matColumnDef="add">
+                  <th mat-header-cell *matHeaderCellDef>
+                      <button matTooltip="Add a new contract" mat-icon-button (click)="addContractDetailsClicked()"><mat-icon>add_circle</mat-icon></button>
+                  </th>
+                  <td mat-cell *matCellDef="let contract">
+                      <button matTooltip="Add a new contract" mat-icon-button color="primary" inline="true"><mat-icon>add_circle</mat-icon></button>
+                  </td>mat-cell </ng-container>                                                                             
+              <ng-container matColumnDef="details">
+                  <th mat-header-cell *matHeaderCellDef>Details</th>
+                  <td mat-cell *matCellDef="let contract">
+                      <button mat-icon-button color="primary" inline="true" (click)="editContractButtonClicked(contract)"><mat-icon>edit</mat-icon></button>
+                  </td>mat-cell </ng-container>                                                         
+              <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef>Delete</th>
+                  <td mat-cell *matCellDef="let contract">
+                      <button mat-icon-button color="warn" inline="true" (click)="deleteContract(contract)"><mat-icon>delete</mat-icon></button>
+                  </td>
+              </ng-container>                         
+           
+              <tr mat-header-row *matHeaderRowDef="contractDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: contractDisplayedColumns;"></tr>
+              </table>
+            </div> 
+          </fieldset>
+
+
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="_id !=''">
+        <ng-template mat-tab-label> Subclients </ng-template>
+        <div class="container-fluid mb-4">
+          <ng-container class="border rounded-3 p-3">
+            <div class="mat-elevation-z8">
+              <table class="table table-striped" mat-table [dataSource]="subclientsDataSource">
+                <caption></caption>
+                <ng-container  matColumnDef="serialNumber">
+                  <th mat-header-cell *matHeaderCellDef>#</th>
+                  <td mat-cell *matCellDef="let contract;let i=index">{{i+1}}</td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Sub Client</th>
+                  <td mat-cell *matCellDef="let subclient;let i =index">{{subclient.name}}</td>
+                </ng-container>                    
+                 <ng-container matColumnDef="add">
+                  <th mat-header-cell *matHeaderCellDef>
+                      <button matTooltip="Add Subclient" mat-icon-button (click)="addSubclientButtonClicked()"><mat-icon>add_circle</mat-icon></button> 
+                  </th>
+                  <td mat-cell *matCellDef="let subclient;">
+                      <button mat-icon-button color="primary" (click)="addSubclientButtonClicked()"><mat-icon>add_circle</mat-icon></button>
+                  </td>
+                 </ng-container>                                                            
+                 <ng-container matColumnDef="details">
+                  <th mat-header-cell *matHeaderCellDef>Edit</th>
+                  <td mat-cell *matCellDef="let subclient;">
+                      <button mat-icon-button color="primary" (click)="editSubclientButtonClicked(subclient)"><mat-icon>edit</mat-icon></button>
+                  </td>
+              </ng-container>                                        
+              <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef>Delete</th>
+                  <td mat-cell *matCellDef="let subclient;">
+                      <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                  </td>
+              </ng-container>                                                            
+         
+              <tr mat-header-row *matHeaderRowDef="subclientDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: subclientDisplayedColumns;"></tr>
+              </table>
+
+            </div>
+
+          </ng-container>
+
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label> Analysis </ng-template>
+        <div class="container-fluid mb-3">
+          <ng-container class="border rounded-3 p-3">
+            <div class="mat-elevation-z8">
+              <table class="table table-striped" mat-table [dataSource]="clientAnalysisCodeDataSource">
+                <caption></caption>
+                <ng-container  matColumnDef="serialNumber">
+                  <th mat-header-cell *matHeaderCellDef>#</th>
+                  <td mat-cell *matCellDef="let contract;let i=index">{{i+1}}</td>
+                </ng-container>
+                <ng-container matColumnDef="analysisType">
+                  <th mat-header-cell *matHeaderCellDef>Analysis Type</th>
+                  <td mat-cell *matCellDef="let clientAnalysisCode">{{clientAnalysisCode.analysisTypeName}}</td>
+              </ng-container>                                        
+              <ng-container matColumnDef="analysisCode">
+                  <th mat-header-cell *matHeaderCellDef>Analysis Code</th>
+                  <td mat-cell *matCellDef="let clientAnalysisCode">
+                      <select class="form-select" [(ngModel)]="clientAnalysisCode.analysisCode" value="clientAnalysisCode.analysisCode">
+                          <option value="-1">Select One</option>
+                          <option *ngFor="let analysisCode of clientAnalysisCode.analysisCodes" value="{{analysisCode._id}}">{{analysisCode.name}}</option>
+                      </select>                            
+                  </td>
+              </ng-container>                                                                    
+              <tr mat-header-row *matHeaderRowDef="clientAnalysisCodeDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: clientAnalysisCodeDisplayedColumns;"></tr>   
+              </table>
+
+            </div>
+
+          </ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group> -->
+
+  <!-- <div class="d-flex justify-content-end">
+    <div>
+      <button class="btn-rounded"
+        (click)="backButtonClicked()">Back</button>
+      <button class="btn-rounded"
+        (click)="saveButtonClicked()"
+        [disabled]="generalDetailsForm.invalid || contactDetailsForm.invalid || statutoryDetailsForm.invalid">Submit</button>
+    </div>
+  </div> -->
+</div>
