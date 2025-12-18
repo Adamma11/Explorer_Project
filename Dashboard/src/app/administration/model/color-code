@@ -1,0 +1,7 @@
+export class ColorCode {
+    _id:string;
+    client:string;
+    color:string;
+    status:string;
+    modifiedBy:string;
+}

@@ -1,0 +1,19 @@
+// // import { ColorCode } from './color-code';
+// import { Incentive } from './incentive';
+// // import { Penalty } from './penalty';
+// // import { ColorCode } from './color-code';
+// import { Penalty } from './penalty';
+// import { ReportType } from './report-type';
+
+// export class ClientContract {
+//     _id:string; 
+//     client:string;
+//     agreementDate:string;
+//     effectiveDate:string;
+//     expiryDate:string;
+//     retentationDate:string;
+//     penaltySlabs:Penalty[];
+//     incentiveSlabs:Incentive[];
+//     modifiiedBy:string; 
+       
+// }
