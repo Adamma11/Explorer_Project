@@ -1,0 +1,173 @@
+<div class="table-container">
+    <div class="main-container">
+      <h1 class="tagname">Case Status - Component List</h1>
+      <mat-divider></mat-divider>
+      <div class="table">
+        <div class="mat-card">
+          <div class="document-card">
+            <h4 class="card-heading" style="padding: 0px; margin: 0px;">Case Information</h4>
+            <!-- <button class="btn-rounded" (click)="confirmButtonClicked()"> Confirm </button> -->
+          </div>
+          <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Case Id: <span style="color: black !important;">{{caseId}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Candidate Name: <span style="color: black !important;">{{candidateName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Client: <span style="color: black !important;">{{clientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Subclient: <span style="color: black !important;">{{subclientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+            </div>
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Father Name: <span style="color: black !important;">{{fathername}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{fathername}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>D.O.B: <span style="color: black !important;">{{dob | date:'dd-MMM-yyyy' }}</span>
+                </mat-label>
+                <!-- <mat-label class="label-value"> {{dob | date:'dd-MMM-yyyy' }}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Contact No: <span style="color: black !important;">{{number}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{contact}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Email Id: <span style="color: black !important;">{{emailid}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{emailid}}</mat-label> -->
+            </div>
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>D.O.J: <span style="color: black !important;">{{doj | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{doj}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Process: <span style="color: black !important;">{{process}}</span> </mat-label>
+                <!-- <mat-label class="label-value"> {{ process }}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Location: <span style="color: black !important;">{{place}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{place}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+              <mat-label>TAT Start: <span  style="color: black !important;">{{tatStartDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+            </div>
+            <div class="form-card-group">
+              <mat-label>TaT End: <span  style="color: black !important;">{{tatEndDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+            </div>
+
+        </div>
+        </div>
+
+        
+        
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="serialNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+            <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)">
+              {{ i + 1}}
+            </td>
+            <!-- <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)" [class.disabled]="row.status !='DE-COMPLETED' && row.status !='INSUF-1-REQ'">
+              {{ i + 1}}
+            </td> -->
+          </ng-container>
+          <ng-container matColumnDef="checkId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Check Id </th>
+            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.checkId}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="component">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.componentDisplayName}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.displayStatus}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="grade">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.grade}} </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter</td>
+          </tr>
+        </table>
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+        <!-- <div class="button-group">
+              <button class="btn-rounded" mat-raised-button color="primary"
+                (click)="confirmButtonClicked()">Confirm</button>
+            </div> -->
+      </div>
+      <div *ngIf="uploadedReportsDataSource.data.length > 0" style="margin-top: 10px;">
+        <div>
+            <legend style="background-color: black;color: white;">Report Details</legend>
+            <table mat-table [dataSource]="uploadedReportsDataSource" matSort>
+            <!-- <mat-table  [dataSource]="uploadedReportsDataSource" matSort> -->
+                <ng-container matColumnDef="serialNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+                    <td mat-cell *matCellDef="let row; let i = index" >
+                      {{ i + 1}}
+                    </td>
+                  </ng-container>
+                <ng-container matColumnDef="reportType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Report Type </th>
+                    <td mat-cell *matCellDef="let row" > {{row.type}} </td>
+                  </ng-container>
+           
+                <ng-container matColumnDef="reportDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Report Date </th>
+                    <td mat-cell *matCellDef="let row" > {{row.date | date:'dd-MMM-yyyy'}} </td>
+                  </ng-container>
+            
+                <ng-container matColumnDef="report">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Report </th>
+                    <td mat-cell *matCellDef="let row" > {{row.fileName}} </td>
+                  </ng-container>
+             
+                <ng-container matColumnDef="download">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Download </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button color="primary" (click)="downloadReportButtonClicked(row)"><mat-icon>download</mat-icon></button>
+                     </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="reportColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: reportColumns;"></tr>
+          
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="reportColumns.length">No data matching the filter</td>
+              
+                <!-- <mat-header-row style="background-color: lightskyblue;" *matHeaderRowDef="reportColumns"></mat-header-row>
+                <mat-row *matRowDef="let item;columns:reportColumns"></mat-row> -->
+            <!-- </mat-table>
+              -->
+            </table>
+        </div>
+    </div>
+    </div>
+    <!-- <div class="details" *ngIf="showDetailsFlag">
+      <div>
+        <ng-container *ngIf="selectedRow.componentName === 'personalDetails'; else componentDetails">
+          <app-personal-details-inputqc></app-personal-details-inputqc>
+        </ng-container>
+        <ng-template #componentDetails>
+          <app-new-case-status-review [selectedRow]="selectedRow"></app-new-case-status-review>
+        </ng-template>
+      </div>
+    </div> -->
+  </div>
