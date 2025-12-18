@@ -1,0 +1,28 @@
+<h1 class="tagname">Email Template Details</h1>
+<mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+<form [formGroup]="emailTemplate" (ngSubmit)="saveEmailTemplateData()">
+  <div class="form-content">
+
+
+        <div class="form-group">
+            <mat-label>Template Name</mat-label>
+            <input formControlName="name" type="text" size="30" maxlength="100" matInput [value]="selectedRow?.name">
+        </div>
+          <div  class="form-group">
+            <mat-label>Subject</mat-label>
+            <input formControlName="subject" type="text" size="30" maxlength="100" matInput [value]="selectedRow?.subject">
+          </div>
+          <div  class="form-group">
+            <mat-label>Content</mat-label>
+            <!-- <textarea formControlName="content" matInput name="content" cols="30" rows="10" [value]="selectedRow?.content"></textarea>
+             -->
+             <textarea formControlName="content" id="content" cols="30" rows="10"></textarea> 
+
+            <!-- <input formControlName="content" type="text" size="30" maxlength="100" matInput [value]="selectedRow?.content"> -->
+          </div>
+    <div class="button-group">
+      <button class="btn-rounded" type="submit">Save</button>
+      <button class="btn-rounded" (click)="cancelButtonClicked($event)">Cancel</button>
+  </div>
+</div>
+</form>
