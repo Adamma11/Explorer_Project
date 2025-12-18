@@ -1,0 +1,97 @@
+.mat-mdc-cell {
+    font-size: 11px;
+  }
+  .mat-mdc-table .mdc-data-table__row {
+    height: 34px;
+  }
+  .mat-mdc-table .mdc-data-table__header-row {
+    height: 34px;
+  }
+      
+      table {
+          width: 100%;
+        }
+        .mat-row,
+  .mat-header-row {
+      line-height: 1.2; 
+      height: 20px;
+  }
+        th.mat-sort-header-sorted {
+          color: black;
+        }
+      
+        .striped-row {
+          background-color: #f2f2f2; 
+        }
+      
+        .hovered-row{
+          background-color: #d9d9d9 !important;
+        }
+  
+        .header-container,.header-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px; 
+        }
+        
+        .add-button {
+          margin-left: 10px; 
+          margin-right: 20px;
+          background-color: #059142;
+  
+        }
+  
+        .save-button{
+          margin-left: 20px;
+          margin-right: 10px;
+          background-color: red;
+          margin-top: 10px;
+          margin-right: 20px;
+        }
+  
+        .add-button,.save-button{
+          color: #FFF;
+  
+        }
+        .mat-elevation-z8 {
+          max-height: 460px; 
+          overflow-y: auto; 
+      }
+      
+      .icon-btn {
+        background-color: inherit;
+        border: none;
+        position: relative;
+        mat-icon {
+          font-size: 20px;
+          display: flex;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #f44336;
+        }
+      }
+  
+      // :host ::ng-deep .mat-toolbar-multiple-rows{
+      //   min-height: 50px !important;
+      //   .mat-toolbar-row{
+      //     height: 50px !important;
+      //     h2{
+      //       margin: 0px;
+      //     }
+      //   }
+      // }
+
+      .btn-rounded{
+        padding: 4px;
+        padding-left: 1.2em !important;
+        padding-right: 1.2em !important;
+        border-radius: 500px;
+        background-color: #002bff;
+        color: white;
+        border: 0px;
+        margin-left: 30px;
+        height: 47px
+      }
