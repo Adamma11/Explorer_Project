@@ -1,0 +1,17 @@
+<h2 matDialogTitle>Holiday Details</h2>
+<form [formGroup]="holidayForm">
+    <mat-dialog-content class="row">
+        <mat-form-field appearance="outline" class="col-12 mb-3">
+            <input formControlName="date"  matInput type="date">
+            <mat-label>Date</mat-label>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-12 mb-3">
+            <input formControlName="description" matInput type="text" size="30" maxlength="100">
+            <mat-label>Description</mat-label>
+        </mat-form-field>    
+    </mat-dialog-content>
+</form>    
+<mat-dialog-actions align="end">
+    <button [disabled]="holidayForm.invalid" mat-raised-button class="btn-save" (click)="saveButtonClicked()">Save</button>    
+    <button mat-raised-button (click)="closeButtonClicked()" class="btn-cancel">Cancel</button>
+</mat-dialog-actions>
