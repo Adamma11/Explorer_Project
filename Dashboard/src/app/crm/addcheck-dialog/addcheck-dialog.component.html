@@ -1,0 +1,142 @@
+<mat-toolbar class="header-tag">
+    <h2>Add Check</h2>
+</mat-toolbar>    
+<mat-divider style="color: aqua; background-color: #33BABC;" ></mat-divider>
+<div style="display: flex; justify-content: end; margin-right: 42px;">
+    <mat-button mat-button [matMenuTriggerFor]="candidateDocsMenu" >Uploaded Documents</mat-button>        
+
+    <mat-menu #candidateDocsMenu="matMenu">
+    <div mat-menu-item *ngFor="let file of candidateDocs">
+        <div>
+            <span fxFlex="70%">{{file}}</span>
+            <button matTooltip="Open the file" fxFlex="15%;" mat-icon-button (click)="downloadCandidateDoc(file)"><mat-icon>download</mat-icon></button>      
+            <button matTooltip="Delete the file" fxFlex="15%" mat-icon-button><mat-icon>delete</mat-icon></button>      
+        </div>    
+    </div>
+    </mat-menu> 
+</div>
+
+<mat-dialog-content>
+<form [formGroup]="addCheckForm">
+        <div class="grid-content form-row">
+            <div class="form-group">
+                <mat-label>Case Id</mat-label>
+                <input formControlName="caseId" readonly>
+            </div>
+            <div class="form-group">
+                <mat-label>Candidate Name</mat-label>
+                <input formControlName="candidateName"  readonly>
+            </div>
+            <div class="form-group">
+                <mat-label>Component</mat-label>
+                <mat-select formControlName="selectedComponent" (selectionChange)="componentSelectionChanged($event)">
+                    <mat-option *ngFor="let component of componentList" value={{component._id}}>{{component.displayName}}</mat-option>
+                </mat-select>
+            </div>                      
+        </div>
+    <div class="grid-content">
+        <div class="form-row" *ngFor="let componentField of componentFields">
+            <div class="form-group"
+            *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                <mat-label>{{componentField.label}}</mat-label>
+                <input  formControlName="{{componentField.name}}" matInput size="30" type="text"
+                    placeholder={{componentField.label}}>
+            </div>
+            <div class="form-group"
+            *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                <mat-label>{{componentField.label}}</mat-label>
+                <textarea    maxlength="{{componentField.size}}" rows="1" cols="30"
+                    formControlName="{{componentField.name}}" matInput size="30" type="text"
+                    placeholder={{componentField.label}}></textarea>
+            </div>
+
+            <div class="form-group"
+            *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                <mat-label>{{componentField.label}}</mat-label>
+                <mat-select formControlName="{{componentField.name}}">
+                    <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                        <mat-option value={{val}}>{{val}}</mat-option>
+                    </ng-template>
+                </mat-select>
+            </div>
+            <div class="form-group"
+            *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                <mat-label>{{componentField.label}}</mat-label>
+                <input  formControlName={{componentField.name}} matInput size="11" maxlength="11"
+                    type="date" placeholder={{componentField.label}}>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <mat-label>Instructions</mat-label>
+            <textarea style="width: 553px "  matInput cols="30" rows="3" formControlName="addCheckComments"></textarea>
+        </div>
+    </div>      
+ </form>     
+    
+ <!-- <form [formGroup]="fileUploadForm" class="form-upload">
+    <mat-form-field appearance="outline">
+        <ngx-mat-file-input formControlName="candidateDocFile" accept=".pdf" valuePlaceholder="Click to upload File" placeholder="Click to Upload Docs" ></ngx-mat-file-input>
+        <mat-label>Upload Doc</mat-label>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <input matInput formControlName="fileTitle" type="text" maxlength="100" placeholder="File Title">
+        <mat-label>File Title</mat-label> 
+    </mat-form-field> -->
+    <!-- <button class="btn-rounded" [disabled]="fileUploadForm.get('candidateDocFile')!.value=='' || fileUploadForm.get('fileTitle')!.value==''" style="height:35px" fxFlexOffset="20px" mat-raised-button color="primary" (click)="uploadFile()">Upload File</button>    -->
+    
+    <!-- <button [disabled]="fileUploadForm.get('candidateDocFile')!.value=='' || fileUploadForm.get('fileTitle')!.value==''"
+    style="height:35px; width: 118px;" fxFlexOffset="20px" mat-raised-button color="primary" (click)="uploadFile()">Upload File</button>
+</form> -->
+
+<!-- added code nov-20 -->
+ <form [formGroup]="fileUploadForm" class="form-upload">
+  <mat-form-field appearance="outline">
+    <ngx-mat-file-input 
+      formControlName="candidateDocFile" 
+      accept=".pdf" 
+      valuePlaceholder="Click to upload Files" 
+      placeholder="Click to Upload Docs"
+      multiple
+      (change)="onFileSelected($event)">
+    </ngx-mat-file-input>
+    <mat-label>Upload Docs</mat-label>
+    
+    <!-- Display selected file names -->
+    <mat-hint *ngIf="fileUploadForm.get('candidateDocFile')!.value?.files">
+      {{ getSelectedFileNames() }}
+    </mat-hint>
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <input matInput formControlName="fileTitle" type="text" maxlength="100" placeholder="File Title">
+    <mat-label>File Title</mat-label>
+  </mat-form-field>
+  
+  <button 
+    [disabled]="fileUploadForm.get('candidateDocFile')!.value==''"
+    style="height:35px; width: 118px;" 
+    fxFlexOffset="20px" 
+    mat-raised-button 
+    color="primary" 
+    (click)="uploadFile()">
+    Upload Files
+  </button>
+</form>
+<!-- ended -->
+<!-- <button class="btn-rounded"> Attach Files </button> -->
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+<button [disabled]="addCheckForm.invalid" class="btn-rounded" (click)="addCheckButtonClicked()">Add Check</button>
+<button class="btn-rounded" (click)="cancelButtonClicked()">Cancel</button>
+</mat-dialog-actions>
+<!-- <div *ngIf="showCandidateDocsDialog" cdkDrag style="padding:20px;position:absolute;left:20px;top:vh;width:800px;height:500px;background-color: white;"  class="mat-elevation-z3">
+<div style="width:100%">
+    <div fxFlex></div><h3>{{displayedCandidateDocName}}</h3><div fxFlex></div>
+</div>    
+<ngx-extended-pdf-viewer  height="50vh" [src]="candidateDocsBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>        
+<div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+    <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeCandidateDocsDialog()">Close</button>
+</div>
+</div> -->
