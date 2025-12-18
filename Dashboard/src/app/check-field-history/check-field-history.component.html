@@ -1,0 +1,53 @@
+
+<div class="history-dialog-container">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">
+      <mat-icon class="history-icon">history</mat-icon>
+      Check History
+    </h2>
+    <button mat-icon-button class="close-button" (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <!-- History Content -->
+  <div class="history-content" *ngIf="checkHistoryList?.length; else noHistory">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let history of checkHistoryList" expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="history-header">
+            <div class="user-info">
+              <mat-icon class="user-icon">person</mat-icon>
+              <span>{{ history?.modifiedBy?.name || 'System' }}</span>
+            </div>
+            <div class="date-info">
+              <mat-icon class="date-icon">schedule</mat-icon>
+              <span>{{ history?.modifiedOn | date: 'medium' }}</span>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="field-changes">
+          <div *ngFor="let field of history?.modifiedFields" class="field-change-item">
+            <div class="field-name">{{ field.field }}:</div>
+            <div class="value-change">
+              <span class="old-value">{{ field.oldValue || '-' }}</span>
+              <mat-icon class="arrow-icon">arrow_right_alt</mat-icon>
+              <span class="new-value">{{ field.newValue || '-' }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <ng-template #noHistory>
+    <div class="no-history">
+      <mat-icon class="no-history-icon">info</mat-icon>
+      <p>No Field  history available for this component</p>
+    </div>
+  </ng-template>
+</div>
