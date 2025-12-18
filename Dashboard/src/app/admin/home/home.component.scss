@@ -1,0 +1,47 @@
+
+// .body{
+//   width: calc(100% - 2.3rem); 
+//   height: 100vh;
+//   margin-left: 2.3rem;
+//   transition: all 0.5s ease;
+//   // margin-top: 10px;
+// }
+
+// .body-trimmed {
+//   // width: calc(100% - 16.5625rem);
+//    margin-left: 10rem;
+//   transition: all 0.5s ease;
+//   // margin-left: 5rem;
+// }
+
+// .body-md-screen {
+//   width: calc(100% - 5rem);
+//   margin-left: 10rem;
+// }
+
+// .default-body{
+//   margin-left: 2.6rem;
+//   transition: all 0.5s ease;
+// }
+
+.body {
+  width: calc(100% - 2.3rem); 
+  height: 100vh;
+  margin-left: 2.3rem;
+  transition: all 0.5s ease;
+}
+
+.body-trimmed {
+  margin-left: 10rem;
+  transition: all 0.5s ease;
+}
+
+.body-md-screen {
+  width: calc(100% - 5rem);
+  margin-left: 10rem;
+}
+
+.default-body {
+  margin-left: 2.6rem;
+  transition: all 0.5s ease;
+}
