@@ -1,0 +1,108 @@
+<!-- <p class="tagname">Company Details</p> -->
+<h1 class="tagname">Company Details</h1>
+<mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;"></mat-divider>
+<form [formGroup]="companyForm" (ngSubmit)="saveCompanyData()">
+        <div class="form-content">
+
+       
+    <div class="form-row">
+              <div class="form-group">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="name" [value]="selectedRow?.name">
+              </div>
+              <div class="form-group">
+                  <mat-label>Phone No.</mat-label>
+                  <input matInput formControlName="phone" type="number" maxlength="12" [value]="selectedRow?.phone">
+              </div>
+              <div class="form-group">
+                  <mat-label>Email ID</mat-label>
+                  <input matInput formControlName="email" [value]="selectedRow?.email">
+              </div>
+          </div>
+
+          <div class="form-row">
+              <div class="form-group">
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="country" [value]="selectedRow?.country">
+                      <mat-option [value]="selectedRow?.country">{{selectedRow?.country}}</mat-option>
+                      <mat-option [value]="item" *ngFor="let item of countrylist">
+                          {{item}}
+                      </mat-option>
+                  </mat-select>
+              </div>
+              <div class="form-group">
+                <mat-label>PIN</mat-label>
+                <input matInput formControlName="pin" [value]="selectedRow?.pin">
+            </div>
+              <div class="form-group">
+                  <mat-label>Address</mat-label>
+                  <textarea matInput formControlName="address" [value]="selectedRow?.address" rows="1"></textarea>
+              </div>
+              <!-- <div class="form-group">
+                  <mat-label>Status</mat-label>
+                  <mat-select formControlName="status" [value]="selectedRow?.status">
+                      <mat-option value="ACTIVE">Active</mat-option>
+                      <mat-option value="INACTIVE">Inactive</mat-option>
+                      <mat-option value="FAKE">Fake</mat-option>
+                  </mat-select>
+              </div> -->
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+                <mat-label>State</mat-label>
+                <input matInput formControlName="state" [value]="selectedRow?.state">
+            </div>
+
+              <div class="form-group">
+                  <mat-label>Verification Fee</mat-label>
+                  <input matInput formControlName="verificationFee" [value]="selectedRow?.verificationFee">
+              </div>
+              <div class="form-group">
+                  <mat-label>Concern Person</mat-label>
+                  <input matInput  formControlName="concernperson" [value]="selectedRow?.concernperson">
+              </div>
+          </div>
+
+          <div class="form-row">
+              <div class="form-group">
+                  <mat-label>Designation</mat-label>
+                  <input matInput  formControlName="designation" [value]="selectedRow?.designation">
+              </div>
+              <div class="form-group">
+                  <mat-label>No. of Days for Verification</mat-label>
+                  <input matInput  formControlName="daysforverification" [value]="selectedRow?.daysforverification">
+              </div>
+              <div class="form-group">
+                  <mat-label>Mode of Verification</mat-label>
+                  <mat-select  formControlName="modeofverification" [value]="selectedRow?.modeofverification">
+                    <mat-option value="email">Email</mat-option>
+                    <mat-option value="verbel">Verbel</mat-option>
+                    <mat-option value="written">Written</mat-option>
+                    <mat-option value="post">Post</mat-option>
+                    <mat-option value="direct">Direct</mat-option>
+                    <mat-option value="online">Online</mat-option>
+                    <mat-option value="offline">Offline</mat-option>
+                  </mat-select>
+              </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+                <mat-label>Mandatory Documents</mat-label>
+                <input type="text" type="text" matInput placeholder="Mandatory Documents" formControlName="mandatoryDocuments" [value]="selectedRow?.mandatoryDocuments">
+            </div>
+          <div class="form-group">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" [value]="selectedRow?.status">
+                <mat-option value="ACTIVE">Active</mat-option>
+                <mat-option value="INACTIVE">Inactive</mat-option>
+                <mat-option value="FAKE">Fake</mat-option>
+            </mat-select>
+        </div>
+    </div>
+        </div>
+            <div class="button-group">
+          <button class="btn-rounded" type="submit">Save</button>
+          <button class="btn-rounded" (click)="cancelButtonClicked($event)">Cancel</button>
+      </div>
+  </form>
