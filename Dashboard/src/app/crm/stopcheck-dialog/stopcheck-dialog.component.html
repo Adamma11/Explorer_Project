@@ -1,0 +1,67 @@
+<mat-toolbar class="header-tag">
+    <h2>Stop Check</h2>
+</mat-toolbar>   
+<mat-divider style="color: aqua; background-color: #33BABC;" ></mat-divider>
+
+<div style="display: flex; justify-content: end; margin-right: 42px;">
+    <mat-button mat-button [matMenuTriggerFor]="powsMenu" >Uploaded Documents</mat-button>        
+
+    <mat-menu #powsMenu="matMenu">
+    <div mat-menu-item *ngFor="let file of pows">
+        <div>
+            <span fxFlex="70%">{{file}}</span>
+            <button matTooltip="Open the file" fxFlex="15%;" mat-icon-button (click)="downloadPow(file)"><mat-icon>download</mat-icon></button>      
+            <button matTooltip="Delete the file" fxFlex="15%" mat-icon-button><mat-icon>delete</mat-icon></button>      
+        </div>    
+    </div>
+    </mat-menu> 
+</div>
+
+<mat-dialog-content >
+<form [formGroup]="stopCheckForm">
+    <div class="grid-content form-row">
+        <div class="form-group">
+            <mat-label>Case Id</mat-label>
+            <input formControlName="candidateName" readonly>
+        </div>
+        <div class="form-group">
+            <mat-label>Candidate Name</mat-label>
+            <input formControlName="caseId" readonly>
+        </div>
+        <div class="form-group">
+            <mat-label>Component</mat-label>
+            <input formControlName="componentDisplayName" readonly>
+        </div>               
+    </div>    
+    <div class="form-row">
+        <div class="form-group">
+            <mat-label>Stop Check Comments</mat-label>
+            <textarea style="width: 553px" formControlName="stopCheckComments"  matInput rows="3" cols="30"></textarea>
+        </div>
+    </div>  
+</form>        
+<form [formGroup]="fileUploadForm" class="form-upload">
+    <mat-form-field appearance="outline">
+        <ngx-mat-file-input formControlName="powFile" accept=".pdf" valuePlaceholder="Click to upload File" placeholder="Click to Upload Stop Check Docs" ></ngx-mat-file-input>
+        <mat-label>Upload Stop Check Doc</mat-label>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <input matInput formControlName="fileTitle" type="text" size="30" maxlength="100" placeholder="File Title">
+        <mat-label>File Title</mat-label> 
+    </mat-form-field>
+    <button [disabled]="fileUploadForm.get('powFile')!.value=='' || fileUploadForm.get('fileTitle')!.value==''" style="height:35px" fxFlexOffset="20px" mat-raised-button color="primary" (click)="uploadFile()">Upload File</button>        
+</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+<button [disabled]="stopCheckForm.invalid" class="btn-rounded" (click)="stopCheckButtonClicked()">Stop Check</button>
+<button class="btn-rounded" (click)="cancelButtonClicked()">Cancel</button>
+</mat-dialog-actions>
+<!-- <div *ngIf="showPowDialog" cdkDrag style="padding:20px;position:absolute;left:20px;top:vh;width:800px;height:500px;background-color: white;"  class="mat-elevation-z3">
+<div style="width:100%">
+    <div fxFlex></div><h3>{{displayedPowName}}</h3><div fxFlex></div>
+</div>    
+<ngx-extended-pdf-viewer  height="50vh" [src]="powBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>        
+<div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+    <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closePowDialog()">Close</button>
+</div>
+</div> -->
