@@ -1,0 +1,1033 @@
+<!-- 
+   <h1 class="tagname">Personal Details</h1>
+    
+    <div class="header" >
+        <div style="border: 1px solid #33BABC; padding: 6px; margin-bottom: 10px;">
+            <h4  style="padding: 0px; margin: 0px;    margin-left: 20px;">CDF:</h4>
+                
+                <button class="btn-rounded-1" *ngFor="let file of proofsUploaded" style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;    height: 20px !important;" (click)="downloadcdfFile(file)">{{ file }}</button>
+        </div>
+        <div style="border: 1px solid #33BABC; padding: 6px; margin-bottom: 10px;">
+            <div style="margin: 30px; " >
+                <button class="btn-rounded" (click)="chatbox()">Add Comments</button>  
+            </div>
+        </div>
+
+        
+        <div class="mat-card">
+            
+            <div class="header">
+                <h2>Case Details</h2>
+            </div>
+            <div class="form-row-details"  [formGroup]="tatDetailsForm"> 
+                <div class="form-card-group">
+                    <mat-label>Case Id : <span class="label-value">{{caseId}}</span></mat-label>
+                  </div>
+                  <div class="form-card-group">
+                    <mat-label *ngIf="!isEditing" (dblclick)="toggleEdit()">
+                      Candidate Name: <span class="label-value">{{ candidateName }}</span>
+                    </mat-label>
+                  
+                    <input 
+                      *ngIf="isEditing" 
+                      [(ngModel)]="candidateName" 
+                      formControlName="candidateName"
+                      class="editable-input"
+                      type="text"
+                      matInput
+                      placeholder="Enter candidate name"
+                      autofocus
+                    />
+                  </div>
+                  
+
+                  <div class="form-card-group">
+                    <mat-label>Client : <span class="label-value">{{clientName}}</span></mat-label>
+                  </div>
+                  <div class="form-card-group">
+                    <mat-label>Subclient : <span class="label-value">{{subclientName}}</span></mat-label>
+                  </div>
+                  <div class="form-card-group">
+                    <mat-label *ngIf="!isemployeeIdEditing" (dblclick)="toggleEditemployeeId()">
+                      Employee ID: 
+                      <span class="label-value">{{ employeeId || 'No Employee ID' }}</span>
+                    </mat-label>
+                  
+                    <input 
+                      *ngIf="isemployeeIdEditing" 
+                      [(ngModel)]="employeeId" 
+                      formControlName="employeeId"
+                      class="editable-input"
+                      type="text"
+                      matInput
+                      placeholder="Enter Employee ID"
+                      autofocus
+                    />
+                  </div>
+                  
+
+                
+                <div class="form-group"  appearance="outline" >
+                    <mat-label>TAT Start</mat-label>
+                    <input formControlName="initiationDate"  matInput size="11" maxlength="11" type="date" placeholder="TAT Start">                 
+                </div>
+                
+                <div class="form-group"  appearance="outline" >
+                    <mat-label>TAT End</mat-label>
+                    <input formControlName="tatEndDate"  matInput size="11" maxlength="11" type="date" placeholder="TAT End">                 
+                </div>
+                
+                <div  class="form-group" style="margin-top: 28px;">
+                    <button style="border-radius: 25px;height: 30px;"   mat-raised-button color="primary" (click)="saveTat()">Save</button>
+                </div> 
+                
+                
+            </div> 
+        </div>
+        <mat-divider></mat-divider>
+                <div class="header">
+                    <h2 class="sub-title">Personal Details</h2>
+                </div>
+        <div >
+                <form [formGroup]="personalDetailsDataEntryForm" >
+                    <mat-card style="height: 100%; box-shadow: none; border: 1px solid #33BABC; padding: 20px;">
+
+                        <label class="header-label">Provided Details</label>
+                            <mat-divider></mat-divider>
+                            <mat-card-content class="grid-content">  
+                                <div class="form-row" *ngFor="let personalDetailsField of personalDetailsFields">
+                                    <div class="form-group"
+                                    *ngIf="personalDetailsField.type=='TEXT'">
+                                    <mat-label>{{personalDetailsField.label}}</mat-label>
+                                    <input [readonly]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName="{{personalDetailsField.name}}" required="{{personalDetailsField.mandatory}}" matInput size="30" [attr.maxlength]="getFieldSize(personalDetailsField)" type="text" placeholder={{personalDetailsField.label}}>
+                                </div>
+                                <div class="form-group"
+                                *ngIf="personalDetailsField.type=='DATE'">
+                                <mat-label>{{personalDetailsField.label}}</mat-label>
+                                <input [readonly]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName={{personalDetailsField.name}} required="{{personalDetailsField.mandatory}}" matInput size="11" maxlength="11" type="date" placeholder={{personalDetailsField.label}}>                 
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        
+                        
+                        <div style="display: flex;">
+                            <div class="form-status" *ngIf="personalDetailsInputqcStatus !='INPUTQC-ACCEPTED'"  appearance="outline">
+                                <mat-label>Status</mat-label>
+                                <mat-select [disabled]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName="status">
+                                    <mat-option value="INSUF-1-REQ">Insufficiency</mat-option>
+                                    <mat-option value="DE-COMPLETED">Data Entry Completed</mat-option>
+                                </mat-select>
+                                
+                            </div>
+                            <div class="form-status" *ngIf="personalDetailsDataEntryForm.get('status')?.value=='INSUF-1-REQ'"  appearance="outline">
+                                <mat-label>Insufficiency Details</mat-label>
+                                
+                                <textarea [readonly]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName="insufficiencyComments" matInput rows="3" cols="30" placeholder="Insufficiency Details"></textarea>
+                            </div>
+                            <div *ngIf="personalDetailsInputqcStatus =='INPUTQC-ACCEPTED'">Data Provided has been accepted for further processing</div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </form>
+            
+            <div *ngIf="personalDetailsInputqcStatus=='INPUTQC-REJECTED'">
+                <Label>Input QC Status</Label>
+                <div>
+                    <div class="form-status" >
+                        <mat-label>Status</mat-label>
+                        <mat-select disabled="true" [(ngModel)]="personalDetailsInputqcStatus" value="personalDetailsInputqcStatus">
+                            <mat-option value="INPUTQC-ACCEPTED">Accepted</mat-option>
+                            <mat-option value="INPUTQC-REJECTED">Rejected</mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="form-status" *ngIf="personalDetailsInputqcStatus=='INPUTQC-REJECTED'" >
+                        <mat-label>Insufficiency Details</mat-label>
+                        <textarea readonly [(ngModel)]="personalDetailsInputqcComments" value="personalDetailsInputqcComments" matInput rows="3" cols="30" placeholder="Inputqc Comments"></textarea>
+                    </div>
+                </div>    
+            </div>
+            
+            <div style="margin-top:10px;margin-bottom:10px;">
+                
+                <div  *ngIf="personalDetailsInputqcStatus !='INPUTQC-ACCEPTED'" style="text-align: right;">
+                    <button style="border-radius: 25px;height: 30px;"  [disabled]="personalDetailsDataEntryForm.invalid" mat-raised-button color="primary" (click)="saveData()">Save</button>
+                </div>            
+            </div> 
+    </div>
+    
+    
+    <mat-divider></mat-divider>
+                <div class="header">
+                    <h2 class="sub-title">Check Information</h2>
+                </div>
+        
+        <div    *ngFor="let requiredComponent of requiredComponents; let i = index" [attr.aria-label]="requiredComponent.displayName" style=" border: 1px solid #33BABC; padding: 16px;">
+            
+            <div style="margin-top: 10px; margin-bottom: 10px;" align="end">
+                <button style="border-radius: 31px" mat-raised-button color="primary"   (click)="addOneMoreComponent(i)">Add one more {{requiredComponent.displayName}}</button>                
+                
+            </div>
+            <div style="margin-left: 20px;color:red;">Instructions :  {{requiredComponent.dataEntryInstructions}}</div>
+            
+            <div *ngFor="let enteredCheck of requiredComponent.enteredChecks;let k=index" >
+                <label style="color: white;  display: flex ; justify-content: center;" [ngStyle]="{'background-color': (enteredCheck.inputqcStatus.status =='INPUTQC-REJECTED') ? 'red ' : '#6b728d'}">{{requiredComponent.displayName}} {{k+1}}</label>
+                <mat-divider></mat-divider>
+                <form [formGroup]="enteredCheck.compForm">
+                        <mat-card-content class="grid-content">
+                            <div class="form-row" *ngFor="let componentField of requiredComponent.componentFields">
+                                <div class="form-group"
+                                *ngIf="componentField.name=='institutename'&&componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')"
+                                appearance="outline">
+                                <mat-label>{{componentField.label}}</mat-label>
+                                <input formControlName="{{componentField.name}}" matInput size="30"
+                                [attr.maxlength]="getFieldSize(componentField)" type="text"
+                                placeholder={{componentField.label}} (input)="getEducationInstitutions($event)"
+                                [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of educationmasters" [value]="option.name"
+                                    [ngClass]="{'fake-option': option.source === 'fake'}">
+                                    {{option.name}}
+                                </mat-option>
+                            </mat-autocomplete> 
+                            
+                        </div>
+                        
+                        <div class="form-group"  *ngIf="componentField.name=='organization'  && componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <input formControlName="{{componentField.name}}" matInput size="30" [attr.maxlength]="getFieldSize(componentField)" type="text" placeholder={{componentField.label}} (input)="getEmployer($event)" [matAutocomplete]="auto"> 
+                          
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let employer of empName" [value]="employer.name">
+                                    {{employer.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            
+                        </div>
+                        <div class="form-group"
+                        *ngIf="componentField.name!='nameofuniverskty' && componentField.name!=='organization' && componentField.name!=='institutename' && componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')"
+                        appearance="outline">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input formControlName="{{componentField.name}}" matInput size="30"
+                        [attr.maxlength]="getFieldSize(componentField)" type="text"
+                        placeholder={{componentField.label}}>
+                    </div>
+                    
+                    <div class="form-group" *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <textarea maxlength="{{componentField.size}}" rows="3" cols="30" formControlName="{{componentField.name}}" matInput size="30" [attr.maxlength]="getFieldSize(componentField)" type="text" placeholder={{componentField.label}}></textarea>                 
+                    </div>   
+                    <div class="form-group"  *ngIf="componentField.type=='AC-UNI' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline">
+                        <mat-label>University</mat-label>
+                        <input placeholder="Enter University Name" matInput formControlName="{{componentField.name}}" [matAutocomplete]="autoUni">
+                        <mat-autocomplete #autoUni="matAutocomplete">
+                            <mat-option *ngIf="isLoading" >Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let university of filteredUniversities" [value]="university.name">
+                                    <span>{{university.name}}</span>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </div>
+                    <div class="form-group" *ngIf="componentField.type=='AC-COM' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline">
+                        <mat-label>Company Name</mat-label>
+                        <input placeholder="Enter Company Name" matInput  formControlName="{{componentField.name}}" [matAutocomplete]="autoCom">
+                        <mat-autocomplete #autoCom="matAutocomplete">
+                            <mat-option *ngIf="isLoading" >Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let company of filteredCompanies" [value]="company.name">
+                                    <span>{{company.name}}</span>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </div> 
+                    
+                    <div class="form-group"  *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <mat-select formControlName="{{componentField.name}}" (selectionChange)="onSelectionChange($event)"> 
+                                <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name,i)">
+                                    <mat-option value={{val}}>{{val}}</mat-option>
+                                </ng-template> 
+                            </mat-select>
+                        </div>  
+                        
+                        <div class="form-group"  *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <input formControlName={{componentField.name}}  matInput size="11" maxlength="11" type="date" placeholder={{componentField.label}}>                 
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <div>
+
+                    <div style="display: flex;" >
+                        
+                        <div class="form-status" *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'"  fxFlex="25%" appearance="outline">
+                            <mat-label>Status</mat-label>
+                            <mat-select [disabled]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" formControlName="status">
+                                <mat-option value="INSUF-1-REQ">Insufficiency</mat-option>
+                                <mat-option value="DE-COMPLETED">Data Entry Completed</mat-option>
+                            </mat-select>
+                        </div>
+                  
+                        <div class="form-group" *ngIf="enteredCheck.compForm.get('status').value=='INSUF-1-REQ'" fxFlexOffset="20px" fxFlex="35%" appearance="outline" >
+                            <mat-label>Insufficiency Details</mat-label>
+                            <input  [readonly]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" formControlName="insufficiencyComments" matInput size="30"  type="text" placeholder="Insufficiency Details" (input)="getInsuffComments($event)" [matAutocomplete]="auto"> 
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let insuff of insuffcomment" [value]="insuff.comment">
+                                    {{insuff.comment}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </div>
+                        
+                        
+                        <div *ngIf="enteredCheck.inputqcStatus.status =='INPUTQC-ACCEPTED'">Data Provided has been accepted for further processing</div>
+                        
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div  *ngIf="requiredComponent.fileUploadRequired==true"  >
+                    
+                    
+                    
+                    <mat-label>
+                        Upload Candidate's Documents
+                    </mat-label> 
+                    <div class="upload">
+
+                        <mat-form-field class="file-input-field" *ngIf="requiredComponent.fileUploadRequired == true && enteredCheck.inputqcStatus.status != 'INPUTQC-ACCEPTED'" appearance="outline">
+                            <mat-label>Upload Candidate Docs</mat-label>
+                            <ngx-mat-file-input [disabled]="inputqcStatus[k] == 'INPUTQC-ACCEPTED'" formControlName="componentFile" multiple placeholder="Upload Candidate Docs"></ngx-mat-file-input>
+                          </mat-form-field>
+                          
+                      
+                            <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" [disabled]="enteredCheck.compForm.invalid  || enteredCheck.compForm.get('componentFile').value ===''" style="margin-top:10px;height:35px" mat-raised-button color="primary" (click)="uploadFile(i,k)">Add</button>             
+                            
+   
+                        <div *ngIf="showDocumentDialog" cdkDrag style="padding:20px;position:absolute;left:20px;top:vh;width:800px;height:500px;background-color: white;"  class="mat-elevation-z3">
+                            <div style="width:100%">
+                                <div fxFlex></div><h3>{{displayedDocumentName}}</h3><div fxFlex></div>
+                            </div>    
+                            <div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+                                <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeDocumentDialog()">Close</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 49px " ></mat-divider>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <h4 style="padding: 0px; margin: 0px;">Documents:</h4>
+                        
+                        <button 
+                          class="btn-rounded-1" 
+                          *ngFor="let file of enteredCheck.files" 
+                          [value]="file" 
+                          style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;" 
+                          (click)="downloadCDF(file, k, i)">
+                          {{ file }}
+                        </button>
+                      </div>
+                      
+                    
+                    
+                    <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+                  
+                    
+                </div>
+                
+        </form>
+        <div style="margin-top: 10px; margin-bottom: 10px;" align="end">
+            <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" mat-raised-button color="warn" style="margin-left: 20px; border-radius: 31px" (click)="deleteThisCheck(i,k)">Delete this {{requiredComponent.displayName}}</button>                
+            
+        </div>
+        
+        
+        <mat-divider></mat-divider>
+        
+        <div *ngIf="enteredCheck.inputqcStatus.status=='INPUTQC-REJECTED'">
+            <label style="background-color: black;color: white;">Input QC Status</label>
+            <div>
+                <div class="form-group" fxFlex="25%" appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select disabled="true" [(ngModel)]="enteredCheck.inputqcStatus.status" value="enteredCheck.inputqcStatus.status">
+                        <mat-option value="INPUTQC-ACCEPTED">Accepted</mat-option>
+                        <mat-option value="INPUTQC-REJECTED">Rejected</mat-option>
+                    </mat-select>
+                </div>
+                <div class="form-group" *ngIf="enteredCheck.inputqcStatus.status=='INPUTQC-REJECTED'" fxFlexOffset="20px" fxFlex="35%" appearance="outline">
+                    <mat-label>Rejection Comments</mat-label>
+                    <textarea readonly [(ngModel)]="enteredCheck.inputqcStatus.inputqcComments" value="inputqcStatus[k].inputqccomments" matInput rows="3" cols="30" placeholder="Rejection Comments"></textarea>
+                </div>                        
+            </div>
+            
+        </div>
+        <div style="margin-top: 10px; margin-bottom: 10px;" align="end">
+
+            <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'"  style="border-radius: 25px;height: 30px; margin-left: 20px;"  [disabled]="enteredCheck.compForm.invalid" mat-raised-button color="primary" (click)="confirmButtonClicked(i,k)">Save</button>
+        </div> 
+        <mat-divider></mat-divider>
+        
+        
+    </div>
+    
+</div>
+<div >
+    
+    <label style="background-color: #6b728d;color: white; display: flex ; justify-content: center;">  Upload Letter of Authorization</label>
+    
+    <div>
+        <form [formGroup]="loaForm">
+    
+            <div class="auth">
+                <mat-form-field class="auth"  fxFlexOffset="20px" fxFlex="20%" appearance="outline">
+                    <ngx-mat-file-input formControlName="loaFile" accept=".pdf"  placeholder="Click to Upload LOA" ></ngx-mat-file-input>
+                    <mat-label>Upload Candidate Docs</mat-label>
+                </mat-form-field>                       
+                <mat-form-field class="auth" fxFlexOffset="20px" fxFlex="20%" appearance="outline">
+                    <input matInput type="text" formControlName="fileName" size="30" placeholder="File Title">
+                    <mat-label>File Title</mat-label>
+                </mat-form-field> 
+                
+                
+                <button class="auth" [disabled]="loaForm.invalid || loaForm.get('fileName')?.value=='' || loaForm.get('loaFile')?.value==''" style="margin-top:10px;height:35px" mat-raised-button color="primary" fxFlexOffset="20px" (click)="uploadLoa()">Add</button>                                 
+            </div>
+            
+        </form>            
+    </div>  
+    <div >
+        <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 49px " ></mat-divider>
+        <h4  style="padding: 0px; margin: 0px;    margin-left: 20px;">Uploaded File:</h4>
+        <div  style="display: flex; flex-wrap: wrap;" *ngFor="let loaFile of loaFiles">
+            
+            <button class="btn-rounded-2" value={{loaFile}} style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;" (click)="downloadLoa(loaFile)">{{ loaFile }}</button>
+        </div>
+        <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+
+        <div >
+            <button style="border-radius: 31px" mat-raised-button color="primary" (click)="moveToDraft()">Move To Draft</button>
+        </div>
+        <div align="end">
+            <button style="border-radius: 31px" mat-raised-button color="primary" (click)="submitCaseToInputqc()">Submit Case to Input QC</button>
+        </div>
+    </div> 
+</div>
+</div>   -->
+
+<!-- //////////////////////New 15Oct 2024////// -->
+
+<!-- <mat-card style="width: 95%; margin: auto;"> -->
+    <h1 class="tagname">Personal Details</h1>
+    
+    <div class="header" >
+        <!-- <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 49px " ></mat-divider> -->
+        
+        <!-- <div style="border: 1px solid #33BABC; padding: 6px; margin-bottom: 10px;">
+            <h4  style="padding: 0px; margin: 0px; margin-left: 20px;">CDF:</h4>
+                <button class="btn-save" *ngFor="let file of proofsUploaded" style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; height: 20px !important; border-radius: 500px;" (click)="downloadcdfFile(file)">{{ file }}</button>
+        </div> -->
+
+        <!-- <div style="border: 1px solid #33BABC; padding: 6px; margin-bottom: 10px;">
+            <h4 style="padding: 0px; margin: 0px; margin-left: 20px;">CDF:</h4>
+            <div style="display: flex; flex-wrap: wrap;" *ngFor="let file of proofsUploaded">
+                
+
+                 <button class="btn-file"  
+      style="margin: 5px 10px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; height: 30px !important; border-radius: 500px;" 
+      (click)="previewcdfFile(file)"
+      [matTooltip]="file" matTooltipPosition="right" matTooltipShowDelay="300">
+      {{ file }}
+    </button>
+              <button mat-icon-button color="warn" (click)="deletecdfFile(file)">
+            <mat-icon>delete</mat-icon>
+          </button>
+            </div>
+        </div> -->
+
+        
+ <!-- added code oct-16 -->
+<div class="page-container" [class.preview-active]="previewFile">
+  <div class="preview-panel" *ngIf="previewFile">
+    <app-file-preview-dialog
+      [data]="previewFile"
+      (closePreview)="closePreview()">
+    </app-file-preview-dialog>
+  </div>
+
+  <div class="main-content">
+    <div class="cdf-section">
+      <h4 class="cdf-title">CDF:</h4>
+      <div class="cdf-files">
+        <div *ngFor="let file of proofsUploaded" class="file-item">
+          <button class="btn-file" (click)="previewcdfFile(file)">
+            {{ file }}
+          </button>
+          <button mat-icon-button color="warn" (click)="deletecdfFile(file)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /// -->
+
+        <div class="document-card-2" style="border: 1px solid #33BABC; padding: 6px; margin-bottom: 10px;">
+            <div class="left-buttons" >
+                <button class="btn btn-save" (click)="chatbox()">Add Comments</button>  
+                <button class="btn btn-save" (click)="cdelink()"> CDE Link </button>
+                                 <!-- adde code oct-30 -->
+    <input type="file" #cdfFileInput (change)="onFileSelected($event)" style="display:none" />
+    <button class="btn btn-save" (click)="cdfFileInput.click()">Select File</button>
+    <button class="btn btn-save" (click)="uploadCDF()" [disabled]="!selectedCDFFile">Upload CDF</button>
+
+            </div> 
+        </div>
+        
+        <!-- <div style="margin: 30px;">
+            <button class="btn-rounded" (click)="chatbox()">Add Comments</button>  
+        </div> -->
+        
+        <div class="mat-card">
+            
+            <div class="header">
+                <h2 class="sub-title">Case Details</h2>
+            </div>
+            <div class="form-row-details"  [formGroup]="tatDetailsForm"> 
+                <div class="form-card-group">
+                    <mat-label>Case Id : <span class="label-value">{{caseId}}</span></mat-label>
+                    <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+                  </div>
+                  <div class="form-card-group">
+                    <!-- If not editing, show the label -->
+                    <mat-label *ngIf="!isEditing" (dblclick)="toggleEdit()">
+                      Candidate Name: <span class="label-value">{{ candidateName }}</span>
+                    </mat-label>
+                  
+                    <!-- If editing, show the input field -->
+                    <input 
+                      *ngIf="isEditing" 
+                      [(ngModel)]="candidateName" 
+                      formControlName="candidateName"
+                      class="editable-input"
+                      type="text"
+                      matInput
+                      placeholder="Enter candidate name"
+                      autofocus
+                    />
+                  </div>
+                  
+                  <!-- <div class="form-card-group">
+                    <mat-label>Candidate Name : <span class="label-value">{{candidateName}}</span></mat-label>
+                  </div> -->
+                  <div class="form-card-group">
+                    <mat-label>Client : <span class="label-value">{{clientName}}</span></mat-label>
+                    <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+                  </div>
+                  <div class="form-card-group">
+                    <mat-label>Subclient : <span class="label-value">{{subclientName}}</span></mat-label>
+                    <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+                  </div>
+                  <div class="form-card-group">
+                    <!-- If not editing, show the label -->
+                    <mat-label *ngIf="!isemployeeIdEditing" (dblclick)="toggleEditemployeeId()">
+                      Employee ID: 
+                      <span class="label-value">{{ employeeId || 'No Employee ID' }}</span>
+                    </mat-label>
+                  
+                    <!-- If editing, show the input field -->
+                    <input 
+                      *ngIf="isemployeeIdEditing" 
+                      [(ngModel)]="employeeId" 
+                      formControlName="employeeId"
+                      class="editable-input"
+                      type="text"
+                      matInput
+                      placeholder="Enter Employee ID"
+                      autofocus
+                    />
+                  </div>
+                  
+                <!-- <div class="form-group">
+                    <mat-label>Emp Id: <span class="label-value">{{employeeId}}</span></mat-label>
+                </div> -->
+                
+                
+                <div class="form-group"  appearance="outline" >
+                    <mat-label>TAT Start</mat-label>
+                    <input formControlName="initiationDate"  matInput size="11" maxlength="11" type="date" placeholder="TAT Start">                 
+                </div>
+                
+                <div class="form-group"  appearance="outline" >
+                    <mat-label>TAT End</mat-label>
+                    <input formControlName="tatEndDate"  matInput size="11" maxlength="11" type="date" placeholder="TAT End">                 
+                </div>
+                
+                <div  class="form-group" style="margin-top: 28px;">
+                    <button style="height: 30px;" class="btn-save" mat-raised-button (click)="saveTat()">Save</button>
+                </div> 
+                
+                
+            </div> 
+        </div>
+        <mat-divider></mat-divider>
+
+        <!-- venky 10/10 added sub title -->
+        <div class="header">
+            <h2 class="sub-title">Personal Details</h2>
+        </div>
+
+        <div >
+            <!-- <mat-card > -->
+                <mat-card style="height: 100%; box-shadow: none; border: 1px solid #33BABC; padding: 20px;">
+                <form [formGroup]="personalDetailsDataEntryForm" >
+                    <!-- venky 10/10 added padding -->
+                    <!-- <mat-card style="height: 100%; box-shadow: none; border: 1px solid #33BABC; padding: 20px;"> -->
+
+                        <!-- venky 10/10 added class header-label -->
+                        <label class="header-label">Provided Details</label>
+                        <!-- <mat-card-content class="grid-content"> -->
+                            <mat-divider></mat-divider>
+                            <mat-card-content class="grid-content">  
+                                <div class="form-row" *ngFor="let personalDetailsField of personalDetailsFields">
+                                    <div class="form-group"
+                                    *ngIf="personalDetailsField.type=='TEXT'">
+                                    <mat-label>{{personalDetailsField.label}}</mat-label>
+                                    <input [readonly]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName="{{personalDetailsField.name}}" required="{{personalDetailsField.mandatory}}" matInput size="30" [attr.maxlength]="getFieldSize(personalDetailsField)" type="text" placeholder={{personalDetailsField.label}}>
+                                </div>
+                                <div class="form-group"
+                                *ngIf="personalDetailsField.type=='DATE'">
+                                <mat-label>{{personalDetailsField.label}}</mat-label>
+                                <input [readonly]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName={{personalDetailsField.name}} required="{{personalDetailsField.mandatory}}" matInput size="11" maxlength="11" type="date" placeholder={{personalDetailsField.label}}>                 
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <div style="display: flex;">
+                            <div class="form-status" *ngIf="personalDetailsInputqcStatus !='INPUTQC-ACCEPTED'"  appearance="outline">
+                                <mat-label>Status</mat-label>
+                                <mat-select [disabled]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName="status">
+                                    <mat-option value="INSUF-1-REQ">Insufficiency</mat-option>
+                                    <mat-option value="DE-COMPLETED">Data Entry Completed</mat-option>
+                                </mat-select>
+                                
+                            </div>
+                            <div class="form-status" *ngIf="personalDetailsDataEntryForm.get('status')?.value=='INSUF-1-REQ'"  appearance="outline">
+                                <mat-label>Insufficiency Details</mat-label>
+                                
+                                <textarea [readonly]="personalDetailsInputqcStatus=='INPUTQC-ACCEPTED'" formControlName="insufficiencyComments" matInput rows="3" cols="30" placeholder="Insufficiency Details"></textarea>
+                            </div>
+                            <div *ngIf="personalDetailsInputqcStatus =='INPUTQC-ACCEPTED'">Data Provided has been accepted for further processing</div>
+                        </div>
+
+
+                    </mat-card-content>
+                <!-- </mat-card> -->
+            </form>
+                <!-- /////new 17Oct2024///  -->
+                <mat-divider style="color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+                <div *ngIf="personalDetailsInputqcStatus=='INPUTQC-REJECTED'">
+                    <Label>Input QC Status</Label>
+                    <div>
+                        <div class="form-group" fxFlex="25%"  appearance="outline">
+                            <mat-label>Status</mat-label>
+                            <mat-select disabled="true" [(ngModel)]="personalDetailsInputqcStatus" value="personalDetailsInputqcStatus">
+                                <mat-option value="INPUTQC-ACCEPTED">Accepted</mat-option>
+                                <mat-option value="INPUTQC-REJECTED">Rejected</mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="form-group" *ngIf="personalDetailsInputqcStatus=='INPUTQC-REJECTED'" >
+                            <mat-label>Insufficiency Details</mat-label>
+                            <textarea readonly [(ngModel)]="personalDetailsInputqcComments" value="personalDetailsInputqcComments" matInput rows="3" cols="30" placeholder="Inputqc Comments"></textarea>
+                        </div>
+                    </div>    
+                </div>
+        
+
+                <mat-divider></mat-divider>
+                
+                <div style="margin-top:10px;margin-bottom:10px;">
+                    
+                    <div  *ngIf="personalDetailsInputqcStatus !='INPUTQC-ACCEPTED'" style="text-align: right;">
+                        <button style="height: 30px;"  [disabled]="personalDetailsDataEntryForm.invalid" mat-raised-button class="save-btn" (click)="saveData()">Save</button>
+                    </div>            
+                </div> 
+            
+
+        </mat-card>
+    </div>
+    
+    
+    <mat-divider></mat-divider>
+    <!-- <mat-card> -->
+
+        <!-- venky 10/10 added sub title -->
+        <div class="header">
+            <h2 class="sub-title">Check Information</h2>
+        </div>
+
+        <div *ngFor="let requiredComponent of requiredComponents; let i = index" [attr.aria-label]="requiredComponent.displayName" style=" border: 1px solid #33BABC; padding: 16px;">
+            
+            
+            <!-- venky 10/10 commented the button here -->
+            <!-- <div style="margin-top: 10px; margin-bottom: 10px;" align="end">
+                <button style="border-radius: 31px" mat-raised-button color="primary"   (click)="addOneMoreComponent(i)">Add one more {{requiredComponent.displayName}}</button>                
+                
+            </div> -->
+            <div style="margin-left: 20px;color:red;">Instructions :  {{requiredComponent.dataEntryInstructions}}</div>
+            
+            <div *ngFor="let enteredCheck of requiredComponent.enteredChecks;let k=index" >
+
+               <!-- venky 10/10 added mat accordian here -->
+                <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <label class="header-label" [ngStyle]="{'background-color': (enteredCheck.inputqcStatus.status =='INPUTQC-REJECTED') ? 'red ' : '#6b728d'}">{{requiredComponent.displayName}} {{k+1}}</label>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-divider></mat-divider>
+                      <form [formGroup]="enteredCheck.compForm" style="margin: 20px;">
+                          <!-- <mat-card> -->
+                              <mat-card-content class="grid-content">
+                                  <div class="form-row" *ngFor="let componentField of requiredComponent.componentFields">
+                                      <div class="form-group"
+                                      *ngIf="componentField.name=='institutename'&&componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')"
+                                      appearance="outline">
+                                      <mat-label>{{componentField.label}}</mat-label>
+                                      <input formControlName="{{componentField.name}}" matInput size="30"
+                                      [attr.maxlength]="getFieldSize(componentField)" type="text"
+                                      placeholder={{componentField.label}} (input)="getEducationInstitutions($event)"
+                                      [matAutocomplete]="auto">
+                                      <mat-autocomplete #auto="matAutocomplete">
+                                          <mat-option *ngFor="let option of educationmasters" [value]="option.name"
+                                          [ngClass]="{'fake-option': option.source === 'fake'}">
+                                          {{option.name}}
+                                      </mat-option>
+                                  </mat-autocomplete> 
+                                  
+                              </div>
+                              
+                              <div class="form-group"  *ngIf="componentField.name=='organization'  && componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                                  <mat-label>{{componentField.label}}</mat-label>
+                                  <input formControlName="{{componentField.name}}" matInput size="30" [attr.maxlength]="getFieldSize(componentField)" type="text" placeholder={{componentField.label}} (input)="getEmployer($event)" [matAutocomplete]="auto"> 
+                                  <!-- <mat-option value=xyz>xyz</mat-option> -->
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                      <mat-option *ngFor="let employer of empName" [value]="employer.name">
+                                          {{employer.name}}
+                                      </mat-option>
+                                  </mat-autocomplete>
+                                  
+                              </div>
+                              <div class="form-group"
+                              *ngIf="componentField.name!='nameofuniverskty' && componentField.name!=='organization' && componentField.name!=='institutename' && componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')"
+                              appearance="outline">
+                              <mat-label>{{componentField.label}}</mat-label>
+                              <input formControlName="{{componentField.name}}" matInput size="30"
+                              [attr.maxlength]="getFieldSize(componentField)" type="text"
+                              placeholder={{componentField.label}}>
+                          </div>
+                          
+                          <div class="form-group" *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                              <mat-label>{{componentField.label}}</mat-label>
+                              <textarea maxlength="{{componentField.size}}" rows="3" cols="30" formControlName="{{componentField.name}}" matInput size="30" [attr.maxlength]="getFieldSize(componentField)" type="text" placeholder={{componentField.label}}></textarea>                 
+                          </div>   
+                          <div class="form-group"  *ngIf="componentField.type=='AC-UNI' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline">
+                              <mat-label>University</mat-label>
+                              <input placeholder="Enter University Name" matInput formControlName="{{componentField.name}}" [matAutocomplete]="autoUni">
+                              <mat-autocomplete #autoUni="matAutocomplete">
+                                  <mat-option *ngIf="isLoading" >Loading...</mat-option>
+                                  <ng-container *ngIf="!isLoading">
+                                      <mat-option *ngFor="let university of filteredUniversities" [value]="university.name">
+                                          <span>{{university.name}}</span>
+                                      </mat-option>
+                                  </ng-container>
+                              </mat-autocomplete>
+                          </div>
+                          <div class="form-group" *ngIf="componentField.type=='AC-COM' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline">
+                              <mat-label>Company Name</mat-label>
+                              <input placeholder="Enter Company Name" matInput  formControlName="{{componentField.name}}" [matAutocomplete]="autoCom">
+                              <mat-autocomplete #autoCom="matAutocomplete">
+                                  <mat-option *ngIf="isLoading" >Loading...</mat-option>
+                                  <ng-container *ngIf="!isLoading">
+                                      <mat-option *ngFor="let company of filteredCompanies" [value]="company.name">
+                                          <span>{{company.name}}</span>
+                                      </mat-option>
+                                  </ng-container>
+                              </mat-autocomplete>
+                          </div> 
+                          
+                          <div class="form-group"  *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                              <!-- <mat-select formControlName="{{componentField.name}}"> -->
+                                  <mat-label>{{componentField.label}}</mat-label>
+                                  <mat-select formControlName="{{componentField.name}}" (selectionChange)="onSelectionChange($event)"> 
+                                      <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name,i)">
+                                          <mat-option value={{val}}>{{val}}</mat-option>
+                                      </ng-template> 
+                                  </mat-select>
+                              </div>  
+                              
+                              <div class="form-group"  *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')" appearance="outline" >
+                                  <mat-label>{{componentField.label}}</mat-label>
+                                  <input formControlName={{componentField.name}}  matInput size="11" maxlength="11" type="date" placeholder={{componentField.label}}>                 
+                              </div>
+                              
+                              
+                          </div>
+                          
+                          
+                      </mat-card-content>
+                      <mat-divider></mat-divider>
+                      <div>
+                          <!-- <mat-label>
+                              Status
+                          </mat-label> -->
+                          <div class="status-container" >
+                              <div class="form-status" *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'"  fxFlex="25%" appearance="outline">
+                                  <mat-label>Status</mat-label>
+                                  <mat-select [disabled]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" formControlName="status">
+                                      <mat-option value="INSUF-1-REQ">Insufficiency</mat-option>
+                                      <mat-option value="DE-COMPLETED">Data Entry Completed</mat-option>
+                                  </mat-select>
+                              </div>
+                              <!-- Insuff Types 03july23 -->
+                              <!-- <div class="form-status" *ngIf="enteredCheck.compForm.get('status').value=='INSUF-1-REQ'" fxFlexOffset="20px" fxFlex="35%" appearance="outline" >
+                                  <mat-label>Insuff Type</mat-label>
+                                  <mat-select required formControlName="insuffType" (selectionChange)="insuffSelectionChanged($event)">
+                                      <mat-option value="INFORMATION">Information</mat-option>
+                                      <mat-option value="DOCUMENT">Document</mat-option>
+                                  </mat-select>
+                              </div>
+                              
+                              <div class="form-group" *ngIf="enteredCheck.compForm.get('status').value=='INSUF-1-REQ'" fxFlexOffset="20px" fxFlex="35%" appearance="outline" >
+                                  <mat-label>Insuff Label</mat-label>
+                                  <textarea   required  formControlName="shortdescription" maxlength="50" rows="3" cols="20"  matInput size="20"  type="text"></textarea>
+                              </div> -->
+                              <!-- Insuff Types 03july23 -->
+                              <!-- <mat-form-field *ngIf="enteredCheck.compForm.get('status').value=='INSUF-1-REQ'" fxFlexOffset="20px" fxFlex="35%" appearance="outline">
+                                  <textarea [readonly]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" formControlName="insufficiencyComments" matInput rows="3" cols="30" placeholder="Insufficiency Details"></textarea>
+                                  <mat-label>Insufficiency Details</mat-label>
+                              </mat-form-field> -->
+                              <!-- insuff Comments  -->
+                              <div class="form-group" *ngIf="enteredCheck.compForm.get('status').value=='INSUF-1-REQ'" fxFlexOffset="20px" fxFlex="35%" appearance="outline" >
+                                  <mat-label>Insufficiency Details</mat-label>
+                                  <input  [readonly]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" formControlName="insufficiencyComments" matInput size="30"  type="text" placeholder="Insufficiency Details" (input)="getInsuffComments($event)" [matAutocomplete]="auto"> 
+                                  <!-- <mat-option value=xyz>xyz</mat-option> -->
+                                  <mat-autocomplete #auto="matAutocomplete">
+                                      <mat-option *ngFor="let insuff of insuffcomment" [value]="insuff.comment">
+                                          {{insuff.comment}}
+                                      </mat-option>
+                                  </mat-autocomplete>
+                              </div>
+                              <!-- insuff Comments  -->
+                              
+                              
+                              <div *ngIf="enteredCheck.inputqcStatus.status =='INPUTQC-ACCEPTED'">Data Provided has been accepted for further processing</div>
+                              
+                          </div>
+                      </div>
+                      <mat-divider></mat-divider>
+                      <div  *ngIf="requiredComponent.fileUploadRequired==true"  >
+                          
+                          
+                          
+                          <mat-label>
+                              Upload Candidate's Documents 
+                          </mat-label> 
+                          <div class="upload">
+                              <!-- <mat-form-field    style=" height: 56px;" *ngIf="requiredComponent.fileUploadRequired==true && enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'"  appearance="outline">
+                                  <mat-label>Upload Candidate Docs</mat-label>
+                                  <ngx-mat-file-input  [disabled]="inputqcStatus[k]=='INPUTQC-ACCEPTED'"  formControlName="componentFile"  multiple placeholder="Upload Candidate Docs" ></ngx-mat-file-input>
+                              </mat-form-field>    -->
+                              <mat-form-field class="file-input-field" *ngIf="requiredComponent.fileUploadRequired == true && enteredCheck.inputqcStatus.status != 'INPUTQC-ACCEPTED'" appearance="outline">
+                                  <mat-label>Upload Candidate Docs</mat-label>
+                                  <ngx-mat-file-input [disabled]="inputqcStatus[k] == 'INPUTQC-ACCEPTED'" formControlName="componentFile" multiple placeholder="Upload Candidate Docs"></ngx-mat-file-input>
+                                </mat-form-field>
+                                
+                                
+                              
+                              <!-- <mat-form-field  *ngIf="requiredComponent.fileUploadRequired==true && enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'"  appearance="outline">
+                                  <mat-label>File Title</mat-label>
+                                  <input [readonly]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" matInput type="text" formControlName="fileName" size="30" placeholder="File Title">
+                              </mat-form-field> -->
+                              <!-- <form> -->
+                                  <!-- <mat-form-field   appearance="outline" >
+                                      <mat-label>Select File Type</mat-label>
+                                      <mat-select formControlName="fileName" (selectionChange)="onFileTypeSelected($event.value)" [disabled]="inputqcStatus[k]=='INPUTQC-ACCEPTED'" *ngIf="requiredComponent.fileUploadRequired==true && enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" >
+                                          <mat-option value="Service-Letter">Service Letter</mat-option>
+                                          <mat-option value="Relieving-Letter">Relieving Letter</mat-option>
+                                          <mat-option value="Experience-Letter">Experience Letter</mat-option>
+                                          <mat-option value="Resignation-Letter">Resignation Letter</mat-option>
+                                          <mat-option value="Degree-Complition">Degree Completion</mat-option>
+                                          <mat-option value="aadhar">Adhaar Card</mat-option>
+                                          <mat-option value="pan">PAN Card</mat-option>
+                                          <mat-option value="voter">Voter Card</mat-option>
+                                          <mat-option value="dl">DL</mat-option>
+                                          <mat-option value="electricity-bill">Electricity Bill</mat-option>
+                                      </mat-select>
+                                  </mat-form-field> -->
+                                  <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" [disabled]="enteredCheck.compForm.invalid  || enteredCheck.compForm.get('componentFile').value ===''" style="margin-top:10px;height:35px" mat-raised-button color="primary" (click)="uploadFile(i,k)">Add</button>             
+                                  
+                                  <!-- <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" [disabled]="enteredCheck.compForm.invalid || enteredCheck.compForm.get('fileName').value ==='' || enteredCheck.compForm.get('componentFile').value ===''" style="margin-top:10px;height:35px" mat-raised-button color="primary" (click)="uploadFile(i,k)">Add</button>              -->
+                              <!-- </form> -->
+                              <div *ngIf="showDocumentDialog" cdkDrag style="padding:20px;position:absolute;left:20px;top:vh;width:800px;height:500px;background-color: white;"  class="mat-elevation-z3">
+                                  <div style="width:100%">
+                                      <div fxFlex></div><h3>{{displayedDocumentName}}</h3><div fxFlex></div>
+                                  </div>    
+                                  <!-- <ngx-extended-pdf-viewer  height="50vh" [src]="documentBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>         -->
+                                  <div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+                                      <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeDocumentDialog()">Close</button>
+                                  </div>
+                              </div>
+                              
+                          </div>
+
+                          <!-- modified some style -->
+                          <mat-divider style="color: aqua; background-color: #33BABC; margin-top: 12px;" ></mat-divider>
+                          <div style="display: flex; flex-wrap: wrap;">
+                              <h4 style="padding: 0px; margin: 0px;">Documents:</h4>
+                              
+                              <!-- <button 
+                                class="btn-rounded-1" 
+                                *ngFor="let file of enteredCheck.files" 
+                                [value]="file" 
+                                style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;" 
+                                (click)="downloadCDF(file, k, i)">
+                                {{ file }}
+                              </button> -->
+
+                              <button class="btn-rounded-1 fixed-size-btn"  *ngFor="let file of enteredCheck.files" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+                                <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                            <!-- <span (click)="downloadCDF(file, k, i)" mat-icon-button style="cursor: pointer;"><mat-icon>download</mat-icon></span> -->
+                            <span (click)="downloadCDF(file, k, i)" style="cursor: pointer; padding: 0px 4px;"><i class="fas fa-download"></i></span>
+                            <span  (click)="deleteCDF(file, k, i)" style="cursor: pointer;">&#10006;</span></button>
+                            </div>
+                            
+                          
+                          <!-- venky 10/10 modified css -->
+                          <mat-divider style="color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+                          <!-- <div > 
+                              <span fxFlexAlign="center">Uploaded Files</span>
+                              <div style="height: 150px;overflow: auto;">
+                                  <div style="padding-left:10px;" *ngFor="let file of enteredCheck.files"  >
+                                      <div class="form-group" appearance="outline">
+                                          <mat-label>Uploaded File</mat-label>
+                                          <input [readonly]="enteredCheck.inputqcStatus.status=='INPUTQC-ACCEPTED'" matInput type="text" value={{file}}>
+                                      </div>
+                                      <button [disabled]="enteredCheck.inputqcStatus.status=='INPUTQC-ACCEPTED'" mat-icon-button color="primary" (click)="downloadFile(file,k,i)"><mat-icon>file_download</mat-icon></button>
+                                      <button [disabled]="enteredCheck.inputqcStatus.status=='INPUTQC-ACCEPTED'" mat-icon-button color="warn" (click)="deleteFile(file,k)"><mat-icon>cancel</mat-icon></button>
+                                  </div>
+                              </div>    
+                          </div> -->
+                          
+                      </div>
+                      
+                  <!-- </mat-card> -->
+              </form>
+      
+              <mat-divider></mat-divider>
+              
+              <div *ngIf="enteredCheck.inputqcStatus.status=='INPUTQC-REJECTED'">
+                  <label style="background-color: black;color: white;">Input QC Status</label>
+                  <div>
+                      <div class="form-group" fxFlex="25%" appearance="outline">
+                          <mat-label>Status</mat-label>
+                          <mat-select disabled="true" [(ngModel)]="enteredCheck.inputqcStatus.status" value="enteredCheck.inputqcStatus.status">
+                              <mat-option value="INPUTQC-ACCEPTED">Accepted</mat-option>
+                              <mat-option value="INPUTQC-REJECTED">Rejected</mat-option>
+                          </mat-select>
+                      </div>
+                      <div class="form-group" *ngIf="enteredCheck.inputqcStatus.status=='INPUTQC-REJECTED'" fxFlexOffset="20px" fxFlex="35%" appearance="outline">
+                          <mat-label>Rejection Comments</mat-label>
+                          <textarea readonly [(ngModel)]="enteredCheck.inputqcStatus.inputqcComments" value="inputqcStatus[k].inputqccomments" matInput rows="3" cols="30" placeholder="Rejection Comments"></textarea>
+                      </div>                        
+                  </div>
+                  
+              </div>
+      
+              <mat-divider></mat-divider>
+      
+              <!-- venky 10/10 Added all the three buttons save add and delete in one place -->
+              <div style="margin-top: 10px; margin-bottom: 10px;" align="end">
+                  <!-- <button style="border-radius: 31px" mat-raised-button color="primary"   (click)="addOneMoreComponent(i)">Add one more {{requiredComponent.displayName}}</button> -->
+                  <button style="border-radius: 31px" mat-raised-button color="primary"   (click)="addOneMoreComponent(i)">Add</button>
+                  <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" mat-raised-button color="warn" style="margin-left: 20px; border-radius: 31px" (click)="deleteThisCheck(i,k)">Delete </button>  
+
+                  <!-- <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'" mat-raised-button color="warn" style="margin-left: 20px; border-radius: 31px" (click)="deleteThisCheck(i,k)">Delete this {{requiredComponent.displayName}}</button>   -->
+                  <button *ngIf="enteredCheck.inputqcStatus.status !='INPUTQC-ACCEPTED'"  style="border-radius: 25px;height: 30px; margin-left: 20px;"  [disabled]="enteredCheck.compForm.invalid" mat-raised-button color="primary" (click)="confirmButtonClicked(i,k)">Save</button>              
+              </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+               
+    </div>
+</div>
+<!-- </mat-card> -->
+<div >
+    
+    <!-- venky 10/10 added class header-label -->
+    <label class="header-label">  Upload Letter of Authorization</label>
+    
+    <div>
+        <form [formGroup]="loaForm">
+            <!-- <div class="form-group"  appearance="outline">
+                <mat-label>Upload Candidate Docs</mat-label> -->
+                <!-- <ngx-mat-file-input formControlName="loaFile" accept=".pdf" valuePlaceholder="Click to upload LOA" placeholder="Click to Upload LOA" ></ngx-mat-file-input> -->
+            <!-- </div>                        -->
+            <!-- <div class="form-group" appearance="outline">
+                <mat-label>File Title</mat-label>
+                
+                <input matInput type="text" formControlName="fileName" size="30" placeholder="File Title">
+            </div>     -->
+            <div class="auth">
+                <mat-form-field class="auth"  fxFlexOffset="20px" fxFlex="20%" appearance="outline">
+                    <ngx-mat-file-input formControlName="loaFile" accept=".pdf"  placeholder="Click to Upload LOA" ></ngx-mat-file-input>
+                    <mat-label>Upload Candidate Docs</mat-label>
+                </mat-form-field>                       
+                <mat-form-field class="auth" fxFlexOffset="20px" fxFlex="20%" appearance="outline">
+                    <input matInput type="text" formControlName="fileName" size="30" placeholder="File Title">
+                    <mat-label>File Title</mat-label>
+                </mat-form-field> 
+                
+                
+                <!-- <button class="auth save-btn" [disabled]="loaForm.invalid || loaForm.get('fileName')?.value=='' || loaForm.get('loaFile')?.value==''" style="margin-top:10px;height:35px" mat-raised-button fxFlexOffset="20px" (click)="uploadLoa()">Add</button>                                  -->
+                <button mat-raised-button class="btn-save" [disabled]="loaForm.invalid || loaForm.get('fileName')?.value=='' || loaForm.get('loaFile')?.value==''" (click)="uploadLoa()">Add</button>
+            </div>
+            
+        </form>            
+    </div>  
+    <div >
+        <!-- <span fxFlexAlign="center">Uploaded File</span> -->
+         <!-- venky 10/10 modified css -->
+        <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+        <h4  style="padding: 0px; margin: 0px;    margin-left: 20px;">Uploaded File:</h4>
+        <div  style="display: flex; flex-wrap: wrap;" *ngFor="let loaFile of loaFiles">
+            
+            <button class="btn-rounded-2" value={{loaFile}} style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;" (click)="downloadLoa(loaFile)">{{ loaFile }}</button>
+        </div>
+        <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC; margin-top: 14px " ></mat-divider>
+        <!-- <div  class="upload" style="display: flex;">
+            <div style="padding-left:10px;" *ngFor="let loaFile of loaFiles" class="mat-elevation-z3" >
+                <div class="form-group"appearance="outline">
+                    <mat-label>Uploaded File</mat-label>
+                    <input readonly matInput type="text" value={{loaFile}}>
+                </div>
+                <button  mat-icon-button color="primary" (click)="downloadLoa()"><mat-icon>file_download</mat-icon></button>
+                <button  mat-icon-button color="warn" (click)="deleteLoa()"><mat-icon>cancel</mat-icon></button>
+            </div>
+        </div>     -->
+        <div >
+            <button mat-raised-button class="btn-save" (click)="moveToDraft()">Move To Draft</button>
+        </div>
+        <div align="end">
+            <button mat-raised-button class="btn-save"  (click)="submitCaseToInputqc()">Submit Case to Input QC</button>
+        </div>
+    </div> 
+</div>
+ </div> <!-- pagecontainer div -->
+ </div> <!-- pagecontainer div-->
+</div>  
+<!-- </mat-card> -->
