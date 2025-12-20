@@ -1,0 +1,107 @@
+<div class="table-container">
+  <div class="main-container">
+    <h1 class="tagname">Input QC - Component List</h1>
+    <mat-divider style="color: aqua; background-color: #33BABC;" ></mat-divider>
+
+    <div *ngIf="ShowComments"  >
+      <div   [ngStyle]="{'background-color': getClassToApply()}"    style="text-align: center !important;height: 50px;padding-top: 12px;">
+          {{casecomment}}</div>
+      </div>
+      
+      <!-- <div class="document-card-2" style="margin: 3px; margin-right: 29px; height: 38px;">
+        <button   class="btn-rounded-2"   (click)="cdelink()"> CDE Link </button>
+        
+    </div> -->
+    <div class="table">
+      <div class="mat-card">
+        <div class="document-card">
+          <h4 class="card-heading" style="font-weight: bold;font-size: 18px; text-decoration: underline;">Case Information</h4>          
+        </div>
+        <div class="form-card-row">
+          <div class="form-card-group">
+            <mat-label>Case Id : <span class="label-value">{{caseId}}</span></mat-label>
+            <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+          </div>
+          <div class="form-card-group">
+            <mat-label>Candidate Name : <span class="label-value">{{candidateName}}</span></mat-label>
+            <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+          </div>
+          <div class="form-card-group">
+            <mat-label>Client : <span class="label-value">{{clientName}}</span></mat-label>
+            <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+          </div>
+          <div class="form-card-group">
+            <mat-label>Subclient : <span class="label-value">{{subclientName}}</span></mat-label>
+            <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+          </div>
+        </div>
+        <div class="form-card-row">
+          <div class="form-card-group">
+            <mat-label>TAT Start : <span class="label-value">{{tatstart | date:'dd-MMM-yyyy'}}</span></mat-label>
+            <!-- <mat-label class="label-value">{{tatstart | date:'dd-MMM-yyyy'}}</mat-label> -->
+          </div>
+          <div class="form-card-group">
+            <mat-label>TaT End : <span class="label-value">{{tatend | date:'dd-MMM-yyyy'}}</span></mat-label>
+            <!-- <mat-label class="label-value">{{tatend | date:'dd-MMM-yyyy'}}</mat-label> -->
+          </div>
+        </div>
+      </div>
+      
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="serialNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+          <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)">
+            {{ i + 1}}
+          </td>
+          <!-- <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)" [class.disabled]="row.status !='DE-COMPLETED' && row.status !='INSUF-1-REQ'">
+            {{ i + 1}}
+          </td> -->
+        </ng-container>
+
+        <ng-container matColumnDef="component">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.componentDisplayName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="checkId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Check Id</th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.checkId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.displayStatus}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter</td>
+        </tr>
+      </table>
+      <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+      <!-- <div class="button-group">
+            <button class="btn-rounded" mat-raised-button color="primary"
+              (click)="confirmButtonClicked()">Confirm</button>
+          </div> -->
+    </div>
+    <mat-divider></mat-divider> 
+    <div>
+      <!-- <button class="btn-rounded" (click)="confirmButtonClicked()"> Confirm </button> -->
+      <button mat-raised-button class="btn-save" (click)="confirmButtonClicked()"> Confirm </button>
+    </div>
+  </div>
+
+
+  <!-- <div class="details" *ngIf="showDetailsFlag">
+    <div>
+      <ng-container *ngIf="selectedRow.componentName === 'personalDetails'; else componentDetails">
+        <app-personal-details-inputqc></app-personal-details-inputqc>
+      </ng-container>
+      <ng-template #componentDetails>
+        <app-component-inputqc [selectedRow]="selectedRow"></app-component-inputqc>
+      </ng-template>
+    </div>
+  </div> -->
+</div>
