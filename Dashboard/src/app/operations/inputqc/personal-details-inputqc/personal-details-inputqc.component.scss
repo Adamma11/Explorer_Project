@@ -1,0 +1,170 @@
+// *{
+//   font-size: 12px;
+//   font-family: 'Roboto', sans-serif; 
+// }
+
+// .tagname{
+//   text-align: center;
+//   font-size: 14px;
+// }
+
+// .mat-grid-list {
+//   margin: -8px; /* Adjust this value based on your preference */
+// }
+// .custom-form {
+//   // max-width: 600px;
+//   margin: 0 auto;
+//   // padding: 20px;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//   background-color: #fff;
+ 
+// }
+
+// .grid-content{
+//   display: grid;
+//   grid-template-columns: repeat(3, 0.6fr);
+// }
+
+// .form-group {
+//   margin-bottom: 16px;
+// }
+
+// .form-group mat-label {
+//   display: block;
+//   // margin-bottom: 8px;
+//   // font-weight: 500;
+//   color: #0136ff
+// }
+
+// .form-group input,
+// .form-group textarea,
+// .form-group mat-checkbox{
+//   width: 90%;
+//   padding: 8px;
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   box-sizing: border-box;
+// }
+
+// .form-group mat-select {
+//    width: 90%;
+//    padding: 5px;
+  
+//    border: 1px solid #ccc;
+//    border-radius: 4px;
+//    box-sizing: border-box;
+// }
+
+// mat-grid-tile-content {
+//   display: block !important;
+  
+// }
+
+//  .checkbox{
+//   display: flex;
+//   align-items: center;
+// }
+
+// .form-btn{
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 0px 16px;
+// }
+
+// .button-group {
+//   margin-left: 8px;
+//   height: 30px;
+//   border-radius: 25px;
+// }
+
+*{
+  font-size: 0.875rem;
+}
+
+.grid-content{
+  display: grid;
+  grid-template-columns: repeat(3, 0.6fr);
+  .form-row{
+    display: flex;
+    align-items: flex-end;
+    .form-group{
+      width: 90%;
+    }
+  }
+}
+
+.document-card{
+  display: flex;
+  justify-content: space-between;
+  height: 22px;
+  margin: 12px 0px;
+}
+
+// aaded on  15/2/24 --> Navin
+.tagname {
+  text-align: center;
+  font-size: 36px;
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.form-group mat-label {
+  display: block;
+  // color: #0136ff;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea{
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 15px;
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  width: 90%;
+  line-height: 1.25;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.form-group select, mat-select {
+  padding: 1px 0.5rem;
+  margin-bottom: 15px;
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  width: 90%;
+  line-height: 1.25;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+mat-card{
+  box-shadow: none;
+}
+mat-card-content{
+  padding: 0px !important;
+}
+
+.btn-rounded{
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-radius: 500px;
+  background-color: #002bff;
+  color: white;
+  border: 0px;
+  margin: 2px;
+  width: 86px;
+  // right: 100px;
+ 
+}
+mat-divider {
+  display: block;
+  margin: 0;
+  margin-bottom: 12px;
+  border-top-width: 0.5px;
+  border-top-style: dotted;
+}
+
+

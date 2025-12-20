@@ -1,0 +1,86 @@
+<!-- venky 10/10 added div and style -->
+<div style="margin: 0px 2rem">
+<h1 class="tagname">Details</h1>
+<mat-divider style="color: aqua; background-color: #33BABC;" ></mat-divider>
+<div class="mat-card">
+    <div class="document-card">
+        <h4 class="card-heading" style="font-weight: bold;font-size: 18px; text-decoration: underline;">{{displayName}}</h4>
+        <!-- <form [formGroup]="inputqcForm" style="width: 50%;">
+                <select formControlName="status">
+                    <option value="" disabled selected>Status</option>
+                    <option value="INPUTQC-ACCEPTED">Update LHS</option>
+                    <option value="INPUTQC-REJECTED">Insufficiency</option>
+                </select>
+        </form> -->
+        <form [formGroup]="inputqcForm" (ngSubmit)="saveData()">
+            <mat-card>
+                <mat-card-content class="form-btn">
+                    <div class="form-row" style="display: flex;">
+                        <div class="form-group" style="width: 200px;">
+                            <select formControlName="status">
+                                <option value="" disabled selected>Status</option>
+                                <option value="INPUTQC-ACCEPTED">Accept</option>
+                                <option value="INPUTQC-REJECTED">Reject</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="inputqcForm.get('status')!.value=='INPUTQC-REJECTED'">
+                            <textarea formControlName="inputqcComments" matInput rows="1" cols="30"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <!-- <button class="btn-rounded" type="submit">Save</button> -->
+                            <button class="btn-save" type="submit"> Save </button>
+                        </div>
+                    </div>
+                    <!-- <div >
+                        <button mat-raised-button class="button-group" color="primary" type="submit">Save</button>
+                        <button mat-raised-button class="button-group" color="primary" (click)="cancelButtonClicked($event)">Cancel</button>
+                    </div> -->
+        
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </div>
+</div>
+<form [formGroup]="personalDetailsDataEntryform">
+    <mat-card>
+        <mat-card-content class="grid-content">
+                <div class="form-row" *ngFor="let personalDetailsField of personalDetailsFields">
+                    <div class="form-group" *ngIf="personalDetailsField.type === 'TEXT'">
+                        <mat-label>{{personalDetailsField.label}}</mat-label>
+                        <input readonly matInput formControlName="{{ personalDetailsField.name }}"
+                            [value]="personalDetailsField?.name">
+                    </div>
+                    <div class="form-group" *ngIf="personalDetailsField.type === 'DATE'">
+                        <mat-label>{{personalDetailsField.label}}</mat-label>
+                        <input readonly matInput formControlName="{{ personalDetailsField.name }}"
+                            [value]="personalDetailsField?.name" type="date">
+                    </div>
+                </div>
+        </mat-card-content>
+    </mat-card>
+</form>
+</div>
+<!-- <form [formGroup]="inputqcForm" (ngSubmit)="saveData()">
+    <mat-card>
+        <mat-card-content class="form-btn">
+            <div class="form-row" style="display: flex;">
+                <div class="form-group" style="width: 200px;">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status" (selectionChange)="inputqcStatusChanged($event)">
+                        <mat-option value="INPUTQC-ACCEPTED">Accept</mat-option>
+                        <mat-option value="INPUTQC-REJECTED">Reject</mat-option>
+                    </mat-select>
+                </div>
+                <div class="form-group" *ngIf="inputqcForm.get('status')!.value=='INPUTQC-REJECTED'">
+                    <mat-label>Rejection Comments</mat-label>
+                    <textarea formControlName="inputqcComments" matInput rows="1" cols="30"></textarea>
+                </div>
+            </div>
+            <div >
+                <button mat-raised-button class="button-group" color="primary" type="submit">Save</button>
+                <button mat-raised-button class="button-group" color="primary" (click)="cancelButtonClicked($event)">Cancel</button>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</form> -->
