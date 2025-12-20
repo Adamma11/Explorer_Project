@@ -1,0 +1,20 @@
+<div class="title">
+
+    <h2 matDialogTitle style="display: flex; align-items: center; justify-content: center; color:white;" >Create Confirmation</h2>
+  
+  </div>
+  <div matDialog-content class="content">
+      <!-- <p>Are you certain about your decision to save a component?</p> -->
+
+      <p *ngIf="data.status === 'MENTOR-REVIEW-ACCEPTED'">
+        Are you sure to push to final QC?
+      </p>
+      <p *ngIf="data.status !== 'MENTOR-REVIEW-ACCEPTED'">
+        Are you certain about your decision to save a component?
+      </p>
+  </div>
+
+  <div class="modal-footer" style="display: flex; justify-content: center;">
+    <button mat-flat-button class="btn btn-save" (click)="confirmSubmit()">Yes</button>
+    <button mat-flat-button class="btn btn-cancel" style=" margin-left: 20px;"  (click)="closeDialog()">No</button>
+  </div>
