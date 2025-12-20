@@ -1,0 +1,121 @@
+
+
+*{
+  font-size: 0.875rem;
+}
+
+.table-container {
+    display: flex;
+       //venky 10/10 commented margin
+    // margin: 30px !important;
+  }
+  
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    line-height: 1.5;
+  }
+
+  .main-container{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 3.5rem;
+  }
+  .table-container { 
+    display: flex;
+  }
+  .table-header .filter-card {
+    display: flex;
+    align-items: center;
+    // width: 90%;
+  }
+  
+  .mat-label {
+    margin-right: 10px;
+  }
+  
+  input {
+    padding: 0.25rem 0.5rem;
+    // margin-bottom: 15px;
+    border-radius: 0.25rem;
+    border-color: rgba(120,130,140,.2);
+    display: block;
+    width: 100%;
+    line-height: 1.25;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+  mat-select {
+    padding: 1px 0.5rem;
+    border-radius: 0.25rem;
+    border-color: rgba(120,130,140,.2);
+    display: block;
+    width: 40%;
+    line-height: 1.25;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+  
+
+.table {
+  margin-left: 20px;
+  margin-right: 15px;
+  table{
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    // background: #f6fafb;
+  }
+}
+
+.tagname {
+  text-align: center;
+  font-size: 30px;
+}
+.mat-mdc-table .mdc-data-table__header-row {
+  height: 40px;
+}
+
+.mat-mdc-table .mdc-data-table__row {
+  height: 30px;
+}
+
+tr th{
+  // font-weight: 600;
+  // color: blue;
+  // updated-06jan26
+  color: black;
+}
+
+.details {
+  flex-shrink: 0; 
+  width: 70%;
+  margin-left: 5px; 
+} 
+.btn-rounded {
+height: 35px !important;
+width: 80px !important;
+// background-color: #ed7014 !important;
+background-color: #bcbec0 !important;
+color: black;
+margin-left: 10px;
+border-radius: 10px;
+}
+
+.details h2 {
+  color: #4caf50;
+  border-bottom: 2px solid #4caf50;
+  padding-bottom: 5px;
+}
+
+.details p {
+  margin: 5px 0;
+}
+
+
+.grid-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-items: center;
+}
