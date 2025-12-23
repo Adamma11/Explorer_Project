@@ -1,0 +1,602 @@
+<div class="container-fluid h-100 bg-light">
+    <div class="row">
+        <div class="col-12 text-center border py-1">
+            <h2>Instant Verify</h2>
+        </div>
+    </div>
+    <!-- <div class="row"> -->
+        <div class="col-12  " style="overflow: hidden; padding: 65px ;display: initial;">
+            <div class="row  ">
+                <!-- First mat-form-field with margin-bottom -->
+                <mat-form-field  class="col-sm-4"  >
+                    <mat-select [(ngModel)]="selectedMainCheck">
+                        <mat-option value="-1">Select One</mat-option>
+                        <mat-option *ngFor="let check of getAllchecks()" [value]="check">
+                            {{ check }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- Second mat-form-field -->
+                <mat-form-field  *ngIf="selectedMainCheck" class="col-sm-4" >
+                    <mat-select [(ngModel)]="selectedSubCheck" (ngModelChange)="onMainCheckSelected()">
+                        <mat-option value="-1">Select One</mat-option>
+                        <mat-option *ngFor="let subCheck of getSubChecks(selectedMainCheck)" [value]="subCheck">
+                            {{ subCheck }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <div *ngIf="aadhaarVerificationSelected"  class="col-12  " style="overflow: hidden; padding: 65px ;" >
+            <form #adharForm="ngForm" >
+                <div class="row" >
+                    <div class="col-12 text-center border py-1">
+                        <h2  >Aadhaar Details </h2>
+                    </div>
+                </div>
+                
+                <div class="row " style="padding: 30px;">
+                    <div class="col-sm-4"  >
+                        <label >Case ID</label>
+                        <input   type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue" placeholder="PROVIDE THE REQUIRED DETAILS">
+                        
+                        
+                    </div>
+                    <div class="col-sm-4"  *ngIf="aadhaarVerificationSelected && selectedSubCheck === 'Aadhaar With OTP'"  >
+                        <label>Aadhaar Number</label>
+                        <input  type="text" class="form-control" name="aadharValue" [(ngModel)]="aadharValue" placeholder="Enter Aadhaar Number">
+                    </div>
+                    
+                    <div class="col-sm-4"  *ngIf="aadhaarVerificationSelected && selectedSubCheck === 'Aadhaar Validation'"  >
+                        <label>Aadhaar Number</label>
+                        <input  type="text" class="form-control" name="aadhaarValidate" [(ngModel)]="aadhaarValidateValue" placeholder="Enter Aadhaar Number">
+                        
+                    </div><br><br><br><br>
+                    
+                </div>
+                <div class="row">
+                    <div class="center"  style="width: 128px;">
+                        <button class="btn-rounded" *ngIf="aadhaarVerificationSelected && selectedSubCheck === 'Aadhaar With OTP'" style="height: 40px; margin-top: 20px; margin-bottom: 20px;" (click)="generateOtp()">Generate Otp</button>
+                    </div>
+                </div>
+                <!-- input and button for otp field -->
+                
+                
+                <div class="row" style=" margin-left: 363px;" >
+                    <div class="col-sm-4" *ngIf="aadhaarVerificationSelected && selectedSubCheck === 'Aadhaar With OTP'">
+                        <label >OTP</label>
+                        <input  type="text" class="form-control" name="aadharotpValue" [(ngModel)]="aadharotpValue" size="8" placeholder="Enter Otp">                        
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn-rounded" style="height: 40px; width: 80px; margin-top: 12px;"    color="primary" (click)="fetchData(adharForm)">Fetch</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn-rounded"
+                        style="height: 40px; width: 80px; margin-top: 12px;" 
+                        (click)="downloadData()"
+                        >
+                        Download
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <mat-divider></mat-divider>
+    <div *ngIf="voterVerificationSelected" class="col-12  " style="overflow: hidden;">
+        <form  #voterForm="ngForm">
+            <div class="row" >
+                <div class="col-12 text-center border py-1">
+                    <h2  >Voter Details </h2>
+                </div>
+            </div>
+            <div  class="row " style="padding: 30px;">
+                <div class="col-sm-4" >
+                    <label >Case ID</label>
+                    <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue"  placeholder="PROVIDE THE REQUIRED DETAILS">
+                    
+                </div>
+                <div class="col-sm-4" >
+                    <label >Epic Number</label>
+                    <input type="text" class="form-control" name="epicid" placeholder="Enter Epic"[(ngModel)]="voteridValue">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="center"  >
+                    <button class="btn-rounded"  (click)="fetchData(voterForm)">Fetch</button>
+                    <button class="btn-rounded"
+                    (click)="downloadData()">
+                    Download
+                </button>
+            </div>
+        </div>
+        
+    </form>
+    <!-- <div *ngIf="responseData">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of getObjectKeys(responseData)">
+                    <td>{{ item }}</td>
+                    <td>{{ responseData[item] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+    
+</div>
+
+
+<!-- PassPort  -->
+
+<div *ngIf="passportVerificationSelected" class="col-12  " style="overflow: hidden;">
+    <form  #passportForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Passport Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4">
+                <label >Case ID</label>
+                <input  type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue" placeholder="PROVIDE THE REQUIRED DETAILS">
+            </div>
+            <div class="col-sm-4">
+                <label >Passport Number</label>
+                <input  type="text" class="form-control" placeholder="Enter Number"[(ngModel)]="drivingLicenseValue">
+            </div>
+            <div class="col-sm-4">
+                <label >DOB [MM/DD/YYYY]</label>
+                <input  type="text" class="form-control" placeholder="Enter DOB"[(ngModel)]="dobPassportValue">
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button class="btn-rounded"  (click)="fetchData(passportForm)">Fetch</button>
+                <button class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+    
+</form>
+</div>
+<!-- Passport  -->
+
+<!-- Pan -->
+<div *ngIf="panVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form  #panForm="ngForm">
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >PAN Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4">
+                <label >Case ID</label>
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue" placeholder="PROVIDE THE REQUIRED DETAILS">
+                
+            </div>
+            <div class="col-sm-4">
+                <label >Pan Number</label>
+                <input type="text" class="form-control" name="pan" placeholder="Enter Pan"[(ngModel)]="panValue">
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button class="btn-rounded"  (click)="fetchData(panForm)">Fetch</button>
+                <button class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+    
+</form>
+</div>
+<!-- Pan  -->
+<!-- DL  -->
+<div *ngIf="drivingLicenseVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form #drivingLicForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Driving Details</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4" >
+                <label >Case ID</label>
+                
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue" placeholder="PROVIDE THE REQUIRED DETAILS" required>
+            </div>
+            <div class="col-sm-4" >
+                <label >ID Number</label>
+                
+                <input type="text" class="form-control" name="license_number" placeholder="Enter Number" [(ngModel)]="drivingLicenseValue" required>
+            </div>
+            <div class="col-sm-4">
+                <label >DOB [YYYY-MM-DD]</label>
+                <input type="date" class="form-control" name="dob" placeholder="Enter DOB [YYYY-MM-DD]" [(ngModel)]="dobValue" required>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button  class="btn-rounded"  (click)="fetchData(drivingLicForm)">Fetch</button>
+                <button class="btn-rounded" 
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+</form>
+</div>
+<!-- DL  -->
+
+<!-- employment  -->
+<div *ngIf="employmentVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form  #employmentForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Employment Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4" *ngIf="employmentVerificationSelected">
+                <label >Case ID</label>
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue"  placeholder="PROVIDE THE REQUIRED DETAILS">
+                
+            </div>
+            
+            <div class="col-sm-4" *ngIf="employmentVerificationSelected && selectedSubCheck === 'Aadhaar To UAN'">
+                <label >Aadhaar Number</label>
+                <input type="text" class="form-control" name="aadhaarnum" placeholder="Enter Aadhaar" [(ngModel)]="aadharuanValue">
+                
+            </div>
+            
+            <div class="col-sm-4" *ngIf="employmentVerificationSelected && selectedSubCheck === 'Mobile to UAN'">
+                <label >Mobile Number</label>
+                
+                <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile" [(ngModel)]="mobileuanValue">
+                
+            </div>
+            
+            
+            <div class="col-sm-4" *ngIf="employmentVerificationSelected && selectedSubCheck ==='Employment History'">
+                <label >UAN Number</label>
+                <input type="text" class="form-control" name="uan" placeholder="Enter ID Number" [(ngModel)]="historyValue">
+                
+            </div>
+            
+            <div class="col-sm-4" *ngIf="employmentVerificationSelected && selectedSubCheck ==='Pan To UAN'">
+                <label >Pan Number</label>
+                <input type="text" class="form-control" name="pan" placeholder="Enter Pan" [(ngModel)]="panUanValue">
+                
+            </div>
+            
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button class="btn-rounded"  (click)="fetchData(employmentForm)">Fetch</button>
+                <button  class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+</form>
+</div>
+<!-- employemt  -->
+
+<!-- Email Details  -->
+<div *ngIf="emailVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form #emailForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Email Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4">
+                <label >Case ID</label>
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue"  placeholder="PROVIDE THE REQUIRED DETAILS">
+            </div>
+            <div class="col-sm-4">
+                <label >Email Id</label>
+                <input type="text" class="form-control" name="emailaddress" placeholder="Enter Email" [(ngModel)]="emailidValue">
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button class="btn-rounded"  (click)="fetchData(emailForm)">Fetch</button>
+                <button class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+</form>
+</div>
+<!-- Email Details  -->
+
+
+<!-- Telecom  -->
+<div *ngIf="telecomVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form  #telecomForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >TeleCom Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4">
+                <label >Case ID</label>
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue"  placeholder="PROVIDE THE REQUIRED DETAILS">
+            </div>
+            <div class="col-sm-4">
+                <label >Mobile Number</label>
+                <input type="text" class="form-control" name="id_number" placeholder="Enter Number"[(ngModel)]="telecomValue">
+            </div>
+            <div class="col-sm-4" >  
+                <button  class="btn-rounded" (click)="generateOtp()">Generate Otp</button>
+            </div>
+            
+            
+            <!-- input for otp field -->
+            <div class="col-sm-4">
+                <div>
+                    <label >Otp</label>
+                    <input type="text" class="form-control" name="otp" placeholder="Enter Otp" [(ngModel)]="otpValue">
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                
+                <button class="btn-rounded" (click)="fetchData(telecomForm)">Fetch</button>
+                <button class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+        
+    </div>
+</form>
+</div>
+<!-- Telecom  -->
+<!-- </div> -->
+<!-- Face Verify  -->
+<div *ngIf="faceVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form #faceForm="ngForm">
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Face Match Details</h2>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-sm-4" >
+                <label>Case ID</label>
+                <input type="text" class="form-control"  name="caseIdValue" [(ngModel)]="caseIdValue" placeholder="PROVIDE THE REQUIRED DETAILS">
+                
+            </div>
+            
+            <div class="col-sm-4" >
+                <label>Selfie</label>
+                <!-- <ngx-mat-file-input  name="selfieValue" placeholder="Choose a file" (change)="onSelfieFileChange($event)"></ngx-mat-file-input> -->
+                <input class="form-control" type="file" id="formFileMultiple" multiple (change)="onSelfieFileChange($event)"> 
+            </div>
+            
+            
+            <div class="col-sm-4">
+                <label>Id Photo</label>
+                <!-- <ngx-mat-file-input  name="idvalue" placeholder="Choose a file" (change)="onIdFileChange($event)"></ngx-mat-file-input> -->
+                <input class="form-control" type="file" id="formFileMultiple" multiple (change)="onIdFileChange($event)"> 
+            </div>
+            
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                
+                <button  class="btn-rounded" (click)="onSubmitFile(faceForm)">Fetch</button>
+                <button  class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+</form> 
+</div>
+<!-- FAce Verify  -->
+
+<!-- credit  -->
+<div *ngIf="creditVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form  #creditForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Credit Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4">
+                <label >Case ID</label>
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue"  placeholder="PROVIDE THE REQUIRED DETAILS">
+            </div>
+            <div class="col-sm-4">
+                <label >Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Enter candidateName"[(ngModel)]="creditValue">
+            </div>
+            <div class="col-sm-4">
+                <label >Pan Numbar</label>
+                <input type="text" class="form-control" name="pan" placeholder="Enter pan"[(ngModel)]="panValue">
+            </div>
+            <div class="col-sm-4">
+                <label >Mobile Number</label>
+                <input type="text" class="form-control" name="mobile" placeholder="Enter Number"[(ngModel)]="mobileuanValue">
+            </div>
+            
+        </div>
+        <div class="row" style="padding-top: 20px;" name="consent">
+            <div class="form-check col-sm-1">
+                <input class="form-check-input" type="radio" name="consent" [(ngModel)]="selectedRadioValue" value="Y" id="flexRadioDefault1" checked>
+                <label class="form-check-label" for="flexRadioDefault1">Yes</label>
+            </div>
+            
+            <div class="form-check col-sm-1">
+                <input class="form-check-input" type="radio" name="consent" [(ngModel)]="selectedRadioValue" value="N" id="flexRadioDefault2">
+                <label class="form-check-label" for="flexRadioDefault2">No</label>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button class="btn-rounded"  (click)="fetchData(creditForm)">Fetch</button>
+                <button class="btn-rounded"
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+</form>
+</div>
+<!-- credit  -->
+
+<!-- Bank details  -->
+<div *ngIf="bankVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form  #bankForm="ngForm">
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >Bank Details</h2>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-sm-4">
+                <label>Case ID</label>  
+                <input type="text" class="form-control" name="caseIdValue" [(ngModel)]="caseIdValue" placeholder="PROVIDE THE REQUIRED DETAILS">
+                
+            </div>
+            <div *ngIf="bankVerificationSelected && selectedSubCheck ==='Bank Verification' " class="col-sm-4">
+                <label>Account Number</label>
+                <input type="text" class="form-control" name="accountNum" placeholder="Enter Account Number">
+            </div>
+            <div *ngIf="bankVerificationSelected && selectedSubCheck ==='Bank Verification' " class="col-sm-4">
+                <label>IFSC Code</label>
+                <input type="text" class="form-control" name="ifsc" placeholder="Enter IFSC"[(ngModel)]="ifscValue">
+            </div>
+            <div *ngIf="bankVerificationSelected && selectedSubCheck ==='UPI Verification' " class="col-sm-4">
+                <label>UPI ID</label>
+                <input type="text" class="form-control" name="upi_id" placeholder="Enter UPI ID"[(ngModel)]="upiValue">
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;">
+            <div class="center"  >
+                <button class="btn-rounded"  (click)="fetchData(bankForm)">Fetch</button>
+                <button class="btn-rounded" 
+                (click)="downloadData()"
+                >
+                Download
+            </button>
+        </div>
+    </div>
+</form>
+</div>
+            <!-- Bank details  -->
+
+
+<!-- OCR  -->
+<!-- <div *ngIf="OCRVerificationSelected" class="col-12  " style="overflow: hidden;">
+    
+    <form #OCRForm="ngForm" >
+        <div class="row" >
+            <div class="col-12 text-center border py-1">
+                <h2  >OCR Details</h2>
+            </div>
+        </div>
+        <div class="row">
+        
+            <div class="col-sm-4" *ngIf="OCRVerificationSelected">
+                <label>Case ID</label>
+
+                <input type="text" class="form-control" [formControl]="caseIdFormControl" placeholder="PROVIDE THE REQUIRED DETAILS">
+            </div>
+        
+            <div class="col-sm-4" *ngIf="OCRVerificationSelected  && selectedSubCheck === 'Aadhaar'">
+                    <label>Aadhaar</label>
+                    <input class="form-control" formControlName="selfie" type="file" id="formFileMultiple" > 
+                </div>
+            <div class="col-sm-4" *ngIf="OCRVerificationSelected  && selectedSubCheck === 'PAN'">
+                    <label>PAN</label>
+                    <input class="form-control" formControlName="selfie" type="file" id="formFileMultiple" > 
+                </div>
+            <div class="col-sm-4" *ngIf="OCRVerificationSelected  && selectedSubCheck === 'Voter ID'">
+                    <label>Voter ID</label>
+                    <input class="form-control" formControlName="selfie" type="file" id="formFileMultiple" > 
+                </div>
+            <div class="col-sm-4" *ngIf="OCRVerificationSelected  && selectedSubCheck === 'DL'">
+                    <label>DL</label>
+                    <input class="form-control" formControlName="selfie" type="file" id="formFileMultiple" > 
+                </div>
+                </div>
+                <div class="row" style="padding: 20px;">
+                    <div class="center"  >
+            
+        
+            <button class="btn-rounded" (click)="fetchData(OCRForm)">Fetch</button>
+            <button class="btn-rounded"
+            (click)="downloadData()"
+            >
+            Download
+          </button>
+        </div>
+        </div>
+        </form> 
+</div> -->
+<!-- OCR  -->
+            
+            <!-- Derails  -->
+            <div *ngIf="responseData">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of getObjectKeys(responseData)">
+                            <td>{{ item }}</td>
+                            <td>{{ responseData[item] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Derails  -->
