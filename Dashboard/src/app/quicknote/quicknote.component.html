@@ -1,0 +1,350 @@
+<!-- 
+  <div style="margin: 20px;">
+    <div fxLayout="row" style="display: flex; justify-content: end;">
+
+      <button (click)="cancelButtonClicked()" style="display: flex; border-radius: 35px; background-color: #bcbec0; color: black; border: none;">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  
+    <h2 class="tagname">Comments</h2>
+    <mat-divider style="color: #002bff; background-color: #33BABC; margin-bottom: 20px;"></mat-divider>
+  
+    <div class="assessment-container">
+      <div *ngFor="let comment of comments" class="assessment-card gap">
+        <div class="header">
+          <span>{{ comment?.user?.name }}</span>
+          <span class="date">{{ comment?.date | date: 'dd-MMM-yy HH:mm' }}</span>
+        </div>
+        <div class="content">
+          {{ comment?.comment || comment?.status }} 
+          <span *ngIf="comment?.nextfollowupdate">Next Follow Up is: {{ comment?.nextfollowupdate | date: 'dd-MMM-yy' }}</span>
+        </div>
+        
+        <div class="assignee">
+          {{ comment?.remarks || comment?.colorType }}
+        </div>
+      </div>
+    </div>
+  
+    <form [formGroup]="commentDetailsForm">
+      <mat-form-field fxFlexOffset="20px" appearance="outline">
+        <mat-select formControlName="effortType" (selectionChange)="followupSelectionChanged($event)">
+          <mat-option value="Followup1">Follow up</mat-option>
+          <mat-option value="Comments">Comments</mat-option>
+        </mat-select>
+        <mat-label>Select Type</mat-label>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" *ngIf="commentDetailsForm.get('effortType')?.value === 'Comments'" style="width: 352px; margin-top: 10px; margin-left: 20px;"  fxFlexOffset="20px" fxFlex="40%">
+        <mat-select formControlName="colorType" (selectionChange)="statusSelectionChanged($event)">
+          <mat-option value="RED">
+            <div class="color-option">
+              <div class="color-box red"></div>
+              <span>Red</span>
+            </div>
+          </mat-option>
+          <mat-option value="BLUE">
+            <div class="color-option">
+              <div class="color-box blue"></div>
+              <span>Blue</span>
+            </div>
+          </mat-option>
+          <mat-option value="GREEN">
+            <div class="color-option">
+              <div class="color-box Green"></div>
+              <span>Green</span>
+            </div>
+          </mat-option>
+
+          <mat-option value="VIOLET">
+            <div class="color-option">
+              <div class="color-box Violet"></div>
+              <span>Violet</span>
+            </div>
+          </mat-option>
+
+          <mat-option value="INDIGO">
+            <div class="color-option">
+              <div class="color-box Indigo"></div>
+              <span>Indigo</span>
+            </div>
+          </mat-option>
+
+          <mat-option value="YELLOW">
+            <div class="color-option">
+              <div class="color-box Yellow"></div>
+              <span>Yellow</span>
+            </div>
+          </mat-option>
+
+          <mat-option value="ORANGE">
+            <div class="color-option">
+              <div class="color-box Orange"></div>
+              <span>Orange</span>
+            </div>
+          </mat-option>
+
+
+          <mat-option value="PINK">
+            <div class="color-option">
+              <div class="color-box Pink"></div>
+              <span>Pink</span>
+            </div>
+          </mat-option>
+
+          <mat-option value="GREY">
+            <div class="color-option">
+              <div class="color-box Grey"></div>
+              <span>Grey</span>
+            </div>
+          </mat-option>
+
+          <mat-option value="PURPLE">
+            <div class="color-option">
+              <div class="color-box Purple"></div>
+              <span>Purple</span>
+            </div>
+          </mat-option>
+        </mat-select>
+        <mat-label>Color Type</mat-label>
+      </mat-form-field>
+  
+      <mat-form-field fxFlexOffset="20px" style="margin-left: 20px;" fxFlex="40%" *ngIf="commentDetailsForm.get('effortType')?.value === 'Followup1'" appearance="outline">
+        <mat-label>Next Follow-Up Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="followupdate" placeholder="Next Follow-Up Date" [min]="todayDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="commentDetailsForm.get('followupdate')?.hasError('required')">Next Follow-Up Date cannot be blank</mat-error>
+      </mat-form-field>
+      
+  
+      <div class="input-container">
+        <textarea placeholder="Enter Your Comment Here" #commentBox formControlName="noteComments" [(ngModel)]="comment" class="login-input"></textarea>
+      </div>
+  
+      <button type="button" (click)="addComment()" class="login-button">
+        <mat-icon style="display: flex;">send</mat-icon>
+      </button>
+    </form>
+  </div>
+   -->
+
+
+   <!-- //////new // -->
+    <div style="margin: 20px;">
+  <div fxLayout="row" style="display: flex; justify-content: end;">
+    <!-- venky 10/10 modified styles -->
+    <button (click)="cancelButtonClicked()" style="display: flex; border-radius: 35px; background-color: #bcbec0; color: black; border: none;">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <h2 class="tagname">Comments</h2>
+  <mat-divider style="color: #002bff; background-color: #33BABC; margin-bottom: 20px;"></mat-divider>
+
+  <div class="assessment-container">
+    <div *ngFor="let comment of comments" class="assessment-card gap">
+      <div class="header">
+        <span>{{ comment?.user?.name }}</span>
+        <span class="date">{{ comment?.date | date: 'dd-MMM-yy HH:mm' }}</span>
+      </div>
+      <div class="content">
+        {{ comment?.comment || comment?.status }} 
+        <span *ngIf="comment?.nextfollowupdate">Next Follow Up is: {{ comment?.nextfollowupdate | date: 'dd-MMM-yy' }}</span>
+      </div>
+      
+      <div class="assignee">
+        {{ comment?.remarks || comment?.colorType }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Document Upload Section -->
+  <div class="file-upload-section" style="margin-bottom: 20px;">
+    <h3 style="color: #333; margin-bottom: 12px; font-size: 16px;">Upload Documents</h3>
+    
+    <!-- Drag & Drop Area -->
+    <div 
+      class="drop-zone" 
+      [class.dragging]="isDragging"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+      (click)="triggerFileInput()"
+      style="border: 2px dashed #ccc; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #fafafa; margin-bottom: 16px;"
+      [style.border-color]="isDragging ? '#33BABC' : '#ccc'"
+      [style.background]="isDragging ? '#f0f8ff' : '#fafafa'">
+      
+      <mat-icon style="font-size: 40px; width: 40px; height: 40px; color: #ccc; margin-bottom: 12px;">cloud_upload</mat-icon>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #666;">Drag & drop files here or click to browse</p>
+      <small style="color: #999;">Supported: PDF, DOC, DOCX, JPG, PNG, XLS, XLSX (Max 10MB)</small>
+      
+      <input 
+        #fileInput
+        type="file" 
+        multiple 
+        hidden
+        [accept]="acceptedFileTypes"
+        (change)="onFileSelected($event)">
+    </div>
+
+    <!-- Uploaded Files List -->
+    <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
+      <h4 style="margin-bottom: 12px; color: #333; font-size: 14px;">Selected Files ({{ uploadedFiles.length }})</h4>
+      <div class="file-list">
+        <div *ngFor="let file of uploadedFiles; let i = index" class="file-item" 
+             style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #e0e0e0; border-radius: 4px; margin-bottom: 8px; background: #fff;">
+          <div class="file-info" style="display: flex; align-items: center; flex: 1;">
+            <mat-icon style="margin-right: 12px; color: #757575;">{{ getFileIcon(file.type) }}</mat-icon>
+            <div class="file-details" style="display: flex; flex-direction: column;">
+              <span class="file-name" style="font-weight: 500; margin-bottom: 2px; font-size: 13px;">{{ file.name }}</span>
+              <span class="file-size" style="font-size: 11px; color: #757575;">{{ formatFileSize(file.size) }}</span>
+            </div>
+          </div>
+          
+          <div class="file-actions" style="display: flex; align-items: center;">
+            <!-- Progress Bar -->
+            <mat-progress-bar 
+              *ngIf="file.isUploading"
+              mode="determinate" 
+              [value]="file.uploadProgress"
+              style="width: 80px; margin-right: 8px;">
+            </mat-progress-bar>
+            
+            <!-- Remove Button -->
+            <button 
+              mat-icon-button 
+              color="warn" 
+              (click)="removeFile(i)"
+              [disabled]="file.isUploading"
+              style="width: 32px; height: 32px;">
+              <mat-icon style="font-size: 18px;">delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="commentDetailsForm">
+    <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+      <mat-form-field appearance="outline" style="flex: 1; min-width: 200px;">
+        <mat-select formControlName="effortType" (selectionChange)="followupSelectionChanged($event)">
+          <mat-option value="Followup1">Follow up</mat-option>
+          <mat-option value="Comments">Comments</mat-option>
+        </mat-select>
+        <mat-label>Select Type</mat-label>
+      </mat-form-field>
+
+      <!-- Display color type dropdown if 'Comments' is selected -->
+      <mat-form-field appearance="outline" *ngIf="commentDetailsForm.get('effortType')?.value === 'Comments'" style="flex: 1; min-width: 200px;">
+        <mat-select formControlName="colorType" (selectionChange)="statusSelectionChanged($event)">
+          <mat-option value="RED">
+            <div class="color-option">
+              <div class="color-box red"></div>
+              <span>Red</span>
+            </div>
+          </mat-option>
+          <mat-option value="BLUE">
+            <div class="color-option">
+              <div class="color-box blue"></div>
+              <span>Blue</span>
+            </div>
+          </mat-option>
+          <mat-option value="GREEN">
+            <div class="color-option">
+              <div class="color-box Green"></div>
+              <span>Green</span>
+            </div>
+          </mat-option>
+          <mat-option value="VIOLET">
+            <div class="color-option">
+              <div class="color-box Violet"></div>
+              <span>Violet</span>
+            </div>
+          </mat-option>
+          <mat-option value="INDIGO">
+            <div class="color-option">
+              <div class="color-box Indigo"></div>
+              <span>Indigo</span>
+            </div>
+          </mat-option>
+          <mat-option value="YELLOW">
+            <div class="color-option">
+              <div class="color-box Yellow"></div>
+              <span>Yellow</span>
+            </div>
+          </mat-option>
+          <mat-option value="ORANGE">
+            <div class="color-option">
+              <div class="color-box Orange"></div>
+              <span>Orange</span>
+            </div>
+          </mat-option>
+          <mat-option value="PINK">
+            <div class="color-option">
+              <div class="color-box Pink"></div>
+              <span>Pink</span>
+            </div>
+          </mat-option>
+          <mat-option value="GREY">
+            <div class="color-option">
+              <div class="color-box Grey"></div>
+              <span>Grey</span>
+            </div>
+          </mat-option>
+          <mat-option value="PURPLE">
+            <div class="color-option">
+              <div class="color-box Purple"></div>
+              <span>Purple</span>
+            </div>
+          </mat-option>
+        </mat-select>
+        <mat-label>Color Type</mat-label>
+      </mat-form-field>
+
+      <!-- Display follow-up date if 'Followup1' is selected -->
+      <mat-form-field appearance="outline" *ngIf="commentDetailsForm.get('effortType')?.value === 'Followup1'" style="flex: 1; min-width: 200px;">
+        <mat-label>Next Follow-Up Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="followupdate" placeholder="Next Follow-Up Date" [min]="todayDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="commentDetailsForm.get('followupdate')?.hasError('required')">Next Follow-Up Date cannot be blank</mat-error>
+      </mat-form-field>
+    </div>
+    
+    <!-- Comment input field -->
+    <div class="input-container">
+      <textarea 
+        placeholder="Enter Your Comment Here" 
+        #commentBox 
+        formControlName="noteComments" 
+        class="login-input"
+        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; resize: vertical; min-height: 80px; box-sizing: border-box;">
+      </textarea>
+      <mat-error *ngIf="commentDetailsForm.get('noteComments')?.invalid && commentDetailsForm.get('noteComments')?.touched" 
+                style="color: #f44336; font-size: 12px; margin-top: 4px;">
+        Comment is required
+      </mat-error>
+    </div>
+
+    <!-- Info Note -->
+    <!-- <div style="display: flex; align-items: center; padding: 10px; background: #e3f2fd; border-radius: 4px; color: #1565c0; font-size: 13px; margin: 15px 0;">
+      <mat-icon style="font-size: 16px; margin-right: 8px; width: 16px; height: 16px;">info</mat-icon>
+      <span>After submitting, this case will be moved to Today's Follow-Up</span>
+    </div> -->
+
+    <!-- Submit button -->
+    <div style="display: flex; justify-content: flex-end;">
+      <button type="button" (click)="addComment()" class="login-button" 
+              [disabled]="commentDetailsForm.invalid"
+              style="display: flex; align-items: center; gap: 8px; padding: 8px 20px; background-color: #33BABC; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;"
+              [style.opacity]="commentDetailsForm.invalid ? '0.6' : '1'"
+              [style.cursor]="commentDetailsForm.invalid ? 'not-allowed' : 'pointer'">
+        <mat-icon style="display: flex; font-size: 18px;">send</mat-icon>
+        <span>Submit {{ uploadedFiles.length > 0 ? 'Note & Files' : 'Note' }}</span>
+      </button>
+    </div>
+  </form>
+</div>
