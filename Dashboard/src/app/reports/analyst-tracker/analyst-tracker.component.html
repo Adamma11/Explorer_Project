@@ -1,0 +1,41 @@
+
+<p class="tagname">Self Monitoring Tool</p>
+<!-- <body class="login-page"> -->
+    <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+<div class="table-container">
+  <div class="table">
+    <div class="header">
+      <div class="grid-content">
+        <div class="form-group">
+          <mat-label>Type of Report</mat-label>
+          <mat-select placeholder="Select One" [(ngModel)]="reportType">
+            <!-- <mat-option value="" disabled selected>Show Cases that are</mat-option> -->
+            <mat-option value="PENDING">Pending</mat-option>
+            <mat-option value="COMPLETED">Completed</mat-option>
+          </mat-select>
+        </div>
+      
+        <ng-container *ngIf="reportType === 'COMPLETED'">
+          <div class="form-group">
+            <mat-label>Completion Date From</mat-label>
+            <input matInput type="date" [(ngModel)]="dateFrom" placeholder="Completion Date From">
+          </div>
+          <div class="form-group">
+            <mat-label>Completion Date To</mat-label>
+            <input matInput type="date" [(ngModel)]="dateTo" placeholder="Completion Date To">
+          </div>
+        </ng-container>
+
+        <div style="border-style: solid;border-width: thin;border-color: lightskyblue;height:200px;width:400px;background-color:white;position:absolute;left: 450px;top: 300px;opacity: 1;" *ngIf="resourceLoaded == false" fxFlexAlign="center" >
+            <div style="margin-top: 75px;font-weight: bold;">Report is being generated. Please wait...</div>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            <!-- <mat-spinner class="mini-card-spinner" mode="indeterminate"></mat-spinner> -->
+        </div>
+
+        <div class="form-group">
+            <button class="btn-rounded" (click)="generateReport()">Fetch Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
