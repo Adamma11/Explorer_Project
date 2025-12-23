@@ -1,0 +1,253 @@
+// .container{
+//   width: 90%;
+//   margin: auto;
+// }
+
+// .table {
+//   flex: 1;
+//   max-height: 300px; 
+//   overflow-y: scroll; 
+// }
+// .tagname{
+//   text-align: center;
+//   font-size: 16px;
+// }
+
+// .table-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   width: 100%;
+//   padding: 4px 0px;
+//   background-color: #f0f0f0;
+//   border-bottom: 1px solid #ccc;
+// }
+
+// .mat-mdc-table .mdc-data-table__header-row {
+//   height: 40px;
+// }
+
+// .mat-mdc-table .mdc-data-table__row {
+//   height: 30px;
+// }
+
+// tr th, td{
+//   // padding: 2px;
+//   font-size: 12px;
+// }
+// tr th{
+//   color: blue;
+// }
+
+// .grid-content {
+//   display: grid;
+//   grid-template-columns: 2fr 1fr 1fr 1fr; 
+//   gap: 16px;
+// }
+
+// .form-group {
+//   margin-bottom: 16px;
+// }
+
+// .form-group mat-label {
+//   display: block;
+//   color: #0136ff
+// }
+
+// .form-group input,
+// .form-group textarea,
+// .form-group mat-checkbox {
+//   width: 90%;
+//   padding: 6px;
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   box-sizing: border-box;
+// }
+
+// .form-group mat-select {
+//    width: 90%;
+//    padding: 5px;
+//    border: 1px solid #ccc;
+//    border-radius: 4px;
+//    box-sizing: border-box;
+// }
+
+// ngx-mat-file-input{
+//   width: 25%;
+//   padding: 6px;
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   box-sizing: border-box;
+// }
+
+// mat-select, mat-option{
+//   font-size: 12px;
+// }
+
+// button{
+//   margin-left: 8px;
+//   height: 30px;
+//   border-radius: 25px;
+// }
+
+
+*{
+  font-size: 0.875rem;
+}
+
+
+.grid-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+
+.mat-select,
+.mat-input-container {
+  width: 100%;
+}
+
+.form-group select, mat-select {
+  padding: 1px 0.5rem;
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  width: 90%;
+  line-height: 1.25;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.table-container {
+  display: flex;
+}
+
+.table {
+  // margin-left: 20px;
+  // margin-right: 15px;
+  table{
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #f6fafb;
+  }
+  tr th{
+    color: blue;
+  }
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  line-height: 1.5;
+}
+
+.table-header .filter-card {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+
+
+input {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  width: 100%;
+  line-height: 1.25;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.tagname {
+  text-align: center;
+  font-size: 30px;
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.mat-mdc-table .mdc-data-table__header-row {
+  height: 40px;
+}
+
+.mat-mdc-table .mdc-data-table__row {
+  height: 30px;
+}
+
+.btn-rounded {
+  flex: 1;
+  // width: 25% !important; /* Example with !important */
+  padding: 4px;
+  padding-left: 1.2em !important;
+  padding-right: 1.2em !important;
+  // border-radius: 500px;
+  // background-color: #002bff;
+  // color: white;
+  background-color: #bcbec0;
+  color: black;
+  border: 0px;
+}
+
+.form-group .btn-rounded{
+  margin-top: 18px;
+}
+
+mat-icon{
+  font-size: 1.5rem;
+}
+
+.form-group mat-label {
+  display: block;
+  // color: #0136ff;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.table>:not(caption)>*>*{
+  padding-left: 0px;
+}
+
+ngx-mat-file-input {
+  border-radius: 0.25rem;
+  border-color: rgba(120,130,140,.2);
+  display: block;
+  line-height: 1.25;
+}
+
+
+.btn-rounded {
+  display: inline-flex;
+  padding: 4px;
+  padding-left: 1.2em !important;
+  padding-right: 1.2em !important;
+  // border-radius: 500px;
+  // background-color: #002bff;
+  // color: white;
+  background-color: #bcbec0;
+  color: black;
+  margin-left: 10px;
+  border: 0px;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+}
+
+mat-icon {
+  margin-right: 8px; /* Adjust margin as needed */
+}
+
+.footer{
+  text-align: right;
+  margin: 16px auto;
+}
+
+.main-container{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 3.5rem;
+}
