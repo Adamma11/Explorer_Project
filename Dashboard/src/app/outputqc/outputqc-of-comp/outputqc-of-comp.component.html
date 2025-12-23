@@ -1,0 +1,503 @@
+
+    <h1 class="tagname">{{componentDisplayName}}</h1>
+    <mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;" ></mat-divider>
+
+<div style="margin-left: 83%; " >
+    
+    <form [formGroup]="outputqcStatusForm" class="status-form">
+        <div class="form-row">
+            <select
+                class="form-group custom-select"
+                formControlName="status"
+                (selectionChange)="outputqcStatusChanged($event)"
+            >
+                <option value="" disabled selected>Status</option>
+                <option value="OUTPUTQC-ACCEPTED">Accept</option>
+                <option value="OUTPUTQC-REJECTED">Reject</option>
+            </select>
+            <div
+                class="form-group textarea-container"
+                *ngIf="outputqcStatusForm.get('status')?.value === 'OUTPUTQC-REJECTED'"
+            >
+                <textarea
+                    formControlName="outputqcComments"
+                    rows="1"
+                    class="custom-textarea"
+                ></textarea>
+            </div>
+            <div class="form-group document-card-2">
+                <button
+                    class="btn-rounded-2"
+                    [disabled]="outputqcStatusForm.invalid"
+                    (click)="saveStatusButtonClicked()"
+                >
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+    
+</div>
+<mat-divider style="margin: 7px; color: aqua; background-color: #33BABC;" ></mat-divider>
+
+<div *ngIf="ShowComments"  >
+  <div   [ngStyle]="{'background-color': getClassToApply()}"    style="text-align: center !important;height: 50px;padding-top: 12px;">
+      {{comment}}</div>
+  </div>
+<div class="document-card-2" style="margin: 20px;">
+    <button  class="btn-rounded-2"   (click)="QuickNote()"> Quick Note </button>
+    
+</div>
+
+<div class="header">
+    <div class="mat-card">
+
+
+        <div class="document-card">
+            <h4 class="card-heading" style="font-weight: bold;font-size: 18px; text-decoration: underline;">Case Information</h4>
+
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Case Id: <span style="color: black !important;">{{caseId}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Candidate Name: <span style="color: black !important;">{{candidateName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Client: <span style="color: black !important;">{{clientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Subclient: <span style="color: black !important;">{{subclientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+            </div>
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Father Name: <span style="color: black !important;">{{fathername}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{fathername}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>D.O.B: <span style="color: black !important;">{{dob | date:'dd-MMM-yyyy' }}</span>
+                </mat-label>
+                <!-- <mat-label class="label-value"> {{dob | date:'dd-MMM-yyyy' }}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Contact No.: <span style="color: black !important;">{{contact}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{contact}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Email Id: <span style="color: black !important;">{{emailid}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{emailid}}</mat-label> -->
+            </div>
+        </div>
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>D.O.J: <span style="color: black !important;">{{doj | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{doj}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Process: <span style="color: black !important;">{{process}}</span> </mat-label>
+                <!-- <mat-label class="label-value"> {{ process }}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Location: <span style="color: black !important;">{{place}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{place}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>TAT Start: <span  style="color: black !important;">{{tatStartDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+              </div>
+              <div class="form-card-group">
+                <mat-label>TaT End: <span  style="color: black !important;">{{tatEndDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+              </div>
+
+        </div>
+    </div>
+</div> 
+<mat-divider style="margin: 9px; color: aqua; background-color: #33BABC;"></mat-divider>
+<!-- <div  style="display: flex; flex-wrap: wrap;">
+    <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">All Doc’s:</h4> -->
+    <!-- <button class="btn-rounded-1 fixed-size-btn"  *ngFor="let file of casedox" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+    <span (click)="downloadcdfFile(file)" style="cursor: pointer; margin: 2px;"><i class="fas fa-download"></i></span></button> -->
+<!-- <button 
+    class="btn-rounded-1 fixed-size-btn"*ngFor="let file of casedox" style="margin-right: 10px; margin-left: 19px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;"
+    (click)="previewcdfFile(file)"
+  >
+    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+    <span 
+      (click)="downloadcdfFile(file); $event.stopPropagation();" 
+      style="cursor: pointer; margin: 2px;"
+    >
+     
+    </span>
+  </button> -->
+
+<!-- </div> 
+
+<mat-divider style="margin: 9px; color: aqua; background-color: #33BABC;" ></mat-divider>
+            
+<div  style="display: flex; flex-wrap: wrap;">
+    <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">Check Doc’s:</h4> -->
+    <!-- <button  *ngFor="let file of candidateDocuments"class="btn-rounded-1 fixed-size-btn" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadCDF(file)" style="cursor: pointer; margin: 2px;"><i class="fas fa-download"></i></span>
+
+    </button> -->
+
+     <!-- <button *ngFor="let file of candidateDocuments"
+    class="btn-rounded-1 fixed-size-btn"
+    style="margin-right: 10px; margin-left: 19px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;"
+    (click)="previewCandidateDoc(file)"> 
+
+    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+
+    <span (click)="downloadCDF(file); $event.stopPropagation();" style="cursor: pointer; margin: 2px;">
+ 
+    </span>
+  </button>
+</div> -->
+<!-- <mat-divider style="margin: 9px; color: aqua; background-color: #33BABC;" ></mat-divider> -->
+
+
+
+<!-- <div  style="display: flex; flex-wrap: wrap;">
+    <h4  style="padding: 0px; margin: 0px;">Documents:</h4>
+    <button class="btn-rounded-1" *ngFor="let file of proofsUploaded" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis;" (click)="downloadProofOfWork(file)">{{ file }}</button>
+  </div> -->
+  <!-- <div  style="display: flex; flex-wrap: wrap;">
+    <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">Proof Doc’s:</h4> -->
+    <!-- <button class="btn-rounded-1 fixed-size-btn"  *ngFor="let file of proofsUploaded" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+    <span (click)="downloadProofOfWork(file)" style="cursor: pointer; margin: 2px;"><i class="fas fa-download"></i></span>
+    <span  (click)="deleteProofOfWork(file)" style="cursor: pointer; margin: 4px;">&#10006;</span></button> -->
+
+    <!-- <button
+    class="btn-rounded-1 fixed-size-btn"
+    *ngFor="let file of proofsUploaded"
+    (click)="previewProofOfWork(file)" 
+    style="margin-right: 10px; margin-left: 19px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;">
+
+    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+
+    <span (click)="downloadProofOfWork(file); $event.stopPropagation()" style="cursor: pointer; margin: 2px;">
+    </span>
+    <span (click)="deleteProofOfWork(file); $event.stopPropagation()" style="cursor: pointer; margin: 4px;">
+    </span>
+
+  </button>
+</div>  -->
+
+
+<!-- added code oct -16 -->
+
+<!-- Container for split layout -->
+<div class="page-container" [class.preview-active]="previewFile">
+  
+  <!-- Right Side — Preview Panel -->
+  <div class="preview-panel" *ngIf="previewFile">
+    <app-file-preview-dialog
+      [data]="previewFile"
+      (closePreview)="handlePreviewClose($event)">
+    </app-file-preview-dialog>
+  </div>
+
+  <!-- Left Side — Document List -->
+  <div class="main-content">
+
+    <!-- All Doc’s -->
+    <div class="doc-section">
+      <h4 class="doc-title">All Doc’s:</h4>
+      <button
+        class="btn-rounded-1 fixed-size-btn"
+        *ngFor="let file of casedox"
+        (click)="previewcdfFile(file)"
+        style="margin-right: 10px; margin-left: 19px; margin-top: 5px;">
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadcdfFile(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          <i class="fas fa-download"></i>
+        </span>
+      </button>
+    </div>
+
+    <mat-divider style="margin: 9px 0px; background-color: #33BABC;"></mat-divider>
+
+    <!-- Check Doc’s -->
+    <div class="doc-section">
+      <h4 class="doc-title">Check Doc’s:</h4>
+      <button
+        class="btn-rounded-1 fixed-size-btn"
+        *ngFor="let file of candidateDocuments"
+        (click)="previewCandidateDoc(file)"
+        style="margin-right: 10px; margin-left: 19px; margin-top: 5px;">
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadCDF(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          <i class="fas fa-download"></i>
+        </span>
+        <!-- Optional delete -->
+        <!-- <span (click)="deleteCandidateDoc(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">&#10006;</span> -->
+      </button>
+    </div>
+
+    <mat-divider style="margin: 9px 0px; background-color: #33BABC;"></mat-divider>
+
+    <!-- Proof Doc’s -->
+    <div class="doc-section">
+      <h4 class="doc-title">Proof Doc’s:</h4>
+      <button
+        class="btn-rounded-1 fixed-size-btn"
+        *ngFor="let file of proofsUploaded"
+        (click)="previewProofOfWork(file)"
+        style="margin-right: 10px; margin-left: 19px; margin-top: 5px;">
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadProofOfWork(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          <i class="fas fa-download"></i>
+        </span>
+        <span (click)="deleteProofOfWork(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          &#10006;
+        </span>
+      </button>
+    </div>
+<!-- end -->
+
+<mat-divider  style="margin: 7px; color: aqua; background-color: #33BABC; margin-top: 12px;"></mat-divider>
+<h4 class="card-heading" style="font-weight: bold;font-size: 18px; text-decoration: underline;">Check Information</h4>
+<div style="display: flex;">
+    <form [formGroup]="providedDetailsForm" style="width: 40%;">
+        <mat-card style="height: 100%;">
+            <p>Details Provided</p>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div class="form-row" *ngFor="let componentField of componentFields">
+                    <div class="form-group"
+                    *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input  readonly formControlName="{{componentField.name}}" matInput size="30" type="text"
+                            placeholder={{componentField.label}}>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <textarea readonly maxlength="{{componentField.size}}" rows="1" cols="30"
+                            formControlName="{{componentField.name}}" matInput size="30" type="text"
+                            placeholder={{componentField.label}}></textarea>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <mat-select  [disabled]="true" formControlName="{{componentField.name}}">
+                            <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                                <mat-option value={{val}}>{{val}}</mat-option>
+                            </ng-template>
+                        </mat-select>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input readonly formControlName={{componentField.name}} matInput size="11" maxlength="11"
+                            type="date" placeholder={{componentField.label}}>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+    
+    <div style="width: 60%;">
+        <!-- <mat-divider></mat-divider> -->
+        <form [formGroup]="verifiedDetailsForm">
+            <mat-card>
+                <p>Details Verified</p>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div class="form-row" *ngFor="let componentField of componentFields">
+                        <div class="form-group"
+                        *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <input  formControlName="{{componentField.name}}Rhs" matInput size="30" type="text"
+                                placeholder={{componentField.label}}>
+                        </div>
+                        <div class="form-group"
+                        *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <textarea  maxlength="{{componentField.size}}" rows="1" cols="30"
+                                formControlName="{{componentField.name}}Rhs" matInput size="30" type="text"
+                                placeholder={{componentField.label}}></textarea>
+                        </div>
+        
+                        <div class="form-group"
+                        *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <mat-select  formControlName="{{componentField.name}}Rhs">
+                                <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                                    <mat-option value={{val}}>{{val}}</mat-option>
+                                </ng-template>
+                            </mat-select>
+                        </div>
+                        <div class="form-group"
+                        *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <input  formControlName="{{componentField.name}}Rhs" matInput size="11" maxlength="11"
+                                type="date" placeholder={{componentField.label}}>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        
+            <mat-card>
+             
+                <mat-card-content>
+                    <p>Status</p>
+                    <mat-divider></mat-divider>
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <mat-label>Status</mat-label>
+                                <mat-select [disabled]="true" formControlName="verificationStatus">
+                                  <mat-option value="INSUF-2">Insufficiency</mat-option>
+                                  <mat-option value="COST-APPROVAL">Cost Approval</mat-option>
+                                  <mat-option value="CLARIFICATION">Clarification</mat-option>
+                                  <mat-option value="OUTPUTQC-ACCEPTED">Completed</mat-option>
+                                  <mat-option value="MENTOR-REVIEW-ACCEPTED">Completed</mat-option>
+
+                                </mat-select>
+                            </div>
+                        <div class="form-group"
+                        *ngIf="verifiedDetailsForm.get('verificationStatus')?.value=='INSUF-2' || verifiedDetailsForm.get('verificationStatus')?.value=='COST-APPROVAL' || verifiedDetailsForm.get('verificationStatus')?.value=='CLARIFICATION'">
+                        <mat-label>Insufficiency/Cost Approval/Clarification</mat-label>
+                        <textarea readonly formControlName="insufficiencyComments" matInput ></textarea>  
+                        </div>  
+                        </div>
+                       
+                    </div>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+
+                <mat-card-content>
+                    <p>Grading</p> 
+                    <mat-divider></mat-divider>
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <mat-label>Grade</mat-label>
+                                <mat-select [disabled]="true" formControlName="grade">
+                                    <mat-option *ngFor="let colorCode of colorCodes" value="{{colorCode.color}}">{{colorCode.status}}</mat-option>
+                                </mat-select>
+                            </div>
+                        <div class="form-group">
+                        <mat-label>Comments</mat-label>
+                        <textarea readonly formControlName="gradingComments"  matInput  placeholder="Comments"></textarea>
+                        </div>  
+                        </div>
+                       
+                    </div>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <p>Type & Mode of Closure</p>
+                    <mat-divider></mat-divider>
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <mat-label>Type of Closure</mat-label>
+                                <mat-select [disabled]="true" formControlName="interimOrFinal">
+                                    <mat-option value="INTERIM">Interim</mat-option>
+                                    <mat-option value="FINAL">Final</mat-option>
+                                </mat-select>
+                            </div>
+                            <!-- <div class="form-group">
+                                 <mat-label>Verification Mode</mat-label>
+                                <mat-select [disabled]="true" formControlName="mode">
+                                    <mat-option value="WRITTEN">Written</mat-option>
+                                    <mat-option value="VERBAL">Verbal</mat-option>
+                                    <mat-option value="ONLINE">Online</mat-option>
+                                    <mat-option value="BARCODE">Barcode</mat-option>
+                                    <mat-option value="THIRD-PARTY">Third Party</mat-option>
+                                </mat-select>
+                            </div> -->
+                        
+                        </div>
+                       
+                    </div>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <p>Contact Person Details</p>
+                    <mat-divider></mat-divider>
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <mat-label>Person Contacted</mat-label>
+                                <input readonly formControlName="personContacted" matInput type="text" size="30" maxlength="100" placeholder="Person Contacted">
+                            </div>
+                            <div class="form-group">
+                                 <mat-label>Contact Number of Person Contacted</mat-label>
+                                 <input readonly formControlName="contactNumberOfPersonContacted" matInput type="text" size="30" maxlength="100" placeholder="Contact Number">          
+                            </div>
+                            <div class="form-group">
+                                <mat-label>Field comments</mat-label>
+                                <input readonly formControlName="fieldcommentsRhs" matInput type="text" size="30" maxlength="100" placeholder="Field comments">
+                           </div>
+                        
+                        </div>
+                       
+                    </div>
+                </mat-card-content>
+              
+            </mat-card>
+        </form>
+        <!-- <form [formGroup]="outputqcStatusForm">
+           
+            <mat-card-content>
+                <p>Output QC Status</p>
+                <mat-divider></mat-divider>
+                <div class="form-row">
+                   
+                    <div class="form-group">
+                        <mat-label>Output QC Status</mat-label>
+                        <mat-select formControlName="status" (selectionChange)="outputqcStatusChanged($event)">
+                            <mat-option value="OUTPUTQC-ACCEPTED">Accept</mat-option>
+                            <mat-option value="OUTPUTQC-REJECTED">Reject</mat-option>
+                        </mat-select>
+                   </div>
+                      
+                
+                    <div  class="form-group" *ngIf="outputqcStatusForm.get('status')?.value=='OUTPUTQC-REJECTED'" >
+                        <textarea matInput formControlName="outputqcComments"></textarea>
+                    </div>
+                </div>
+               
+            </mat-card-content>
+              
+          
+        </form>  -->
+        <!-- <div style="margin-top: 10px;margin-bottom: 10px;">
+            <div fxFlex></div>
+            <button [disabled]="outputqcStatusForm.invalid" mat-raised-button color="primary" (click)="saveStatusButtonClicked()">Save Status</button>
+        </div>     -->
+        <div *ngIf="showCandidateDocsDialog" cdkDrag style="padding:20px;position:absolute;left:200px;top:300px;width:900px;height:800px;background-color: white;"  class="mat-elevation-z3">
+            <div style="width:100%">
+                <div fxFlex></div><h3>{{displayedCandidateDocName}}</h3><div fxFlex></div>
+            </div>    
+            <!-- <ngx-extended-pdf-viewer  height="80vh" [src]="candidateDocBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>         -->
+            <div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+                <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeCandidateDocsDialog()">Close</button>
+            </div>
+        </div>
+        <div *ngIf="showProofOfWorkDialog" cdkDrag style="padding:20px;position:absolute;left:200px;top:300px;width:900px;height:800px;background-color: white;"  class="mat-elevation-z3">
+            <div style="width:100%">
+                <div fxFlex></div><h3>{{displayedProofOfWorkDocName}}</h3><div fxFlex></div>
+            </div>    
+            <!-- <ngx-extended-pdf-viewer  height="80vh" [src]="proofOfWorkDocBlob" useBrowserLocale="false"></ngx-extended-pdf-viewer>         -->
+            <div class="mat-elevation-z3" fxLayoutAlign="center" style="margin-top: 15px;width: 100%;">
+                <button fxFlexAlign="center" mat-raised-button color="primary" (click)="closeProofOfWorkDocsDialog()">Close</button>
+            </div>
+        </div>    
+       
+    </div>
+         </div> <!-- preview div tag -->
+ </div> <!-- preview div tag -->
+    
+</div>
