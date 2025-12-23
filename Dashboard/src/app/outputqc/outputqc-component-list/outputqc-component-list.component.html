@@ -1,0 +1,185 @@
+<div class="table-container">
+  <div class="main-container">
+    <h1 class="tagname">Final QC - Component List</h1>
+    <mat-divider style="margin: 12px; color: aqua; background-color: #33BABC;" ></mat-divider>
+
+    <div class="table">
+      <div class="header">
+        <div class="mat-card">
+
+
+          <div class="document-card">
+              <h4 class="card-heading" style="padding: 0px; margin: 0px;">Case Information</h4>
+  
+          </div>
+          <div class="form-card-row">
+              <div class="form-card-group">
+                  <mat-label>Case Id: <span style="color: black !important;">{{caseId}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Candidate Name: <span style="color: black !important;">{{candidateName}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Client: <span style="color: black !important;">{{clientName}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Subclient: <span style="color: black !important;">{{subclientName}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+              </div>
+          </div>
+          <div class="form-card-row">
+              <div class="form-card-group">
+                  <mat-label>Father Name: <span style="color: black !important;">{{fathername}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{fathername}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>D.O.B: <span style="color: black !important;">{{dob | date:'dd-MMM-yyyy' }}</span>
+                  </mat-label>
+                  <!-- <mat-label class="label-value"> {{dob | date:'dd-MMM-yyyy' }}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Contact No.: <span style="color: black !important;">{{number}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{contact}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Email Id: <span style="color: black !important;">{{emailid}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{emailid}}</mat-label> -->
+              </div>
+          </div>
+          <div class="form-card-row">
+              <div class="form-card-group">
+                  <mat-label>D.O.J: <span style="color: black !important;">{{doj | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{doj}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Process: <span style="color: black !important;">{{process}}</span> </mat-label>
+                  <!-- <mat-label class="label-value"> {{ process }}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                  <mat-label>Location: <span style="color: black !important;">{{place}}</span> </mat-label>
+                  <!-- <mat-label class="label-value">{{place}}</mat-label> -->
+              </div>
+              <div class="form-card-group">
+                <mat-label>TAT Start: <span  style="color: black !important;">{{tatStartDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+              </div>
+              <div class="form-card-group">
+                <mat-label>TaT End: <span  style="color: black !important;">{{tatEndDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+              </div>
+  
+          </div>
+      </div>
+          <!-- <div class="mat-card">
+            <div class="document-card">
+              <h4 class="card-heading" style="padding: 0px; margin: 0px;">Case Information</h4>
+            </div>
+            <div class="form-card-row">
+              <div class="form-card-group">
+                <mat-label>Case Id</mat-label>
+                <mat-label class="label-value">{{caseId}}</mat-label>
+              </div>
+              <div class="form-card-group">
+                <mat-label>Candidate Name</mat-label>
+                <mat-label class="label-value">{{candidateName}}</mat-label>
+              </div>
+              <div class="form-card-group">
+                <mat-label>Client</mat-label>
+                <mat-label class="label-value">{{clientName}}</mat-label>
+              </div>
+              <div class="form-card-group">
+                <mat-label>Subclient</mat-label>
+                <mat-label class="label-value">{{subclientName}}</mat-label>
+              </div>
+            </div>
+          </div> -->
+          <table mat-table [dataSource]="dataSource" matSort>
+  
+            <ng-container matColumnDef="serialNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+              <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)">
+                {{ i + 1}}
+              </td>
+              <!-- <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)" [class.disabled]="row.status !='DE-COMPLETED' && row.status !='INSUF-1-REQ'">
+              {{ i + 1}}
+            </td> -->
+            </ng-container>
+  
+            <ng-container matColumnDef="component">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+              <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.componentDisplayName}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="checkId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>CheckId</th>
+              <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.checkId}} </td>
+            </ng-container>
+  
+            <!-- <ng-container matColumnDef="field2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Field 2 </th>
+              <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.field2 || ""}} </td>
+            </ng-container>
+            <ng-container matColumnDef="field3">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Field 3 </th>
+              <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.field3 || ""}} </td>
+            </ng-container> -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+              <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.displayStatus}} </td>
+            </ng-container>
+            <ng-container matColumnDef="grade">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+              <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.grade}} </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter</td>
+            </tr>
+  
+          </table>
+          <div *ngIf="showCaseGradeSection" style="margin-top: 10px;">
+            <form [formGroup]="caseGradeForm">
+              <div class="row">
+                <div class="col-sm">
+                  <select class="form-select" formControlName="grade">
+                    <option value="" selected disabled>Case Grade</option>
+                    <option *ngFor="let colorCode of colorCodes"
+                      value="{{colorCode.color}}">{{colorCode.status}}</option>
+                  </select>
+                  
+
+                </div>
+                <div class="col-sm" ><textarea formControlName="gradingComments" placeholder="Comments"></textarea></div>
+                <div class="col-sm">
+                  <select class="form-select" formControlName="reportType">
+                    <option value="" disabled selected>Report Category</option>
+                    <option value="INTERIM">Interim</option>
+                    <option value="FINAL">Final</option>
+                  </select>
+                </div>
+                <div class="col-sm">
+                  <button [disabled]="caseGradeForm.get('grade')?.value =='' || caseGradeForm.get('reportType')?.value == ''"
+                  class="btn-rounded"
+                    (click)="submitButtonClicked()">Submit</button>
+                </div>
+              </div>
+
+
+
+
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="details" *ngIf="showDetailsFlag">
+    <div>
+
+      <app-outputqc-of-comp [selectedRow]="selectedRow"></app-outputqc-of-comp>
+    </div>
+  </div> -->
+</div>
