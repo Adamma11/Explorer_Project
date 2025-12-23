@@ -1,0 +1,36 @@
+<h2 matDialogTitle>Upload PDF Report</h2>
+<div matDialog-content>
+<div>
+    <mat-form-field appearance="outline">
+        <input readonly type="text" matInput [(ngModel)]="caseId" value="caseId">
+        <mat-label>Case Id</mat-label>
+    </mat-form-field>
+    <mat-form-field fxFlexOffset="20px" appearance="outline">
+        <input readonly type="text" matInput [(ngModel)]="candidateName" value="candidateName">
+        <mat-label>Candidate Name</mat-label>
+    </mat-form-field>    
+    <mat-form-field fxFlexOffset="20px" appearance="outline">
+        <mat-select  matInput (valueChange)="selectReportType($event)">
+            <mat-option value="FINAL">FINAL</mat-option>
+            <mat-option value="INTERIM">INTERIM</mat-option>
+            <mat-option value="SUPPLEMENTARY">SUPPLEMENTARY</mat-option>
+        </mat-select>
+        <!-- <input readonly type="text" matInput [(ngModel)]="reportType" value="reportType">-->
+        <mat-label>Report Type</mat-label> 
+    </mat-form-field>    
+</div> 
+<form [formGroup]="fileUploadForm">
+    <mat-form-field fxFlex="33%" appearance="outline">
+        <ngx-mat-file-input formControlName="reportFile" accept=".pdf" valuePlaceholder="Click to upload File" placeholder="Click to Upload Report File" ></ngx-mat-file-input>
+        <mat-label>Upload PDF Report</mat-label>
+    </mat-form-field>
+    <mat-form-field fxFlexOffset="20px" fxFlex="33%" appearance="outline">
+        <input matInput formControlName="fileTitle" type="text" size="30" maxlength="100" placeholder="File Title">
+        <mat-label>File Title</mat-label> 
+    </mat-form-field>
+</form>
+<div matDialogActions >    
+    <div fxFlex></div>
+    <button [disabled]="fileUploadForm.get('reportFile')!.value=='' || fileUploadForm.get('fileTitle')!.value==''" style="height:35px" fxFlexOffset="20px" mat-raised-button color="primary" (click)="uploadButtonClicked()">Upload</button>        
+    <button fxFlexOffset="10px" mat-raised-button color="primary" (click)="cancelButtonClicked()">Cancel</button>
+</div>
