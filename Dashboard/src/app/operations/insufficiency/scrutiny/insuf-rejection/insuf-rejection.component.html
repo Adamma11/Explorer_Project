@@ -1,0 +1,245 @@
+<p class="tagname">Insufficiency Details</p>
+<mat-divider style="margin: 20px; margin-left: 0px; color: aqua; background-color: #33BABC;" ></mat-divider>
+<!-- <div class="header-tag mat-card"> -->
+    <!-- <div class="right-container"> -->
+        <div class="form-group" style="width: 23%; display: flex; justify-content: flex-end; margin-left: 458px; margin-top: -13px;">
+                <!-- <form> -->
+                    <select name="approveOrReject" [(ngModel)]="approveOrReject" (change)="statusSelectionChanged($event)">
+                        <option value="" disabled selected>Approve/Reject</option>
+                        <option value="APPROVE">Approve</option>
+                        <option value="REJECT">Reject</option>
+                    </select>
+                <!-- </form> -->
+        </div>
+    <!-- </div> -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="statusOffcanvas" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">{{approveOrReject}}</h5>
+            <button type="button" class="btn-close text-reset" (click)="closeOffcanvas()" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form [formGroup]="rejectionReasonForm">
+                <div class="form-group">
+                    <mat-label>Details</mat-label>
+                    <textarea formControlName="insufficiencyComments" readonly matInput rows="3" cols="30"></textarea>
+                </div>
+                <div class="form-row" *ngIf="clearance">
+                    <div class="form-group">
+                        <mat-label>Clearance Comments</mat-label>
+                        <textarea formControlName="insufficiencyClearedComments" readonly matInput rows="3"
+                            cols="30"></textarea>
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="approveOrReject === 'REJECT'">
+                    <div class="form-group">
+                        <mat-label>Rejection Comments</mat-label>
+                        <textarea formControlName="rejectionReason" matInput rows="3" cols="30"></textarea>
+                    </div>
+                </div>
+        
+                <div class="button-group">
+                    <button type="submit" class="btn-rounded" (click)="saveButtonClicked()">Save</button>
+                    <!-- <button class="btn-rounded" (click)="cancelButtonClicked($event)">Cancel</button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+<!-- </div> -->
+<!-- <mat-divider style="margin: 11px; margin-left: 0px; color: aqua; background-color: #33BABC; margin-top: -6px;" ></mat-divider>
+
+<div class="document-card-1">
+
+    <button class="btn-rounded-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+        aria-controls="offcanvasRight"> Quick Note </button>
+</div>
+<mat-divider style="margin: 5px; margin-left: 0px; color: aqua; background-color: #33BABC;" ></mat-divider> -->
+<!-- <div class="document-card">
+    <h4 class="card-heading">Documents</h4>
+    <button class="btn-rounded " style="height: 25px ; margin-right: 29px;" (click)="chooseFile()">Attach Files</button>
+    <input type="file" #fileInput style="display: none;" (change)="fileSelected($event)">
+</div>
+
+<div style="display: flex;">
+    <button class="file-btn" *ngFor="let file of candidateDocuments">{{ file }}</button>
+</div> -->
+
+
+<div style="display: flex; flex-wrap: wrap;"  >
+    <h4 style="padding: 0px; margin: 0px;">Documents:</h4>
+    <button class="btn-rounded-1" style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;" *ngFor="let file of candidateDocuments"(click)="downloadCDF(file)">{{ file }}</button>
+</div>
+
+<!-- <div style="display: flex;">
+    <button class="file-btn" *ngFor="let file of candidateDocuments" style="margin-right: 10px; margin-left: 19px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;" (click)="downloadCandidateDoc(file)">{{ file }}</button>
+
+    <button class="file-btn" *ngFor="let file of selectedFiles" (click)="downloadCandidateDoc(file)" >{{ file.name }}</button>
+</div> -->
+
+<mat-divider style="margin: 11px; margin-left: 0px; color: aqua; background-color: #33BABC;" ></mat-divider>
+
+<form [formGroup]="rejectionReasonForm">
+    <mat-card>
+        <mat-card-content class="grid-content">
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Case Id</mat-label>
+                    <input formControlName="caseId" readonly matInput>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Candidate Name</mat-label>
+                    <input formControlName="candidateName" readonly matInput>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Component</mat-label>
+                    <input formControlName="componentDisplayName" readonly matInput>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-content class="grid-content">
+            <div class="form-row" *ngFor="let componentField of componentFields">
+                <div class="form-group"
+                    *ngIf="componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <input readonly formControlName="{{componentField.name}}" matInput type="text">
+                </div>
+                <div class="form-group"
+                    *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <textarea readonly maxlength="{{componentField.size}}" rows="3" cols="30"
+                        formControlName="{{componentField.name}}" matInput type="text"></textarea>
+                </div>
+                <div class="form-group"
+                    *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <input matInput formControlName="{{componentField.name}}" readonly>
+                </div>
+                <div class="form-group"
+                    *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <input readonly formControlName={{componentField.name}} matInput size="11" maxlength="11"
+                        type="date" placeholder={{componentField.label}}>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <!-- <mat-card>
+        <mat-card-content class="grid-content">
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Details</mat-label>
+                    <textarea formControlName="insufficiencyComments" readonly matInput rows="3" cols="30"></textarea>
+                </div>
+            </div>
+            <div class="form-row" *ngIf="clearance">
+                <div class="form-group">
+                    <mat-label>Clearance Comments</mat-label>
+                    <textarea formControlName="insufficiencyClearedComments" readonly matInput rows="3"
+                        cols="30"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <mat-label>Approve/Reject</mat-label>
+                    <mat-select formControlName="approveOrReject">
+                        <mat-option value="APPROVE">Approve</mat-option>
+                        <mat-option value="REJECT">Reject</mat-option>
+                    </mat-select>
+                </div>
+            </div>
+
+            <div class="form-row" *ngIf="rejectionReasonForm.get('approveOrReject')!.value === 'REJECT'">
+                <div class="form-group">
+                    <mat-label>Rejection Comments</mat-label>
+                    <textarea formControlName="rejectionReason" matInput rows="3" cols="30"></textarea>
+                </div>
+            </div>
+
+        </mat-card-content>
+            <div class="button-group">
+                <button mat-raised-button color="primary" type="submit">Save</button>
+                <button mat-raised-button color="primary" (click)="cancelButtonClicked($event)">Cancel</button>
+            </div>
+    </mat-card> -->
+</form>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Ouick Note</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+    </div>
+</div>
+
+<mat-card>
+    <mat-card-content>
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        History
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <table mat-table [dataSource]="dataSourceHistory" matSort>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                        <td mat-cell *matCellDef="let row"> {{row.date | date:'dd-MMM-yyyy HH:mm' :'GMT'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="user">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+                        <td mat-cell *matCellDef="let row"> {{row.user != null ? row.user.name : null}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="operation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Opertion</th>
+                        <td mat-cell *matCellDef="let row"> {{row.operation}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+                        <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="remarks">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Remarks</th>
+                        <td mat-cell *matCellDef="let row"> {{row.remarks}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nextfollowupdate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Followup Date</th>
+                        <td mat-cell *matCellDef="let row"> {{row.nextfollowupdate}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expectedclosuredate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Closure Date</th>
+                        <td mat-cell *matCellDef="let row"> {{row.expectedclosuredate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="allocatedToVendor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Vendor</th>
+                        <td mat-cell *matCellDef="let row"> {{row.allocatedToVendor !== null ?
+                            row.allocatedToVendor.name : ""}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="allocatedToFe">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> FE</th>
+                        <td mat-cell *matCellDef="let row"> {{row.allocatedToFe !== null ? row.allocatedToFe.name : ""}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="allocatedToVerifier">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Analyst </th>
+                        <td mat-cell *matCellDef="let row"> {{row.allocatedToVerifier !== null ? row.allocatedToVerifier
+                            : ""}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="verificationcost">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Verification Cost </th>
+                        <td mat-cell *matCellDef="let row"> {{row.verificationcost }} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="historyDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: historyDisplayedColumns;"></tr>
+                </table>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>
