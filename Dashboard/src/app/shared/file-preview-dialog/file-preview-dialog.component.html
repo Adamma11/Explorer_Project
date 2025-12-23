@@ -1,0 +1,91 @@
+
+<!-- <h2 mat-dialog-title>Preview - {{ data.fileName }}</h2>
+
+<mat-dialog-content>
+  <ng-container *ngIf="data.fileType.includes('pdf')">
+    <iframe [src]="data.fileBlob | safe:'resourceUrl'" width="100%" height="500px"></iframe>
+  </ng-container> -->
+
+  <!-- <ng-container *ngIf="data.fileType.includes('image')">
+    <img [src]="data.fileBlob | safe:'resourceUrl'" style="max-width: 100%; height: auto;" />
+  </ng-container>
+
+  <ng-container *ngIf="!data.fileType.includes('image') && !data.fileType.includes('pdf')">
+    <p>Preview not supported for this file type. Please download to view.</p>
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onClose()">Close</button>
+  <button mat-button color="warn" (click)="onDelete()">Delete</button>
+  <button mat-raised-button color="primary" (click)="onDownload()">Download</button>
+</mat-dialog-actions> -->
+
+
+<!-- <h2 mat-dialog-title>Preview - {{ data.fileName }}</h2>
+
+<mat-dialog-content>
+  <div style="display: flex; gap: 16px; height: 500px;"> -->
+    <!-- Left: File Preview -->
+    <!-- <div style="flex: 2; border-right: 1px solid #ccc; padding-right: 10px;">
+      <ng-container *ngIf="data.fileType.includes('pdf')">
+        <iframe
+          [src]="data.fileBlob | safe: 'resourceUrl'"
+          width="100%"
+          height="100%"
+          style="border: none;"
+        ></iframe>
+      </ng-container>
+
+      <ng-container *ngIf="data.fileType.includes('image')">
+        <img
+          [src]="data.fileBlob | safe: 'resourceUrl'"
+          style="max-width: 100%; max-height: 100%;"
+        /> -->
+      <!-- </ng-container>
+
+      <ng-container *ngIf="!data.fileType.includes('image') && !data.fileType.includes('pdf')">
+        <p>Preview not supported for this file type. Please download to view.</p>
+      </ng-container>
+    </div> -->
+
+    <!-- Right: File Details and Actions -->
+    <!-- <div style="flex: 1; padding-left: 10px;">
+      <h3>File Details</h3>
+      <p><strong>Name:</strong> {{ data.fileName }}</p>
+      <p><strong>Type:</strong> {{ data.fileType }}</p>
+      <p><strong>Component:</strong> {{ data.componentName }}</p>
+
+      <div style="margin-top: 20px;">
+        <button mat-button color="warn" (click)="onDelete()">Delete</button>
+        <button mat-raised-button color="primary" (click)="onDownload()">Download</button>
+        <button mat-stroked-button (click)="onClose()">Close</button>
+      </div>
+    </div>
+  </div> -->
+<!-- </mat-dialog-content> -->
+
+<!-- //added code oct-13// -->
+<div class="preview-header">
+  <h2>Preview - {{ data.fileName }}</h2>
+  <button mat-icon-button (click)="onClose()"><mat-icon>close</mat-icon></button>
+</div>
+
+<div class="preview-body">
+  <ng-container *ngIf="data.fileType.includes('pdf')">
+    <iframe [src]="data.fileBlob | safe:'resourceUrl'" width="100%" height="500px"></iframe>
+  </ng-container>
+
+  <ng-container *ngIf="data.fileType.includes('image')">
+    <img [src]="data.fileBlob | safe:'resourceUrl'" style="max-width: 100%; height: auto;" />
+  </ng-container>
+
+  <ng-container *ngIf="!data.fileType.includes('image') && !data.fileType.includes('pdf')">
+    <p>Preview not supported for this file type. Please download to view.</p>
+  </ng-container>
+</div>
+
+<div class="preview-actions">
+  <button mat-button color="warn" (click)="onDelete()">Delete</button>
+  <button mat-raised-button color="primary" (click)="onDownload()">Download</button>
+</div>
