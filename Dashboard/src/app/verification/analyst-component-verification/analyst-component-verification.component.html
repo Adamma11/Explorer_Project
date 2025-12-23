@@ -1,0 +1,774 @@
+
+<div class="main-container">
+    <h1 class="tagname">{{candidateName}} - {{componentDisplayName}}</h1>
+    <mat-divider style=" color: aqua; background-color: #33BABC;" ></mat-divider>
+    
+    <div class="header-tag mat-card">
+        <!-- <p >{{candidateName}}: Verification - {{componentDisplayName}}</p> -->
+        <div class="right-container">
+            <form [formGroup]="verifiedDetailsForm">
+                <!-- <div class="form-group"> -->
+                    
+                    <div class="form-group" style="width: 100%; ">
+                        
+                        <select  formControlName="status" (change)="statusSelectionChanged($event)">
+                            <option value="" disabled selected>Status</option>
+                            <option value="INSUF-2-REQ">Insufficiency</option>
+                            <option value="ON-HOLD">On Hold</option>
+                            
+                            <!-- venky 30/december -->
+                            <!-- <option value="UPDATE-LHS">Update LHS</option>
+                            <option value="DRAFT">Draft</option> -->
+                            <option value="WIP">WIP</option>
+                            
+                            
+                            <!-- <option value="COST-APPROVAL-REQ">Cost Approval</option>
+                            <option value="CLARIFICATION-REQ">Clarification</option> -->
+                            <option value="VERIFICATION-COMPLETED">Completed</option>
+                        </select>
+                    </div>
+                    
+                    
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="selectOffcanvas" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h5 id="offcanvasRightLabel">{{this.verifiedDetailsForm.get('status')!.value}}</h5>
+                            <button type="button" class="btn-close text-reset" (click)="closeOffcanvas()" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <!-- <div class="form-group"  *ngIf="verifiedDetailsForm.get('status')!.value =='INSUF-2-REQ' ">
+                                <mat-select  required formControlName="insuffType" (selectionChange)="insuffSelectionChanged($event)">
+                                    <mat-option value="INFORMATION">Information</mat-option>
+                                    <mat-option value="DOCUMENT">Document</mat-option>
+                                </mat-select>
+                                <mat-label>Insuff Type</mat-label>
+                            </div>
+                            <div class="form-group"  *ngIf="verifiedDetailsForm.get('status')!.value=='INSUF-2-REQ' || verifiedDetailsForm.get('status')!.value=='COST-APPROVAL-REQ' || verifiedDetailsForm.get('status')!.value=='CLARIFICATION-REQ' || verifiedDetailsForm.get('status')!.value=='UPDATE-LHS'" >
+                                <mat-label>Insuff Label</mat-label>
+                                <textarea matInput required     formControlName="shortdescription" cols="30" rows="3"  type="text"></textarea>
+                            </div> -->
+                            
+                            <div class="form-group"   *ngIf="verifiedDetailsForm.get('status')!.value === 'COST-APPROVAL-REQ' && (componentName === 'education' || componentName === 'educationcomprehensive' || componentName === 'educationadvanced')" >
+                                <mat-label>Verification Cost</mat-label>
+                                <textarea matInput formControlName="verificationcost" cols="30" rows="3"  type="text"></textarea>
+                            </div>
+                            <div class="form-group"    *ngIf="verifiedDetailsForm.get('status')!.value=='INSUF-2-REQ' || verifiedDetailsForm.get('status')!.value=='COST-APPROVAL-REQ' || verifiedDetailsForm.get('status')!.value=='CLARIFICATION-REQ'" >
+                                <mat-label>Insufficiency/Cost Approval/Clarification</mat-label>
+                                <textarea matInput formControlName="insufficiencyComments" rows="3" cols="30"
+                                type="text" matInput [matAutocomplete]="auto"></textarea>
+                                <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayFn">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                        {{option.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </div>
+                            
+                            <!-- on hold  -->
+                            <div class="form-group"    *ngIf="verifiedDetailsForm.get('status')!.value=='ON-HOLD'" >
+                                <mat-label>On Hold Comments</mat-label>
+                                <textarea matInput formControlName="onHoldComments" rows="3" cols="30"
+                                type="text"  ></textarea>
+                            </div>
+                            <div class="form-group"    *ngIf="verifiedDetailsForm.get('status')!.value=='UPDATE-LHS'" >
+                                <mat-label>Update LHS Comments</mat-label>
+                                <textarea matInput formControlName="updateLhsComments" rows="3" cols="30"
+                                type="text"  ></textarea>
+                            </div>
+                            <!-- on hold  -->
+                            <div class="form-group"  *ngIf="verifiedDetailsForm.get('status')!.value=='VERIFICATION-COMPLETED'" >
+                                <mat-label>Grade</mat-label>
+                                <mat-select  formControlName="grade">
+                                    <mat-option *ngFor="let colorCode of colorCodes" value="{{colorCode.color}}">{{colorCode.status}}</mat-option>
+                                    <!-- <mat-option *ngFor="let colorCode of colorCodes" value="{{colorCode.color._id}}">{{colorCode.color.name}}</mat-option> -->
+                                    
+                                </mat-select>
+                            </div> 
+                            <div class="form-group"  *ngIf="verifiedDetailsForm.get('status')!.value=='VERIFICATION-COMPLETED'">
+                                <mat-label>Comments</mat-label>
+                                <textarea matInput required formControlName="gradingComments" cols="30" rows="3"  placeholder="Comments"  type="text" [matAutocomplete]="auto"></textarea>
+                                <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayFn1">
+                                    <mat-option *ngFor="let option1 of filteredOptions1 | async" [value]="option1">
+                                        {{option1.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </div>
+                            <div class="form-group"  *ngIf="verifiedDetailsForm.get('status')!.value=='VERIFICATION-COMPLETED'">
+                                <mat-label>Type of Closure</mat-label>
+                                <mat-select  formControlName="interimOrFinal">
+                                    <mat-option value="INTERIM">Interim</mat-option>
+                                    <mat-option value="FINAL">Final</mat-option>
+                                </mat-select>
+                            </div>
+                            <!-- <div class="form-group"  *ngIf="verifiedDetailsForm.get('status')!.value=='VERIFICATION-COMPLETED'">
+                                <mat-label>Verification Mode</mat-label>
+                                <mat-select  formControlName="mode">
+                                    <mat-option value="WRITTEN">Written</mat-option>
+                                    <mat-option value="VERBAL">Verbal</mat-option>
+                                    <mat-option value="ONLINE">Online</mat-option>
+                                    <mat-option value="BARCODE">Barcode</mat-option>
+                                    <mat-option value="THIRD-PARTY">Third Party</mat-option>
+                                </mat-select>
+                            </div> -->
+                            
+                            <div class="form-group" *ngIf="verifiedDetailsForm.get('status')!.value=='VERIFICATION-COMPLETED'" >
+                                <mat-label>Person Contacted</mat-label>
+                                <textarea appAutoSpellCheck matInput formControlName="personContacted" cols="30" rows="3"  placeholder="Person Contacted" type="text"></textarea>
+                            </div>
+                            <div class="form-group" *ngIf="verifiedDetailsForm.get('status')!.value=='VERIFICATION-COMPLETED'" >
+                                <mat-label>Contact Number of Person Contacted</mat-label>
+                                <textarea appAutoSpellCheck matInput formControlName="contactNumberOfPersonContacted" cols="30" rows="3"   placeholder="Contact Number"type="text"></textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <button [disabled]="isSaveButtonDisabled()"  class="btn-rounded"
+                            (click)="saveStatusButtonClicked()">Save Status</button>
+                        </div>
+                    </div>
+                    <form [formGroup]="fileUploadForm">
+                        <div class="right-inner-container">
+                            <!-- <div class="form-group">
+                                <input class="btn-rounded" type="file" name="" formControlName="proofOfWorkFile"
+                                placeholder="Click to Upload Candidate Docs" style="padding: 2px;">
+                            </div>
+                            <div class="form-group">
+                                <button [disabled]="fileUploadForm.get('proofOfWorkFile')!.value=='' || fileUploadForm.get('fileTitle')!.value==''"
+                                style="height:35px" mat-raised-button color="primary" (click)="uploadFile()">Upload File</button>
+                            </div> -->
+                        </div>
+                    </form>
+                </form>
+            </div>
+        </div>
+        
+        
+        
+        <mat-divider style=" color: aqua; background-color: #33BABC;" ></mat-divider>
+        
+        <div class="header">
+            <div class="mat-card">
+                
+                <div *ngIf="ShowComments"  >
+                    <div   [ngStyle]="{'background-color': getClassToApply()}"    style="text-align: center !important;height: 50px;padding-top: 12px;">
+                        {{comment}}</div>
+                    </div>
+                    <div >
+                        
+                    </div>
+                    <div class="document-card-2">
+                        <div class="right-buttons">
+                            <button class="btn-rounded-2"> Case Status: {{casestatus}} </button>
+                            <button class="btn-rounded-2"> Check Status: {{checkstatus}} </button>
+                        </div>
+                        <div class="left-buttons">
+                            <button class="btn-rounded-2" (click)="UpdateLhsClicked()">Update Lhs</button>
+                            <!-- venky 10/10 added button -->
+                            <button class="btn-rounded-2" (click)="employmentInfoClicked()">Research</button>
+                            <!-- end -->
+                            <button  class="btn-rounded-2" (click)="onEmail()">Email</button>  
+                            <button  class="btn-rounded-2" (click)="fieldHistory()">Fields History</button>  
+                            <!-- <button class="btn-rounded-2" (click)="cdelink()"> CDE Link </button> -->
+                            <button class="btn-rounded-2" (click)="QuickNote()"> Quick Note </button>
+                            <button class="btn-rounded-2" (click)="viewCaseStatus()">View Case Status</button>  <!-- View Case Status oct -22-->
+
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="document-card-2" style="margin: 3px; margin-right: 29px; height: 38px;">
+                        
+                        <button   class="btn-rounded-2" style="margin-right: 20px;"   (click)="cdelink()"> CDE Link </button>
+                        <button   class="btn-rounded-2"   (click)="QuickNote()"> Quick Note </button>
+                        
+                    </div> -->
+                    
+                    <mat-divider style=" color: aqua; background-color: #33BABC;" ></mat-divider>
+                    
+                    <!-- <h4 class="card-heading">Case Information</h4> -->
+                    <div class="document-card">
+                        <!-- venky 10/10 added styles -->
+                        <h4 class="card-heading" style="font-weight: bold;font-size: 18px; text-decoration: underline;">Case Information</h4>
+                        
+                        <!-- <div>
+                            <mat-divider> </mat-divider>
+                            <button style="margin-bottom: 20px;" class="btn-rounded"   (click)="QuickNote()"> Quick Note </button>
+                            <mat-divider> </mat-divider>
+                        </div> -->
+                        
+                    </div>
+                    <!-- venky 10/10 added div and margin top -->
+                    <div style="margin-top: 15px;">
+                        <div class="form-card-row">
+                            <div class="form-card-group">
+                                <mat-label>Case Id: <span  style="color: black !important;">{{caseId}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Check Id: 
+                                    <span style="color: black !important;">{{checkId}}</span>
+                                </mat-label>
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Candidate Name: <span  style="color: black !important;">{{candidateName}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+                            </div>
+                            
+                            <div class="form-card-group">
+                                <mat-label>Client: <span  style="color: black !important;">{{clientName}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Subclient: <span  style="color: black !important;">{{subclientName}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+                            </div>
+                        </div>
+                        <div class="form-card-row">
+                            <div class="form-card-group">
+                                <mat-label>Father Name: <span  style="color: black !important;">{{fathername}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{fathername}}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>D.O.B: <span  style="color: black !important;">{{dob | date:'dd-MMM-yyyy' }}</span> </mat-label>
+                                <!-- <mat-label class="label-value"> {{dob | date:'dd-MMM-yyyy' }}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Contact No.: <span  style="color: black !important;">{{contact}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{contact}}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Email Id: <span  style="color: black !important;">{{emailid}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{emailid}}</mat-label> -->
+                            </div>
+                        </div>
+                        <div class="form-card-row">
+                            <div class="form-card-group">
+                                <mat-label>D.O.J: <span  style="color: black !important;">{{doj | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{doj}}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Process: <span  style="color: black !important;">{{process}}</span> </mat-label>
+                                <!-- <mat-label class="label-value"> {{ process }}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>Location: <span  style="color: black !important;">{{place}}</span> </mat-label>
+                                <!-- <mat-label class="label-value">{{place}}</mat-label> -->
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>TAT Start: <span  style="color: black !important;">{{tatStartDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                            </div>
+                            <div class="form-card-group">
+                                <mat-label>TaT End: <span  style="color: black !important;">{{tatEndDate | date:'dd-MMM-yyyy'}}</span> </mat-label>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <mat-divider style="margin: 9px 0px; color: aqua; background-color: #33BABC;"></mat-divider>
+            <!-- <mat-divider style="margin-top: 12px;"></mat-divider> -->
+            <!-- <div  style="display: flex; flex-wrap: wrap;">
+                <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">All Doc’s:</h4> -->
+                <!-- <button class="btn-rounded-1 fixed-size-btn"  *ngFor="let file of casedox" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+                    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                    <span (click)="downloadcdfFile(file)" style="cursor: pointer;"><i class="fas fa-download"></i></span></button> -->
+                    
+                    <!-- <button
+                    class="btn-rounded-1 fixed-size-btn"
+                    *ngFor="let file of casedox"
+                    style="margin-right: 10px; margin-left: 19px; margin-top: 5px;"
+                    (click)="previewCaseDocFile(file)"
+                    >
+                    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                    
+                    <span (click)="downloadcdfFile(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+                        <i class="fas fa-download"></i>
+                    </span>
+                </button>
+            </div>  -->
+            <!-- <mat-divider style="margin: 9px 0px; color: aqua; background-color: #33BABC;"></mat-divider> -->
+            
+            <!-- <div  style="display: flex; flex-wrap: wrap;">
+                <h4  style="padding: 0px; margin: 0px;">CDF:</h4>
+                <button  *ngFor="let file of candidateDocuments"class="btn-rounded-1" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; height: 20px !important;" (click)="downloadCDF(file)">{{ file }}</button>
+            </div> -->
+            
+            <!-- <div  style="display: flex; flex-wrap: wrap;">
+                <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">Check Doc’s:</h4> -->
+                <!-- <button class="btn-rounded-1 fixed-size-btn"  *ngFor="let file of candidateDocuments" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+                    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                    <span (click)="downloadCandidateDoc(file)" style="cursor: pointer;"><i class="fas fa-download"></i></span>
+                    <span  (click)="deleteCandidateDoc(file)" style="cursor: pointer;">&#10006;</span></button> -->
+                    <!-- <button
+                    class="btn-rounded-1 fixed-size-btn"
+                    *ngFor="let file of candidateDocuments"
+                    style="margin-right: 10px; margin-left: 19px; margin-top: 5px;"
+                    (click)="previewCandidateDoc(file)"
+                    >
+                    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                    
+                    <span (click)="downloadCandidateDoc(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+                        
+                    </span>
+                    
+                    <span (click)="deleteCandidateDoc(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+                        
+                    </span>
+                </button> -->
+                
+                
+            <!-- </div> 
+            <mat-divider style="margin: 9px 0px; color: aqua; background-color: #33BABC;" ></mat-divider> -->
+            <!-- <mat-divider style="margin: 9px 0px; color: aqua; background-color: #33BABC;" ></mat-divider> -->
+            
+            <!-- <div  style="display: flex; flex-wrap: wrap;">
+                <h4  style="font-weight: bold;font-size: 18px; text-decoration: underline;">Proof Doc’s:</h4> -->
+                <!-- <button class="btn-rounded-1 fixed-size-btn"  *ngFor="let file of proofsUploaded" style="margin-right: 10px; margin-left: 19px;  overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: space-between;" >
+                    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                    <span (click)="downloadProofOfWork(file)" style="cursor: pointer;"><i class="fas fa-download"></i></span>
+                    <span  (click)="deleteProofOfWork(file)" style="cursor: pointer;">&#10006;</span></button> -->
+                    
+                    <!-- <button
+                    class="btn-rounded-1 fixed-size-btn"
+                    *ngFor="let file of proofsUploaded"
+                    style="margin-right: 10px; margin-left: 19px; margin-top: 5px;"
+                    (click)="previewProofOfWork(file)"
+                    >
+                    <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+                    
+                    <span (click)="downloadProofOfWork(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+                        <i class="fas fa-download"></i>
+                    </span>
+                    
+                    <span (click)="deleteProofOfWork(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+                        &#10006;
+                    </span>
+                </button>
+            </div>  -->
+
+             <!-- added code oct-16 -->
+
+        <div class="page-container" [class.preview-active]="previewFile">
+  <!-- Preview Panel -->
+  <div class="preview-panel" *ngIf="previewFile">
+    <app-file-preview-dialog
+      [data]="previewFile"
+      (closePreview)="handlePreviewClose($event)">
+    </app-file-preview-dialog>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- All Doc’s -->
+    <div class="doc-section">
+      <h4 class="doc-title">All Doc’s:</h4>
+      <button
+        class="btn-rounded-1 fixed-size-btn"
+        *ngFor="let file of casedox"
+        (click)="previewCaseDocFile(file)"
+        style="margin-right: 10px; margin-left: 19px; margin-top: 5px;">
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadcdfFile(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          <i class="fas fa-download"></i>
+        </span>
+      </button>
+    </div>
+
+    <mat-divider style="margin: 9px 0px; background-color: #33BABC;"></mat-divider>
+
+    <!-- Check Doc’s -->
+    <div class="doc-section">
+      <h4 class="doc-title">Check Doc’s:</h4>
+      <button
+        class="btn-rounded-1 fixed-size-btn"
+        *ngFor="let file of candidateDocuments"
+        (click)="previewCandidateDoc(file)"
+        style="margin-right: 10px; margin-left: 19px; margin-top: 5px;">
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadCandidateDoc(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+        </span>
+        <span (click)="deleteCandidateDoc(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+        </span>
+      </button>
+    </div>
+
+    <mat-divider style="margin: 9px 0px; background-color: #33BABC;"></mat-divider>
+
+    <!-- Proof Doc’s -->
+    <div class="doc-section">
+      <h4 class="doc-title">Proof Doc’s:</h4>
+      <button
+        class="btn-rounded-1 fixed-size-btn"
+        *ngFor="let file of proofsUploaded"
+        (click)="previewProofOfWork(file)"
+        style="margin-right: 10px; margin-left: 19px; margin-top: 5px;">
+        <span>{{ file.length > 8 ? file.substring(0, 8) + '..' : file }}</span>
+        <span (click)="downloadProofOfWork(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          <i class="fas fa-download"></i>
+        </span>
+        <span (click)="deleteProofOfWork(file); $event.stopPropagation();" style="cursor: pointer; margin-left: 8px;">
+          &#10006;
+        </span>
+      </button>
+    </div>
+  <!-- </div>
+</div> -->
+
+<!-- end code -->
+            <mat-divider style="margin: 9px 0px; color: aqua; background-color: #33BABC;" ></mat-divider>
+            
+            
+            <!-- <mat-divider style="margin-top: 12px;"></mat-divider> -->
+            <!-- venky 10/10 added styles -->
+            <h4 class="card-heading" style="font-weight: bold;font-size: 18px; text-decoration: underline;">Check Information <button matTooltip="Copy LHS" mat-button
+                (click)="copyLHS_TO_RHS()"><mat-icon>content_copy</mat-icon></button></h4>
+                
+                
+                <div style="display: flex;">
+                    <form [formGroup]="providedDetailsForm" style="width: 40%;">
+                        <mat-card style="height: 100%; box-shadow: none;">
+                            <p style="font-weight: bold;font-size: 18px; text-decoration: underline;">Details Provided</p>
+                            <mat-divider></mat-divider>
+                            <mat-card-content>
+                                <div class="form-row" *ngFor="let componentField of componentFields">
+                                    <div class="form-group"
+                                    *ngIf="componentField.type=='TEXT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                                    <mat-label>{{componentField.label}}</mat-label>
+                                    <input readonly formControlName="{{componentField.name}}" matInput size="30" type="text"
+                                    placeholder={{componentField.label}}>
+                                </div>
+                                <div class="form-group"
+                                *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                                <mat-label>{{componentField.label}}</mat-label>
+                                <textarea readonly maxlength="{{componentField.size}}" rows="2" cols="30"
+                                formControlName="{{componentField.name}}" matInput size="30" type="text"
+                                placeholder={{componentField.label}}></textarea>
+                            </div>
+                            <div class="form-group"
+                            *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <mat-select  formControlName="{{componentField.name}}">
+                                <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                                    <mat-option value={{val}}>{{val}}</mat-option>
+                                </ng-template>
+                            </mat-select>
+                        </div>
+                        <div class="form-group"
+                        *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input readonly formControlName={{componentField.name}} matInput size="11" maxlength="11"
+                        type="date" placeholder={{componentField.label}}>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+    
+    <div style="width: 60%; margin-bottom: 30px;">
+        <!-- <mat-divider></mat-divider> -->
+        <form [formGroup]="verifiedDetailsForm">
+            <mat-card style=" box-shadow: none;">
+                <p style="font-weight: bold;font-size: 18px; text-decoration: underline;">Details Verified</p>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div class="form-row" *ngFor="let componentField of componentFields">
+                        <div class="form-group"
+                        *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input  formControlName="{{componentField.name}}Rhs" matInput size="30" type="text"
+                        placeholder={{componentField.label}}>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{componentField.label}}</mat-label>
+                    <textarea  maxlength="{{componentField.size}}" rows="2" cols="30"
+                    formControlName="{{componentField.name}}Rhs" matInput size="30" type="text"
+                    placeholder={{componentField.label}}></textarea>
+                </div>
+                
+                <div class="form-group"
+                *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                <mat-label>{{componentField.label}}</mat-label>
+                <mat-select  formControlName="{{componentField.name}}Rhs">
+                    <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                        <mat-option value={{val}}>{{val}}</mat-option>
+                    </ng-template>
+                </mat-select>
+            </div>
+            <div class="form-group"
+            *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+            <mat-label>{{componentField.label}}</mat-label>
+            <input  formControlName="{{componentField.name}}Rhs" matInput size="11"
+            maxlength="11" type="date" placeholder={{componentField.label}}>
+        </div>
+    </div>
+</mat-card-content>
+</mat-card>
+
+
+<div>
+    <mat-form-field fxFlexOffset="20px" style="margin-bottom: 20px;" *ngIf="outputqcStatus !='OUTPUTQC-REJECTED' && mentorReviewStatus !='MENTOR-REVIEW-REJECTED' && insufficiencyClearedComments != null" appearance="outline">
+        <textarea  appAutoSpellCheck readonly matInput row="3" cols="30" [(ngModel)]="insufficiencyClearedComments" >{{insufficiencyClearedComments }}</textarea>
+        <mat-label>Insufficiency Cleared Comments</mat-label>
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field fxFlexOffset="20px" *ngIf="insufficiencyRejectionComments != null" appearance="outline">
+        <textarea  appAutoSpellCheck readonly matInput row="3" cols="30" [(ngModel)]="insufficiencyRejectionComments" >{{ insufficiencyRejectionComments}}</textarea>
+        <mat-label>Insufficiency Rejected Comments</mat-label>
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field fxFlexOffset="20px" *ngIf="updateLhsClearedComments != null" appearance="outline">
+        <textarea  appAutoSpellCheck readonly matInput row="3" cols="30" [(ngModel)]="updateLhsClearedComments" >{{ updateLhsClearedComments}}</textarea>
+        <mat-label>Changes Asked For Updated LHS </mat-label>
+    </mat-form-field>
+</div>
+<!-- <div>
+    <mat-form-field fxFlexOffset="20px" *ngIf="insufficiencyRejectionComments != null" appearance="outline">
+        <textarea  appAutoSpellCheck readonly matInput row="3" cols="30" [(ngModel)]="insufficiencyRejectionComments" >{{ insufficiencyRejectionComments}}</textarea>
+        <mat-label>Insufficiency Rejected Comments</mat-label>
+    </mat-form-field>
+</div> -->
+</form>
+
+<!-- <form [formGroup]="fileUploadForm" class="form-group row">
+    
+    <div class="col-sm" >
+        <mat-label>Upload Proof</mat-label>
+        <mat-form-field appearance="outline" tyle="width: 100%;">
+            
+            <ngx-mat-file-input formControlName="proofOfWorkFile" valuePlaceholder="Click to upload File" placeholder="Click to Upload Candidate Docs" style="height: 30px;" ></ngx-mat-file-input>
+            
+        </mat-form-field>
+    </div>
+    <div class="col-sm" >
+        <mat-label>File Title</mat-label>
+        <mat-form-field appearance="outline" tyle="width: 100%;">
+            <input  appAutoSpellCheck matInput formControlName="fileTitle" type="text" size="25" maxlength="100" placeholder="File Title">
+            
+        </mat-form-field>
+    </div>
+    <div class="col-sm" >
+        <mat-label>Select Type</mat-label>
+        <mat-select formControlName="fileType">
+            <mat-option value="CANDIDATEDOCS">Candidate Docs</mat-option>
+            <mat-option value="PROOFOFWORK">Proof Of Work</mat-option>
+        </mat-select>
+    </div>
+    <div class="col-sm">
+        <button [disabled]="fileUploadForm.get('proofOfWorkFile')!.value=='' || fileUploadForm.get('fileTitle')!.value==''" style="height:35px; margin-top: 43px; background: #bcbec0; color: black; border: none;" mat-raised-button (click)="uploadFile()">Upload File</button>
+    </div>
+</form>  -->
+
+
+<!-- new file -->
+
+<!-- <form [formGroup]="fileUploadForm" class="form-group row">
+    
+    <div class="col-sm">
+        <mat-label>Upload File</mat-label>
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <ngx-mat-file-input
+            formControlName="proofOfWorkFile"
+            valuePlaceholder="Click to upload File"
+            placeholder="Click to Upload Candidate Docs"
+            style="height: 30px;"
+            (change)="onFileSelected($event)">
+        </ngx-mat-file-input>
+    </mat-form-field>
+</div>
+
+<div class="col-sm">
+    <mat-label>File Title</mat-label>
+    <mat-form-field appearance="outline" style="width: 100%;">
+        <input matInput formControlName="fileTitle" type="text" size="25" maxlength="100" placeholder="File Title">
+    </mat-form-field>
+</div>
+
+
+<div class="col-sm">
+    <button
+    [disabled]="fileUploadForm.get('proofOfWorkFile')?.value == '' || fileUploadForm.get('fileTitle')?.value == ''"
+    style="height: 35px; margin-top: 43px; background: #bcbec0; color: black; border: none;"
+    mat-raised-button
+    (click)="uploadCandidateDocFile()">
+    Candidate Docs File
+</button>
+</div>
+
+<div class="col-sm">
+    <button
+    [disabled]="fileUploadForm.get('proofOfWorkFile')?.value == '' || fileUploadForm.get('fileTitle')?.value == ''"
+    style="height: 35px; margin-top: 43px; background: #bcbec0; color: black; border: none;"
+    mat-raised-button
+    (click)="uploadProofOfWorkFile()">
+    Proof Of Work File
+</button>
+</div>
+</form> -->
+
+
+
+<form [formGroup]="fileUploadForm" class="form-group row">
+
+  <div class="col-sm">
+    <mat-label>Upload Files</mat-label>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <ngx-mat-file-input
+        formControlName="proofOfWorkFile"
+        valuePlaceholder="Click to upload Files"
+        placeholder="Click to Upload Multiple Files"
+        style="height: 30px;"
+        multiple
+        (change)="onFileSelected($event)">
+      </ngx-mat-file-input>
+    </mat-form-field>
+  </div>
+
+  <div class="col-sm">
+    <button
+      [disabled]="!fileUploadForm.get('proofOfWorkFile')?.value"
+      style="height: 35px; margin-top: 43px; background: #bcbec0; color: black; border: none;"
+      mat-raised-button
+      (click)="uploadMultipleFiles('CANDIDATEDOCS')">
+      Upload Candidate Docs
+    </button>
+  </div>
+
+  <div class="col-sm">
+    <button
+      [disabled]="!fileUploadForm.get('proofOfWorkFile')?.value"
+      style="height: 35px; margin-top: 43px; background: #bcbec0; color: black; border: none;"
+      mat-raised-button
+      (click)="uploadMultipleFiles('PROOFOFWORK')">
+      Upload Proof Of Work
+    </button>
+  </div>
+</form>
+
+
+
+<div class="form-group">
+    <div *ngIf="mentorReviewStatus=='MENTOR-REVIEW-REJECTED'">
+        <mat-label>Mentro Review Status</mat-label>
+        <mat-select class="form-select" disabled="true" [(ngModel)]="mentorReviewStatus" value="mentorReviewStatus">
+            <mat-option value="MENTOR-REVIEW-ACCEPTED">Accepted</mat-option>
+            <mat-option value="MENTOR-REVIEW-REJECTED">Rejected</mat-option>
+        </mat-select>
+        
+    </div>
+    <div *ngIf="mentorReviewStatus=='MENTOR-REVIEW-REJECTED'">
+        <mat-label>Mentor Review Comments</mat-label>
+        <textarea appAutoSpellCheck readonly matInput [(ngModel)]="mentorReviewComments"
+        value="mentorReviewComments"></textarea>
+        
+    </div>
+</div>
+
+
+</div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Ouick Note</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+    </div>
+</div>
+ </div>  <!-- added privew div -->
+</div>  <!-- added privew div -->
+</div>
+<!-- <mat-card>
+    <mat-card-content> -->
+        <!-- <div class="header">
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            History
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <table mat-table [dataSource]="dataSourceHistory" matSort>
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                            <td mat-cell *matCellDef="let row"> {{row.date | date:'dd-MMM-yyyy HH:mm' :'GMT'}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="user">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+                            <td mat-cell *matCellDef="let row"> {{row.user != null ? row.user.name : null}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="operation">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Opertion</th>
+                            <td mat-cell *matCellDef="let row"> {{row.operation}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+                            <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="remarks">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Remarks</th>
+                            <td mat-cell *matCellDef="let row"> {{row.remarks}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="nextfollowupdate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Followup Date</th>
+                            <td mat-cell *matCellDef="let row"> {{row.nextfollowupdate}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="expectedclosuredate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Closure Date</th>
+                            <td mat-cell *matCellDef="let row"> {{row.expectedclosuredate}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="allocatedToVendor">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Vendor</th>
+                            <td mat-cell *matCellDef="let row"> {{row.allocatedToVendor !== null ?
+                                row.allocatedToVendor.name : ""}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="allocatedToFe">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FE</th>
+                                <td mat-cell *matCellDef="let row"> {{row.allocatedToFe !== null ? row.allocatedToFe.name : ""}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="allocatedToVerifier">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Analyst </th>
+                                <td mat-cell *matCellDef="let row"> {{row.allocatedToVerifier !== null ? row.allocatedToVerifier
+                                    : ""}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="verificationcost">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Verification Cost </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.verificationcost }} </td>
+                                </ng-container>
+                                
+                                <tr mat-header-row *matHeaderRowDef="historyDisplayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: historyDisplayedColumns;"></tr>
+                            </table>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+                
+                
+                
+                <div class="footer-tag" [formGroup]="addNoteForm">
+                    <select formControlName="effortType" (change)="statusEffortSelectionChanged($event)" placeholder="Select">
+                        <option value="Initiation">Initiation</option>
+                        <option value="Followup1">Follow up 1</option>
+                        <option value="Followup2">Follow up 2</option>
+                        <option value="Followup3">Follow up 3</option>
+                        <option value="Followup4">Follow up 4</option>
+                        <option value="Followup5">Follow up 5</option>
+                        <option value="Followup6">Follow up 6</option>
+                        <option value="Costapproval">Cost approval</option>
+                        <option value="pendingforclarification">pending for clarification</option>
+                        <option value="Onhold">On hold</option>
+                        <option value="StopCheck">Stop Check</option>
+                        <option value="Reverification">Reverification</option>
+                        <option value="insufcleared-reinitiation">insuf cleared -reinitiation</option>
+                        <option value="Physicalverification">Physical verification</option>
+                    </select>
+                    <div class="input-group">
+                        <button  class="fa fa-plus" (click)="okButtonClicked()"></button>
+                        <input type="text" formControlName="noteComments" matInput [(ngModel)]="note" placeholder="Effort">
+                    </div>
+                </div> -->
+                
+                
