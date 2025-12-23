@@ -1,0 +1,122 @@
+<div class="case-status-popup">
+  <h1 class="tagname">Case Status</h1>
+
+  <div class="header">
+    <div class="mat-card" style="border: 1px solid #33BABC; padding: 6px; border-radius: 5px;">
+      <div class="form-row-details">
+        <div class="form-group">
+          <mat-label>Case Id</mat-label>
+          <mat-label class="label-value">{{caseId}}</mat-label>
+        </div>
+        <div class="form-group">
+          <mat-label>Candidate Name</mat-label>
+          <mat-label class="label-value">{{candidateName}}</mat-label>
+        </div>
+        <div class="form-group">
+          <mat-label>Client</mat-label>
+          <mat-label class="label-value">{{clientName}}</mat-label>
+        </div>
+        <div class="form-group">
+          <mat-label>Subclient</mat-label>
+          <mat-label class="label-value">{{subclientName}}</mat-label>
+        </div>
+        <div class="form-group">
+          <mat-label>Max Checks</mat-label>
+          <mat-label class="label-value">{{maxChecks}}</mat-label>
+        </div>
+        <div class="form-group">
+          <mat-label>Package</mat-label>
+          <mat-label class="label-value">Package name</mat-label>
+        </div>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+    
+    <mat-card style="height: 100%; box-shadow: none;">
+      <fieldset *ngFor="let item of allComponentData">
+        <legend [ngStyle]="{
+          'color': 'white',
+          'background-color': item?.grade ? getGradingColor(item?.grade) : '#6b728d',
+          'display': 'flex',
+          'justify-content': 'center',
+          'padding': '0.25rem 0.5rem',
+          'line-height': '1.1'
+        }">
+          {{item.component.displayName}} - {{item?.grade ? getGradingColor(item?.grade) : ''}} Status : {{(item.status === 'COMPLETED') ? item.status : "IN PROGRESS" }}
+        </legend>
+        
+        <div style="display: flex;">
+          <mat-grid-list cols="1" rowHeight="95px" style="width: 50%;">
+            <mat-grid-tile>
+              <div class="form-group" style="width:95%; margin-top: 15px;" appearance="outline">
+                <mat-label>Check Id</mat-label>
+                <input matInput size="30" [attr.maxlength]="40" type="text" [value]="item.checkId" readonly style="background-color: rgb(182, 192, 212);">
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile *ngFor="let field of item.componentFields">
+              <ng-container *ngIf="field.lhsRhs === 'BOTH'">
+                <div class="form-group" style="width:95%; margin-top: 15px;" appearance="outline">
+                  <mat-label>{{field.label}}</mat-label>
+                  <input matInput size="30" [attr.maxlength]="getFieldSize(field)" type="{{field.type}}" 
+                         [value]="item[field.name]" readonly style="background-color: rgb(182, 192, 212);">
+                </div>
+              </ng-container>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+          <mat-grid-list cols="1" rowHeight="95px" style="width: 50%;">
+            <mat-grid-tile>
+              <div class="form-group" style="width:95%; margin-top: 15px;" appearance="outline">
+                <mat-label>Check Id</mat-label>
+                <input matInput size="30" [attr.maxlength]="40" type="text" [value]="item.checkId" readonly style="background-color: rgb(182, 192, 212);">
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile *ngFor="let field of item.componentFields">
+              <div class="form-group" style="width:95%; margin-top: 15px;" appearance="outline">
+                <mat-label>{{field.label}}Rhs</mat-label>
+                <input matInput size="30" [attr.maxlength]="getFieldSize(field)" type="{{field.type}}" 
+                       [value]="item[field.name + 'Rhs']" readonly style="background-color: rgb(182, 192, 212);">
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </fieldset>
+    </mat-card>
+  </div>
+
+  <div *ngIf="uploadedReportsDataSource.data.length > 0" style="margin-top: 10px;">
+    <fieldset>
+      <legend style="background-color: white; color: black;">Report Details</legend>
+      <mat-table style="margin-top: 10px;" [dataSource]="uploadedReportsDataSource">
+        <!-- Table content same as your original -->
+        <ng-container matColumnDef="serialNumber">
+          <mat-header-cell style="color: black; font-weight: bold;" fxFlex="5%" *matHeaderCellDef>#</mat-header-cell>
+          <mat-cell fxFlex="5%" *matCellDef="let item; let i=index">{{i+1}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="reportType">
+          <mat-header-cell style="color: black; font-weight: bold;" fxFlex="35%" *matHeaderCellDef>Report Type</mat-header-cell>
+          <mat-cell fxFlex="35%" *matCellDef="let item">{{item.type}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="report">
+          <mat-header-cell style="color: black; font-weight: bold;" fxFlex="50%" *matHeaderCellDef>Report</mat-header-cell>
+          <mat-cell fxFlex="50%" *matCellDef="let item">{{item.fileName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="download">
+          <mat-header-cell style="color: black; font-weight: bold;" fxFlex="10%" *matHeaderCellDef>Download</mat-header-cell>
+          <mat-cell fxFlex="10%" *matCellDef="let item">
+            <button mat-icon-button color="black" (click)="downloadReportButtonClicked(item)">
+              <mat-icon>download</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row style="background-color: #bcbec0;" *matHeaderRowDef="reportColumns"></mat-header-row>
+        <mat-row *matRowDef="let item; columns: reportColumns"></mat-row>
+      </mat-table>
+    </fieldset>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-raised-button color="primary" (click)="closeDialog()">Close</button>
+  </div>
+</div>
