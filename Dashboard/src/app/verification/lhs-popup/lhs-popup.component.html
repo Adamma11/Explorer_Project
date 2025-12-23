@@ -1,0 +1,85 @@
+<div style="margin: 20px;">
+    <div fxLayout="row" style="display: flex; justify-content: end;">
+        
+        <!-- venky 10/10 modified styles -->
+        <button (click)="closeButtonClicked()" style="display: flex; border-radius: 35px; background-color: #0136ff;">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    
+    <h2 class="tagname">Update LHS - {{componentDisplayName}}</h2>
+    <mat-divider style="color: #002bff; background-color: #33BABC; margin-bottom: 20px;"></mat-divider>
+    
+    <div style="margin-top: 15px;">
+        <div class="form-card-row">
+            <div class="form-card-group">
+                <mat-label>Case Id: <span  style="color: black !important;">{{caseId}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{caseId}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Candidate Name: <span  style="color: black !important;">{{candidateName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{candidateName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Client: <span  style="color: black !important;">{{clientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{clientName}}</mat-label> -->
+            </div>
+            <div class="form-card-group">
+                <mat-label>Subclient: <span  style="color: black !important;">{{subclientName}}</span> </mat-label>
+                <!-- <mat-label class="label-value">{{subclientName}}</mat-label> -->
+            </div>
+        </div>
+    </div>
+    <div>
+        <form [formGroup]="providedDetailsForm">
+          <mat-card style="height: 100%; box-shadow: none;">
+            <p style="font-weight: bold; font-size: 18px; text-decoration: underline;">Details Provided</p>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <div class="form-grid">
+                <div class="form-group" *ngFor="let componentField of componentFields">
+                  <!-- Text Field -->
+                  <div *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{ componentField.label }}</mat-label>
+                    <input formControlName="{{componentField.name}}" matInput size="30" type="text" placeholder="{{componentField.label}}">
+                  </div>
+      
+                  <!-- Textarea -->
+                  <div *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{ componentField.label }}</mat-label>
+                    <textarea maxlength="{{componentField.size}}" rows="2" cols="30"
+                              formControlName="{{componentField.name}}" matInput placeholder="{{componentField.label}}"></textarea>
+                  </div>
+      
+                  <!-- Select Dropdown -->
+                  <div *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{ componentField.label }}</mat-label>
+                    <mat-select formControlName="{{componentField.name}}">
+                      <ng-container *ngFor="let val of getValues(componentField.name)">
+                        <mat-option [value]="val">{{ val }}</mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </div>
+      
+                  <!-- Date Field -->
+                  <div *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                    <mat-label>{{ componentField.label }}</mat-label>
+                    <input  formControlName="{{componentField.name}}" matInput type="date" placeholder="{{componentField.label}}">
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </form>
+      </div>
+      
+
+
+<div style="margin-top: 10px;margin-bottom: 10px;">
+    <div fxFlex></div>
+    <button mat-raised-button color="primary" (click)="saveStatusButtonClicked()">Save Status</button>
+    <button mat-raised-button color="primary" style="margin-left: 20px;" (click)="closeButtonClicked()">Close</button>
+</div>    
+
+</div>    
+
