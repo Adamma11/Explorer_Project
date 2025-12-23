@@ -1,0 +1,211 @@
+<div class="table-container">
+    <div class="main-container">
+        <p class="tagname">Approval of Insufficiences,Costs & Clarifications</p>
+        <mat-divider style="margin: 3px; color: aqua; background-color: #33BABC;" ></mat-divider>
+        <div class="select">
+            <select [(ngModel)]="selectedTab" (ngModelChange)="tabChanged($event)">
+              <option value="INSUF-RAISED">Insufficiencies Raised</option>
+              <option value="INSUF-CLEARED">Insufficiencies Cleared</option>
+            </select>
+        </div>
+        <div class="table-container" *ngIf="selectedTab === 'INSUF-RAISED'">
+            <div class="main-container">
+                <div class="table">
+                    <div class="header">
+                        <div class="table-header">
+                            <div class="filter-card">
+                                <!-- <mat-label>Filter</mat-label> -->
+                                <input matInput (keyup)="applyFilter1($event)" placeholder="Search" #input>
+                            </div>
+                            <button class="btn-rounded" (click)="exportToExcel()">Export</button>
+                        </div>
+                            <table mat-table [dataSource]="insufficienciesDataSource" matSort>
+                                <ng-container matColumnDef="serialNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+                                    <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)">
+                                        {{ i + 1 + paginator.pageIndex * paginator.pageSize }}
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="caseId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Id </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.caseId}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="candidateName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.candidateName}}
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="clientName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Name </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.clientName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="subclientName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Subclient Name </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.subclientName}}
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="branch">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Branch Name </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.branchName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="componentDisplayName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)">
+                                        {{row.componentDisplayName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="displayStatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.displayStatus}}
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="field">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Field </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.field}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="insufficiencyRaisedDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Raised Date </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)">
+                                        {{row.insufficiencyRaisedDate | date:'dd-MMM-yyyy'}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="insufficiency">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Insufficiency </th>
+                                    <td mat-cell *matCellDef="let row" (click)="showDetails(row)">
+                                        {{row.insufficiencyComments}} </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="insuffItemsDisplayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: insuffItemsDisplayedColumns;"></tr>
+        
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" [attr.colspan]="insuffItemsDisplayedColumns.length">No data
+                                        matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]"
+                                aria-label="Select page of users"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        <div class="table-container" *ngIf="selectedTab === 'INSUF-CLEARED'">
+            <div class="main-container">
+                <div class="table">
+                    <div class="header">
+                        <div class="table-header">
+                            <div class="filter-card">
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyFilter2($event)" placeholder="Search" #input>
+                            </div>
+                            <button class="btn-rounded" (click)="exportToExcel()">Export</button>
+                        </div>
+            
+                        <table mat-table [dataSource]="insufficienciesClearedDataSource" matSort>
+            
+                            <ng-container matColumnDef="serialNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+                                <td mat-cell *matCellDef="let row; let i = index" (click)="insuffClearedShowDetails(row)">
+                                    {{ i + 1 + paginator.pageIndex * paginator.pageSize }}
+                                </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="caseId">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Id </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.caseId}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="candidateName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.candidateName}}
+                                </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="clientName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Name </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.clientName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="subclientName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Subclient Name </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.subclientName}}
+                                </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="branch">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Branch Name </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.branchName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="componentDisplayName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)">
+                                    {{row.componentDisplayName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="displayStatus">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.displayStatus}}
+                                </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="field">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Field </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)"> {{row.field}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="insufficiencyRaisedDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Raised Date </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)">
+                                    {{row.insufficiencyRaisedDate | date:'dd-MMM-yyyy'}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="insufficiencyClearedDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cleared Date </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)">
+                                    {{'2023-06-20' | date:'dd-MMM-yyyy'}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="insufficiency">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Insufficiency </th>
+                                <td mat-cell *matCellDef="let row" (click)="insuffClearedShowDetails(row)">
+                                    {{row.insufficiencyComments}} </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="insuffClearedDisplayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: insuffClearedDisplayedColumns;"></tr>
+            
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" [attr.colspan]="insuffClearedDisplayedColumns.length">No data
+                                    matching the filter "{{input.value}}"</td>
+                            </tr>
+            
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="details" *ngIf="showDetailsFlag">
+        <div *ngIf="selectedRow">
+            <app-insuf-rejection (dataToParent)="receiveDataFromChild($event)" [selectedRow]="selectedRow" [selectedTab]="selectedTab"></app-insuf-rejection>
+        </div>
+    </div>
+    
+    <div class="details" *ngIf="insuffClearedShowDetailsFlag">
+        <div *ngIf="insuffClearedSelectedRow">
+            <app-insuf-rejection (dataToParent)="receiveDataFromChild($event)" [selectedRow]="insuffClearedSelectedRow" [selectedTab]="selectedTab"></app-insuf-rejection>
+        </div>
+    </div>
+</div>
