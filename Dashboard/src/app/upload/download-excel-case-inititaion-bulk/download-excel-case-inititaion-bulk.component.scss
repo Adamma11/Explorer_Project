@@ -1,0 +1,128 @@
+*{
+    font-size: 0.875rem;
+    // font-family: 'Gudea',"Helvetica Neue",HelveticaNeue-Light,Helvetica,Arial,sans-serif !important;
+  }
+  .container{
+    width: 90%;
+    margin: auto;
+  }
+  
+  .table {
+    flex: 1;
+    max-height: 300px; 
+    overflow-y: scroll; 
+  }
+  .tagname {
+    text-align: center;
+    font-size: 30px;
+    font-family: inherit;
+    margin-top: 10px;
+  }
+  
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 4px 0px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .mat-mdc-table .mdc-data-table__header-row {
+    height: 40px;
+  }
+  
+  .mat-mdc-table .mdc-data-table__row {
+    height: 30px;
+  }
+  
+  tr th, td{
+    // padding: 2px;
+    font-size: 12px;
+  }
+  tr th{
+    // color: blue;
+    color: black;
+  }
+  
+  .mat-mdc-card-content {
+    display: block;
+    padding: 0 16px 16px;
+    // background-color:#f6fafb
+  }
+  .grid-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-group mat-label {
+    display: block;
+    // color: #0136ff
+    color: black
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group mat-checkbox {
+    width: 90%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .form-group mat-select {
+     width: 90%;
+     padding: 5px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+  }
+  
+//   ngx-mat-file-input{
+//     width: 25%;
+//     padding: 6px;
+//     border: 1px solid #ccc;
+//     border-radius: 4px;
+//     box-sizing: border-box;
+//   }
+  
+  mat-select, mat-option{
+    font-size: 12px;
+  }
+  
+  .btn-rounded {
+    display: inline-flex;
+    padding: 4px;
+    padding-left: 1.2em !important;
+    padding-right: 1.2em !important;
+    // border-radius: 500px;
+    // background-color: #002bff;
+    // color: white;
+    background-color: #bcbec0;
+    color: black;
+    border: 0px;
+  }
+  
+  .button-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  mat-icon {
+    margin-right: 8px; 
+    font-size: 20px;
+  }
+  
+  .footer{
+    text-align: right;
+  }
+  
+  
+  
