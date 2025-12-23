@@ -1,0 +1,33 @@
+<!-- 
+<app-sidebar (onToggleSideNav)="onToggleSideNav($event)"></app-sidebar>
+<app-home
+    [collapsed]="isSideNavCollapsed"
+    [screenWidth]="screenWidth"
+></app-home> -->
+
+<ng-container *ngIf="!isLoggedIn; else home">
+    <app-login></app-login>
+  </ng-container>
+  
+  <ng-template #home>
+    <mat-toolbar style="color: white; background-color:#ffffff;">
+      <mat-toolbar-row>
+    
+        <span class="example-spacer"></span>
+                <!-- <img style="height: 65px; " class="example-icon"  aria-hidden="false" src="assets/vibe_banner.png" alt=""> -->
+
+        <img style="height: 65px; " class="example-icon"  aria-hidden="false" src="assets/exlogo.jpeg" alt="">
+        <!-- <img style="height: 60px; border: 2px solid #ED7014; border-radius: 10%;" class="example-icon" aria-hidden="false" src="assets/exlogo.jpeg" alt=""> -->
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+    
+    
+    <app-sidebar (onToggleSideNav)="onToggleSideNav($event)"></app-sidebar>
+    <app-home 
+        [collapsed]="isSideNavCollapsed"
+        [screenWidth]="screenWidth"
+    ></app-home>
+  </ng-template>
+  
+  
