@@ -1,0 +1,197 @@
+<p class="tagname">TL-unallocate Review  - {{componentDisplayName}}</p>
+<div class="header">
+    <div class="mat-elevation-z8">
+        <div class="mat-card" >
+            <div class="case-details" >
+                 <!-- <div class="case-details-row">   
+                    <mat-label>Case Id</mat-label>
+                    <span>{{ caseId }}</span>
+                </div>
+                <div class="case-details-row">
+                    <mat-label>Candidate Name</mat-label>
+                    <span>{{ candidateName }}</span>
+                </div>
+                <div class="case-details-row">
+                    <mat-label>Client</mat-label>
+                    <span>{{ clientName }}</span>
+                </div>
+                <div class="case-details-row">
+                 
+                </div>  -->
+
+                <mat-grid-list cols="3" rowHeight="4:1">
+                    <mat-grid-tile>
+                        <mat-label>Case Id : </mat-label>
+                        <span>{{ caseId }}</span>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-label>Candidate Name : </mat-label>
+                        <span>{{ candidateName }}</span>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-label>Client : </mat-label>
+                        <span>{{ clientName }}</span>
+                    </mat-grid-tile>
+                   
+                    <mat-grid-tile>
+                        <mat-label>Subclient: </mat-label>
+                        <span>{{ subclientName }}</span>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div style="display: flex;">
+    <form [formGroup]="providedDetailsForm" style="width: 40%;">
+        <mat-card style="height: 100%;">
+            <p>Details Provided</p>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div class="form-row" *ngFor="let componentField of componentFields">
+                    <div class="form-group"
+                    *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input  readonly formControlName="{{componentField.name}}" matInput size="30" type="text"
+                            placeholder={{componentField.label}}>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <textarea readonly maxlength="{{componentField.size}}" rows="1" cols="30"
+                            formControlName="{{componentField.name}}" matInput size="30" type="text"
+                            placeholder={{componentField.label}}></textarea>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <mat-select formControlName="{{componentField.name}}">
+                            <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                                <mat-option value={{val}}>{{val}}</mat-option>
+                            </ng-template>
+                        </mat-select>
+                    </div>
+                    <div class="form-group"
+                    *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='LHS' || componentField.lhsRhs=='BOTH')">
+                        <mat-label>{{componentField.label}}</mat-label>
+                        <input readonly formControlName={{componentField.name}} matInput size="11" maxlength="11"
+                            type="date" placeholder={{componentField.label}}>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+    
+    <div style="width: 60%;">
+        <!-- <mat-divider></mat-divider> -->
+        <form [formGroup]="verifiedDetailsForm">
+            <mat-card>
+                <p>Details Verified</p>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div class="form-row" *ngFor="let componentField of componentFields">
+                        <div class="form-group"
+                        *ngIf="(componentField.type=='TEXT' || componentField.type=='AC-UNI' || componentField.type=='AC-COM') && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <input readonly formControlName="{{componentField.name}}Rhs" matInput size="30" type="text"
+                                placeholder={{componentField.label}}>
+                        </div>
+                        <div class="form-group"
+                        *ngIf="componentField.type=='TEXTAREA' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <textarea readonly maxlength="{{componentField.size}}" rows="1" cols="30"
+                                formControlName="{{componentField.name}}Rhs" matInput size="30" type="text"
+                                placeholder={{componentField.label}}></textarea>
+                        </div>
+        
+                        <div class="form-group"
+                        *ngIf="componentField.type=='SELECT' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <mat-select   formControlName="{{componentField.name}}Rhs">
+                                <ng-template ngFor let-val="$implicit" [ngForOf]="getValues(componentField.name)">
+                                    <mat-option value={{val}}>{{val}}</mat-option>
+                                </ng-template>
+                            </mat-select>
+                        </div>
+                        <div class="form-group"
+                        *ngIf="componentField.type=='DATE' && (componentField.lhsRhs=='RHS' || componentField.lhsRhs=='BOTH')">
+                            <mat-label>{{componentField.label}}</mat-label>
+                            <input readonly formControlName="{{componentField.name}}Rhs" matInput size="11" maxlength="11"
+                                type="date" placeholder={{componentField.label}}>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        
+            <mat-card>
+             
+                <mat-card-content>
+                  
+                        
+                    <div class="form-group">
+                       
+                        <p>Grading</p>
+                        <div class="form-group">
+                            <mat-label>Grade</mat-label>
+                            <mat-select  formControlName="grade">
+                                <mat-option *ngFor="let colorCode of colorCodes" value="{{colorCode.color}}">{{colorCode.status}}</mat-option>
+                            </mat-select>
+                        </div>
+
+                        <div class="form-group" >
+                            <mat-label>Comments</mat-label>
+                            <textarea matInput readonly formControlName="gradingComments"  cols="30" rows="3"  type="text" placeholder="Comments"></textarea>
+                        </div>
+                    </div>
+                           
+                
+                        <mat-card>
+                        <p>Type & Mode of Closure</p>
+
+                         
+                            <div class="form-group">
+                                <mat-label>Type of Closure</mat-label>
+                                <mat-select  formControlName="interimOrFinal">
+                                    <mat-option value="INTERIM">Interim</mat-option>
+                                    <mat-option value="FINAL">Final</mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="form-group">
+                                <mat-label>Verification Mode</mat-label>
+                                <mat-select formControlName="mode">
+                                    <mat-option value="WRITTEN">Written</mat-option>
+                                    <mat-option value="VERBAL">Verbal</mat-option>
+                                    <mat-option value="ONLINE">Online</mat-option>
+                                    <mat-option value="BARCODE">Barcode</mat-option>
+                                    <mat-option value="THIRD-PARTY">Third Party</mat-option>
+                                </mat-select>
+                            </div>
+                        </mat-card>
+
+                        <mat-card>
+                        <p>Contact Person Details</p>
+
+                            <div class="form-group">
+                                <mat-label>Person Contacted</mat-label>
+                                <input  readonly formControlName="contactNumberOfPersonContacted" matInput type="text" size="30" maxlength="100" placeholder="Contact Number">
+                            </div>
+                        </mat-card>
+
+                     
+                       
+                <mat-divider></mat-divider>
+              
+             
+            
+             
+
+                </mat-card-content>
+              
+            </mat-card>
+        </form>
+    
+      
+    
+    </div>
+</div>
