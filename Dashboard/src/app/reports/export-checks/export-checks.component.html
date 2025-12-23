@@ -1,0 +1,71 @@
+<div class="export-container">
+  <h2>Export Check Reports</h2>
+
+  <form [formGroup]="exportForm">
+    <div class="form-row">
+      <label>Client</label>
+      <select formControlName="clientId" (change)="onClientSelectionChanged()">
+        <option value=""> Select Client </option>
+        <option *ngFor="let client of clients" [value]="client._id">{{ client.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-row" *ngIf="subclients.length > 0">
+      <label>Subclient</label>
+      <select formControlName="subclientId">
+        <option value=""> Select Subclient </option>
+        <option *ngFor="let sub of subclients" [value]="sub._id">{{ sub.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label>Status</label>
+      <select formControlName="status">
+        <option value=""> Select Status </option>
+        <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+      </select>
+    </div>
+
+
+     <div class="form-row">
+      <label>Application Type</label>
+      <select formControlName="applicationType">
+        <option value="">Select Application</option>
+        <option *ngFor="let a of applications" [value]="a">{{ a }}</option>
+      </select>
+    </div>
+
+    <div class="form-row date-fields">
+      <label>Date Range</label>
+      <input type="date" formControlName="dateFrom" />
+      <input type="date" formControlName="dateTo" />
+    </div>
+
+    <div class="header-selection">
+      
+      <h4>Headers:</h4>
+  <div class="headers">
+    <label *ngFor="let h of reportHeaders">
+      <input type="checkbox" [checked]="selectedHeaders.includes(h)" (change)="toggleHeader(h)" /> {{ h }}
+    </label>
+  </div>
+    </div>
+<!-- 
+    <div class="buttons">
+      <button type="button" (click)="onExport('xlsx')" [disabled]="isLoading">
+        Export XLSX
+      </button>
+    </div> -->
+<div class="buttons">
+    <button 
+  type="button" 
+  (click)="onExport('xlsx')" 
+  [disabled]="isExportDisabled || isLoading">
+  Export XLSX
+</button>
+</div>
+
+    <div class="message" *ngIf="message">{{ message }}</div>
+  </form>
+</div>
+

@@ -1,0 +1,144 @@
+.export-container {
+  padding: 25px 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  max-width: 950px;
+  margin: 30px auto;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+
+  h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 25px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    label {
+      flex: 1;
+      font-weight: 500;
+      color: #444;
+    }
+
+    select,
+    input {
+      flex: 2;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #fafafa;
+      font-size: 15px;
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+        background: #fff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+      }
+    }
+  }
+
+  .date-fields {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .header-selection {
+    margin-top: 25px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .headers {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+
+      label {
+        background: #f8fafc;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s ease;
+        font-size: 14px;
+        color: #333;
+
+        &:hover {
+          background: #e2e8f0;
+        }
+
+        input {
+          accent-color: #007bff;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+
+    button {
+      background: #5d5d5e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 22px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #333333;
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+    }
+  }
+
+  .message {
+    text-align: center;
+    font-weight: 500;
+    color: #2d3748;
+    margin-top: 15px;
+  }
+}
