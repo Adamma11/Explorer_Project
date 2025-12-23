@@ -1,0 +1,23 @@
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <mat-card class="otp-card">
+      <p class="tagname">OTP Verification</p>
+
+      <div class="otp">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter the OTP sent to your email</mat-label>
+          <input matInput placeholder="123456" formControlName="otp">
+          <mat-error *ngIf="loginForm.get('otp') && loginForm.get('otp')!.invalid">{{ getOtpErrorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button color="warn" class="verify-otp-button" type="submit">Verify OTP</button>
+
+      <div class="resend-otp">
+        <a href="#">Resend OTP</a>
+      </div>
+    </mat-card>
+  </form>
+</div>
+<router-outlet></router-outlet>
+
