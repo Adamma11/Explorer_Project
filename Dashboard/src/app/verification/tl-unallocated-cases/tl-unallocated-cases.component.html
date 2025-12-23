@@ -1,0 +1,448 @@
+<div class="custom-loading-container" *ngIf="loading">
+  <div class="custom-spinner"></div>
+  <p class="loading-text">Loading, please wait...</p>
+</div>
+
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div>
+      <h1 class="tagname">List of Unallocated Checks</h1>
+      <div class=" col-3 mb-3" style="margin-left: 20px">
+        <select class="form-select" (change)="onSelectTab($event)">
+          <option value="UNALLOCATED-CHECKS">Unallocated Checks</option>
+          <option value="ALLOCATED-CHECKS">Allocated Checks</option>
+          <option value="INACTIVE-USERS">Inactive Users</option>
+        </select>
+      </div>
+    </div>
+    
+    <!--////////////////////// UNALLOCATED-CHECKS ////////////////////////////// -->
+    <div class="table" *ngIf="selectedTab === 'UNALLOCATED-CHECKS'">
+      <div class="header">
+        <div class="row">
+          <div class="col-sm">
+            <mat-label>Select a Component</mat-label>
+            <div>
+              <select class="form-select" [(ngModel)]="selectedComponent" (change)="filterSelectionChanged($event)"
+              placeholder="Filter By Component" value="selectedUser">
+              <option value="-1">All</option>
+              <option *ngFor="let component of components" value="{{component.component._id}}">
+                {{component.component.displayName}}
+              </option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="col-sm" >
+          <div>
+            <mat-label>Re Allocate to Vendor/User</mat-label>
+            <select class=" form-select" [(ngModel)]="allocateToVendorOrUser" value="allocateToVendorOrUser"
+            [disabled]="!unallocatedCheckboxSelected">
+            <option value="USER">User</option>
+            <option value="VENDOR">Vendor</option>
+          </select>
+        </div>
+        
+        <div *ngIf="allocateToVendorOrUser=='VENDOR'" class="col-sm">
+          <mat-label>Select a vendor to allocate to</mat-label>
+          <div>
+            <select class=" form-select" [(ngModel)]="selectedVendor" value="selectedVendor"
+            (change)="allocateToVendor()">
+            <option *ngFor="let vendor of vendors" [value]="vendor._id">{{vendor.name}}</option>
+          </select>
+        </div>
+      </div>
+      
+      <div *ngIf="allocateToVendorOrUser === 'USER'" class="col-sm">
+        <mat-label>Select a User to re-allocate to</mat-label> 
+        <div>
+          <select class="form-select" [(ngModel)]="selectedUser" name="selectedUser" id="selectedUser"
+          (change)="allocateToUser()">
+          <option *ngFor="let user of users" [value]="user._id">{{user.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+  </div>
+  <div class="col-sm">
+    <button style="margin: 20px;" class="btn-rounded" (click)="exportToExcel()">Export</button>
+  </div>
+</div>
+<table mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef="let row"> <mat-checkbox [(ngModel)]="selectAllmainCheckbox"
+      (change)="togglemainSelectAll()"></mat-checkbox> </th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        <mat-checkbox [(ngModel)]="row.selected" (change)="onUnallocatedCheckbox()">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="serialNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        {{ i + 1 + paginator1.pageIndex * paginator1.pageSize }}
+      </td>
+    </ng-container>
+    
+    
+    
+    <ng-container matColumnDef="caseId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Id </th>
+      <td mat-cell *matCellDef="let row"> {{row.caseId}}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef="checkId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Check Id </th>
+      <td mat-cell *matCellDef="let row"> {{row.checkId}}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef="candidateName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.candidateName}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="fathersName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Father's Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.fatherName}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+      <td mat-cell *matCellDef="let row"> {{row.clientName}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="subclientName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Subclient </th>
+      <td mat-cell *matCellDef="let row"> {{row.subclientName}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="tatStartDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>TAT Start</th>
+      <td mat-cell *matCellDef="let row"> {{row.tatStartDate | date:'dd-MMM-yyyy'}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="tatEndDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> TAT End Date </th>
+      <td mat-cell *matCellDef="let row"> {{row.tatEndDate | date:'dd-MMM-yyyy'}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="componentDisplayName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+      <td mat-cell *matCellDef="let row"> {{row.componentDisplayName}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="displayStatus">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+      <td mat-cell *matCellDef="let row"> {{row.displayStatus}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+      <td mat-cell *matCellDef="let row"> {{row.location}} </td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter "{{input.value}}"
+      </td>
+    </tr>
+    
+  </table>
+  <mat-paginator #paginator1="matPaginator" [pageSizeOptions]="[10, 25, 100]"
+  aria-label="Select page of users"></mat-paginator>
+</div>
+</div>
+
+<!--////////////////////// ALLOCATED-CHECKS ////////////////////////////// -->
+<div class="table" *ngIf="selectedTab === 'ALLOCATED-CHECKS'">
+  <div class="header">
+    
+    <div class="row">
+      <div class="col-sm">
+        <mat-label>Select a Component</mat-label>
+        <div >
+          <select class=" form-select" [(ngModel)]="selectedWipComponent" (change)="filterSelectionForWipChanged($event)"
+          placeholder="Filter By Component" value="selectedUser">
+          <option value="-1">All</option>
+          <option *ngFor="let component of componentsForAllocated" value={{component.component._id}}>
+            {{component.component.displayName}}</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="col-sm" *ngIf="selectedComponent != '-1'">
+        <div >
+          <mat-label>Re Allocate to Vendor/User</mat-label>
+          <select class=" form-select" [(ngModel)]="allocateToVendorOrUser" value="allocateToVendorOrUser" [disabled]="!allocatedCheckboxSelected">
+            <option value="USER">User</option>
+            <option value="VENDOR">Vendor</option>
+          </select>
+        </div>
+        
+        <div *ngIf="allocateToVendorOrUser=='VENDOR'" class="col-sm">
+          <mat-label>Select a vendor to allocate to</mat-label>
+          <div  >
+            <select class=" form-select" [(ngModel)]="selectedVendor" value="selectedVendor" (change)="reallocateToVendor()">
+              <option *ngFor="let vendor of vendors" [value]="vendor._id" >{{vendor.name}}</option>
+            </select>
+          </div>
+        </div>
+        
+        <div *ngIf="allocateToVendorOrUser=='USER'" class="col-sm">
+          <mat-label>Select a User to re-allocate to</mat-label>
+          <div> 
+            <select class="form-select" [(ngModel)]="selectedUser" name="selectedUser" id="selectedUser" (change)="reAllocateToUser()">
+              <option *ngFor="let user of users" [value]="user._id">{{user.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilterWip($event)" placeholder="Search" #input>
+      </div>
+      <div class="col-sm">
+        <button style="margin: 20px;" class="btn-rounded" (click)="exportAllocateChecksToExcel()">Export</button>
+      </div>
+    </div>
+    <table mat-table [dataSource]="wipDataSource" matSort>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef="let row" mat-sort-header> <mat-checkbox [(ngModel)]="selectAllCheckbox" (change)="toggleSelectAll()">
+        </mat-checkbox> </th>
+        <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}">
+          <mat-checkbox [(ngModel)]="row.selected" (change)="onAllocatedCheckboxChange()">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="serialNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+        <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}">
+          {{ i + 1 + paginator2.pageIndex * paginator2.pageSize }}
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="caseId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Id </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.caseId}}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="checkId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Check Id </th>
+        <td mat-cell *matCellDef="let row"> {{row.checkId}}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="candidateName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.candidateName}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="clientName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.clientName}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="subclientName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Subclient </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.subclientName}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="tatStartDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>TAT Start</th>
+        <td mat-cell *matCellDef="let row"> {{row.tatStartDate | date:'dd-MMM-yyyy'}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="tatEndDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> TAT End Date </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.tatEndDate | date:'dd-MMM-yyyy'}}
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="componentDisplayName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.componentDisplayName}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="allocatedUser">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated User </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.allocatedUser}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="displayStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.displayStatus}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+        <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.location}} </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="wipDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: wipDisplayedColumns;"></tr>
+      
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="wipDisplayedColumns.length">No data matching the filter
+          "{{input.value}}"</td>
+        </tr>
+        
+      </table>
+      <mat-paginator #paginator2="matPaginator" [pageSizeOptions]="[10, 25, 100]"
+      aria-label="Select page of users"></mat-paginator>
+    </div>
+  </div>
+  
+  <!--////////////////////// INACTIVE-USERS ////////////////////////////// -->
+  <div class="table" *ngIf="selectedTab === 'INACTIVE-USERS'">
+    <div class="header">
+      <div class="row">
+        <div class="col-sm">
+          <mat-label>Select a Component</mat-label>
+          <div >
+            <select class=" form-select" [(ngModel)]="selectedWipComponent" (change)="filterSelectionForWipInactiveChanged($event)"
+            placeholder="Filter By Component" value="selectedUser">
+            <option value="-1">All</option>
+            <option *ngFor="let component of componentsForAllocated" value={{component.component._id}}>
+              {{component.component.displayName}}</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="col-sm" *ngIf="selectedComponent != '-1'">
+          <div >
+            <mat-label>Re Allocate to Vendor/User</mat-label>
+            <select class=" form-select" [(ngModel)]="allocateToVendorOrUser" value="allocateToVendorOrUser" [disabled]="!inactiveCheckboxSelected">
+              <option value="USER">User</option>
+              <option value="VENDOR">Vendor</option>
+            </select>
+          </div>
+          
+          <div *ngIf="allocateToVendorOrUser=='VENDOR'" class="col-sm">
+            <mat-label>Select a vendor to allocate to</mat-label>
+            <div  >
+              <select class=" form-select" [(ngModel)]="selectedVendor" value="selectedVendor" (change)="reallocateToVendor()">
+                <option *ngFor="let vendor of vendors" [value]="vendor._id" >{{vendor.name}}</option>
+              </select>
+            </div>
+          </div>
+          
+          
+          <div *ngIf="allocateToVendorOrUser=='USER'" class="col-sm">
+            <mat-label>Select a User to re-allocate to</mat-label>
+            <div> 
+              <select class="form-select" [(ngModel)]="selectedUser" name="selectedUser" id="selectedUser" (change)="reAllocateToUser()">
+                <option *ngFor="let user of users" [value]="user._id">{{user.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilterWipInactive($event)" placeholder="Search" #input>
+        </div>
+        <div class="col-sm">
+          <button style="margin: 20px;" class="btn-rounded" (click)="exportToExcel()">Export</button>
+        </div>
+      </div>
+      <table mat-table [dataSource]="wipInactiveDataSource" matSort>
+        
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>Select</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox [(ngModel)]="row.selected" [checked]="row.selected"
+            (change)="onInactiveCheckboxChange()"></mat-checkbox>
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="serialNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+          <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}">
+            {{ i + 1 + paginator3.pageIndex * paginator3.pageSize }}
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="caseId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Case Id </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.caseId}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="checkId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Check Id </th>
+          <td mat-cell *matCellDef="let row"> {{row.checkId}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="candidateName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.candidateName}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="clientName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.clientName}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="subclientName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Subclient </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.subclientName}} </td>
+        </ng-container>
+         
+                   <ng-container matColumnDef="tatStartDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TAT Start</th>
+            <td mat-cell *matCellDef="let row" [ngStyle]="{color:getClassToApply(row)}"> {{row.tatStartDate | date:'dd-MMM-yyyy'}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="tatEndDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> TAT End Date </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.tatEndDate | date:'dd-MMM-yyyy'}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="componentDisplayName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Component </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.componentDisplayName}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="allocatedUser">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Allocated User </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.allocatedUser}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="displayStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+          <td mat-cell *matCellDef="let row" (click)="showDetails(row)"  [ngStyle]="{color:getClassToApply(row)}"> {{row.displayStatus}} </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="wipInactiveDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: wipInactiveDisplayedColumns;"></tr>
+        
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="wipInactiveDisplayedColumns.length">No data matching the filter
+            "{{input.value}}"</td>
+          </tr>
+          
+        </table>
+        <mat-paginator #paginator3="matPaginator" [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="details" *ngIf="showDetailsFlag">
+    <div *ngIf="selectedRow">
+      <app-tl-unallocated-review></app-tl-unallocated-review>
+    </div>
+  </div> -->
+  
+</div>
