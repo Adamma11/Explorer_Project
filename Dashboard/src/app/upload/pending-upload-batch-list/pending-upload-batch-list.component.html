@@ -1,0 +1,70 @@
+<div class="table-container">
+    <div class="main-container">
+        <h1 class="tagname">Batches Pending Upload</h1>
+        <mat-divider></mat-divider>
+        <div class="table">
+            <div class="header">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="serialNumber">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> SL No. </th>
+                            <td mat-cell *matCellDef="let row; let i = index" (click)="showDetails(row)">
+                                {{ i + 1}}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="batchId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch Id </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.batchId}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="clientName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Name </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.client.name}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="subclientName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Subclient Name </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.subclient.name}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="numberOfCases">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Uploaded Cases </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.numberOfCases}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="acceptedCases">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Accepted Cases </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.acceptedCases}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="rejectedCases">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rejected Cases </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.rejectedCases}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="uploadedDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Uploaded Date </th>
+                            <td mat-cell *matCellDef="let row" (click)="showDetails(row)"> {{row.uploadDate |
+                                date:'dd-MMM-yyyy'}} </td>
+                        </ng-container>
+    
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter</td>
+                        </tr>
+                    </table>
+                    <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="details" *ngIf="showDetailsFlag">
+        <div *ngIf="selectedRow">
+            <app-batch-acceptance (dataToParent)="receiveDataFromChild($event)" [selectedRow]="selectedRow"></app-batch-acceptance>
+        </div>
+    </div>
+</div>
