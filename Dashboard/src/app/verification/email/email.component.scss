@@ -1,0 +1,25 @@
+.example-form {
+    min-width: 500px;
+    // max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .mb-15{
+    margin-bottom: 15px;
+  }
+  .ml-10{
+    margin-left: 10px;
+  }
+  
+  :host ::ng-deep  ngx-extended-pdf-viewer .body{
+    border: 2px solid #145DA0 !important;
+  }
+  
+  :host ::ng-deep .zoom {
+    margin-bottom: 25px;
+  }
+  

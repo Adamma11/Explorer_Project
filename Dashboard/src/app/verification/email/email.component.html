@@ -1,0 +1,194 @@
+<!-- <h2 mat-dialog-title>Email</h2>
+<mat-dialog-content class="mat-typography ">
+
+  
+            <form [formGroup]="emailTemplateForm" class="example-form">
+                <div class="mb-15">
+                    <mat-form-field fxFlex="30%" appearance="outline" class="example-full-width">
+                        <mat-label>To Email</mat-label>
+                        <input type="email" matInput formControlName="emailFormControl"
+                               placeholder="Ex. pat@example.com">
+                        <mat-error *ngIf="emailTemplateForm.get('emailFormControl')?.invalid && !emailTemplateForm.get('emailFormControl')?.hasError('required')">
+                          Please enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="emailTemplateForm.get('emailFormControl')?.hasError('required')">
+                          Email is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+
+                    
+                </div>
+
+                <div class="mb-15">
+                    
+                  <mat-form-field fxFlex="30%" appearance="outline" class="example-full-width">
+                    <mat-label>CC</mat-label>
+
+                    <textarea matInput id="ccEmail" formControlName="cc" placeholder="Ex. exampl1@example.com,example2@example.co.in"></textarea>
+    
+                    <mat-error *ngIf="emailTemplateForm.get('cc')?.invalid">
+                      Please enter a valid email address
+                    </mat-error>
+                    
+                  </mat-form-field>
+
+                  <mat-dialog-actions align="end">
+                    <button mat-raised-button [matMenuTriggerFor]="candidateDocsMenu" color="black" class="ml-10"><mat-icon>picture_as_pdf</mat-icon>&nbsp;Candidate Documents</button>
+                  </mat-dialog-actions>
+
+                  <mat-menu #candidateDocsMenu="matMenu">
+                    <button *ngFor="let file of emailAttachmentsUploaded" mat-menu-item (click)="downloadCandidateDoc(file)">{{file}}</button>
+                  </mat-menu>
+                 
+
+                </div>
+
+                
+              
+                <div>
+
+                    <mat-form-field  fxFlex="50%" appearance="outline" class="example-full-width">
+                        <mat-label>Subject</mat-label>
+                        <input type="text" matInput formControlName="subject" size="30" maxlength="100"
+                        placeholder="Subject">
+                        <mat-error *ngIf="emailTemplateForm.get('subject')?.hasError('required')">
+                          Subject is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+                </div>
+                <div>
+                    <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+                </div>
+
+           
+              
+            </form>
+
+            <mat-dialog-actions align="end">
+              <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+              <button mat-raised-button [mat-dialog-close]="true"  color="primary" [disabled]="!emailTemplateForm.valid" (click)="sendEmail()">Send Mail</button>
+            </mat-dialog-actions>
+          
+</mat-dialog-content>
+
+ -->
+<h2 mat-dialog-title>Email</h2>
+<mat-dialog-content class="mat-typography ">
+
+  
+            <form [formGroup]="emailTemplateForm" class="example-form">
+                <div class="mb-15">
+                    <mat-form-field fxFlex="30%" appearance="outline" class="example-full-width">
+                        <mat-label>To Email</mat-label>
+                        <input type="email" matInput formControlName="emailFormControl"
+                               placeholder="Ex. pat@example.com">
+                        <mat-error *ngIf="emailTemplateForm.get('emailFormControl')?.invalid && !emailTemplateForm.get('emailFormControl')?.hasError('required')">
+                          Please enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="emailTemplateForm.get('emailFormControl')?.hasError('required')">
+                          Email is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+
+                    
+                </div>
+
+                <div class="mb-15">
+                  <!-- <mat-toolbar-row fxLayout="row" fxFlex="100%">  -->
+                    
+                  <mat-form-field fxFlex="30%" appearance="outline" class="example-full-width">
+                    <mat-label>CC</mat-label>
+
+                    <textarea matInput id="ccEmail" formControlName="cc" placeholder="Ex. exampl1@example.com,example2@example.co.in"></textarea>
+    
+                    <mat-error *ngIf="emailTemplateForm.get('cc')?.invalid">
+                      Please enter a valid email address
+                    </mat-error>
+                    
+                  </mat-form-field>
+
+                  <!-- commented on nov-09 -->
+
+                  <!-- <mat-dialog-actions align="end">
+                    <button mat-raised-button [matMenuTriggerFor]="candidateDocsMenu" color="black" class="ml-10"><mat-icon>picture_as_pdf</mat-icon>&nbsp;Candidate Documents</button>
+                  </mat-dialog-actions>
+
+                  <mat-menu #candidateDocsMenu="matMenu">
+                    <button *ngFor="let file of emailAttachmentsUploaded" mat-menu-item (click)="downloadCandidateDoc(file)">{{file}}</button>
+                  </mat-menu> -->
+
+
+                  <mat-dialog-actions align="end">
+  <button mat-raised-button [matMenuTriggerFor]="candidateDocsMenu" color="black" class="ml-10">
+    <mat-icon>picture_as_pdf</mat-icon>&nbsp;Candidate Documents
+  </button>
+</mat-dialog-actions>
+
+<mat-menu #candidateDocsMenu="matMenu">
+  <div style="max-height: 300px; overflow-y: auto;">
+    <button *ngFor="let file of candidateDocuments" mat-menu-item (click)="previewCandidateDoc(file)">
+      {{file}}
+    </button>
+  </div>
+</mat-menu>
+
+
+                  <!-- </mat-toolbar-row> -->
+                 
+
+                </div>
+
+                <!-- <div>
+                  <mat-form-field fxFlex="33%" appearance="outline">
+                    <ngx-mat-file-input formControlName="proofOfWorkFile"  valuePlaceholder="Click to upload File" placeholder="Click to Upload Candidate Docs" ></ngx-mat-file-input>
+                    <mat-label>Upload Proof</mat-label>
+                </mat-form-field>
+                <mat-form-field fxFlexOffset="20px" fxFlex="33%" appearance="outline">
+                    <input  appAutoSpellCheck matInput formControlName="fileTitle" type="text" size="30" maxlength="100" placeholder="File Title">
+                    <mat-label>File Title</mat-label>
+                </mat-form-field>
+                <button [disabled]="emailTemplateForm.get('proofOfWorkFile')?.value=='' || emailTemplateForm.get('fileTitle')?.value==''" style="height:35px" fxFlexOffset="20px" mat-raised-button color="black" (click)="uploadFile()">Upload File</button>
+
+
+                </div> -->
+              
+                <div>
+
+                    <mat-form-field  fxFlex="50%" appearance="outline" class="example-full-width">
+                        <mat-label>Subject</mat-label>
+                        <input type="text" matInput formControlName="subject" size="30" maxlength="100"
+                        placeholder="Subject">
+                        <mat-error *ngIf="emailTemplateForm.get('subject')?.hasError('required')">
+                          Subject is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+                </div>
+                <div>
+                    <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+                </div>
+
+           
+              
+            </form>
+
+            <mat-dialog-actions align="end">
+              <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+              <button mat-raised-button [mat-dialog-close]="true"  color="primary" [disabled]="!emailTemplateForm.valid" (click)="sendEmail()">Send Mail</button>
+            </mat-dialog-actions>
+          
+</mat-dialog-content>
+<!-- <div *ngIf="showCandidateDocsDialog" cdkDrag style="padding:20px;position:absolute;left:150px;top:300px;width:900px;height:800px;background-color: white;"  class="mat-elevation-z3">
+  <div style="width:100%">
+      <div fxFlex></div><h3>{{displayedCandidateDocName}}</h3><div fxFlex></div>
+  </div>
+  <ngx-extended-pdf-viewer 
+  height="80vh" 
+  [src]="candidateDocBlob ? candidateDocBlob : ''" 
+  useBrowserLocale="false">
+</ngx-extended-pdf-viewer>
+  <mat-dialog-actions align="center" >
+    <button mat-raised-button  color="warn" style="min-width: 120px;" (click)="closeCandidateDocsDialog()">Close</button>
+
+  </mat-dialog-actions>
+</div> -->
+
