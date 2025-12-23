@@ -1,0 +1,23 @@
+<div class="container">
+    <header>
+        <mat-icon>verified_user</mat-icon>
+    </header>
+    <h4>Enter OTP Code</h4>
+    <form [formGroup]="otpValidationForm" (ngSubmit)="submit()">
+      <div class="input-field">
+      <input maxlength="6" size="6"  placeholder="OTP" formControlName="otp">
+    </div>
+        <!-- <div #inputs class="input-field">
+            <input formControlName="digit1" (keyup)="onKeyUp($event, 0)" />
+            <input formControlName="digit2" [attr.disabled]="true" (keyup)="onKeyUp($event, 1)" />
+            <input formControlName="digit3" [attr.disabled]="true" (keyup)="onKeyUp($event, 2)" />
+            <input formControlName="digit4" [attr.disabled]="true" (keyup)="onKeyUp($event, 3)" />
+            <input formControlName="digit5" [attr.disabled]="true" (keyup)="onKeyUp($event, 4)" />
+            <input formControlName="digit6" [attr.disabled]="true" (keyup)="onKeyUp($event, 5)" />
+          </div> -->
+          <button #button class="active">Submit</button>
+          <div class="resend-otp">
+            <a href="#">Resend OTP</a>
+          </div>
+    </form>
+  </div>
