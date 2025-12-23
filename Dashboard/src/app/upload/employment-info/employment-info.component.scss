@@ -1,0 +1,29 @@
+.clear-icon {
+    float: right;
+    color: #3f51b5;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+
+::ng-deep tr.mat-row{
+    height: 30px !important;
+}
+
+::ng-deep tr{
+    height: 30px !important;
+}
+
+table {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #f6fafb;
+}
+
+tr th,td {
+    padding: 5px;
+}
+
+tr th {
+    // font-weight: 600;
+    color: blue;
+}
