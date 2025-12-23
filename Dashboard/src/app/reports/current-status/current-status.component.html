@@ -1,0 +1,42 @@
+<p class="tagname">Status-Based Report Generator</p>
+<mat-divider style="margin: 20px; color: aqua; background-color: #33BABC;"></mat-divider>
+<div class="table-container">
+  <div class="table">
+    <div class="header">
+      <div class="grid-content">
+        <div class="form-group">
+          <mat-label>Type of Status</mat-label>
+          <mat-select placeholder="Select Status" [(ngModel)]="reportType">
+            <mat-option value="ALL">All</mat-option>
+            <mat-option value="DE-COMPLETED">INCEPTION-COMPLETED-</mat-option>
+            <mat-option value="INPUTQC-ACCEPTED">INCEPTION-QC-COMPLETED-</mat-option>
+            <mat-option value="INPUTQC-REJECTED">INCEPTION-QC-REJECTED-</mat-option>
+            <mat-option value="VERIFICATION-COMPLETED">VERIFICATION-COMPLETED</mat-option>
+            <mat-option value="MENTOR-REVIEW-ACCEPTED">INTERIM-COMPLETED</mat-option>
+            <mat-option value="MENTOR-REVIEW-REJECTED">INTERIM-REJECTED</mat-option>
+            <mat-option value= "OUTPUTQC-ACCEPTED">FINAL-COMPLETED</mat-option>
+            <mat-option value= "OUTPUTQC-REJECTED">FINAL-REJECTED</mat-option>
+          </mat-select>
+        </div>
+        <div class="form-group">
+          <mat-label>Client</mat-label>
+          
+          <mat-select [(ngModel)]="selectedClientId" placeholder="Select Client" style="width: 250px;">
+            <mat-option value= "All">All</mat-option>
+            <mat-option *ngFor="let client of clients" [value]="client._id">
+              {{client.name}}
+            </mat-option>
+            
+          </mat-select>
+        </div>
+        <div style="border-style: solid; border-width: thin; border-color: lightskyblue; height:200px; width:400px; background-color:white; position:absolute; left: 450px; top: 300px; opacity: 1;" *ngIf="!resourceLoaded" fxFlexAlign="center">
+          <div style="margin-top: 75px; font-weight: bold;">Report is being generated. Please wait...</div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <div class="form-group">
+          <button class="btn-rounded" (click)="generateReport()">Fetch Status</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
