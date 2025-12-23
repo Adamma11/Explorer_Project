@@ -1,0 +1,14 @@
+<div class="title">
+
+    <h2 matDialogTitle style="display: flex; align-items: center; justify-content: center; color:white;" >Confirm irreversible deletion?</h2>
+  
+  </div>
+  <div matDialog-content class="content">
+      <p>{{data.message}}</p>
+  </div>
+
+  <div class="modal-footer" style="display: flex; justify-content: center;">
+    <button mat-flat-button class="btn btn-primary" style="background-color: #1b9936; color: white; box-shadow: none;" (click)="confirmDeletion()">Yes</button>
+    <button mat-flat-button class="btn btn-danger"  style=" margin-left: 20px; background-color: red; color: white;  box-shadow: none;"  (click)="closeDialog()">No</button>
+    
+  </div>
